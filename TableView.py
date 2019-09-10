@@ -12,11 +12,16 @@ class Table(QTableView):
         self.createTable()
 
     def createTable(self):
-        db = QSqlDatabase.addDatabase("QSQLITE")
-        db.setDatabaseName(self.dbName)
-        db.open()
-
-        model = QSqlTableModel(self, db)
-        model.setTable(self.table)
-        model.select()
-        self.setModel(model)
+        self.db = QSqlDatabase.addDatabase("QSQLITE")
+        self.db.setDatabaseName(self.dbName)
+        self.db.open()
+        self.model = QSqlTableModel(self, self.db)
+        self.model.setTable(self.table)
+        self.model.setEditStrategy(self.model.OnFieldChange)
+        self.model.select()
+        self.setModel(self.model)
+    def Remove(self):
+        self.db.removeDatabase("QSQLITE");
+        
+    def refresh(self):
+        self.model.select();
