@@ -8,16 +8,33 @@ from PyQt5.QtWidgets import (
     QGroupBox,
 )
 
+from enum import Enum
+
+
+class Feilds(Enum):
+    Integer = 0
+    Text = 1
+    Date = 2
+    Real = 3
+    Nill = 4
+    Blob = 5
+
+
+def FeildSpecify(Feild: Feilds, NotNull: bool = False, Range: list = []):
+    return [Feild, NotNull, Range]
+
 
 class FormDialog(QDialog):
-    def __init__(self, formName, FeildNames, parent=None):
+    def __init__(self, formName, FeildDict=None, parent=None):
         super().__init__(parent=parent)
 
-        self.Feilds = FeildNames
+        ###self.Feilds = FeildNames
         ##Set the FormName.
         self.setWindowTitle(formName)
-        form = self.CreateForm()
 
+        self.FeildDict = FeildDict
+
+        form = self.CreateForm()
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
 
         ##Connect the ButtonBoxes to Various Things.
@@ -31,29 +48,44 @@ class FormDialog(QDialog):
 
         self.setLayout(layout)
 
-
     def CreateForm(self):
         formGroupBox = QGroupBox("Form layout")
-        layout = QFormLayout()
+        if self.FeildDict is None:
+            layout = QFormLayout()
 
-        self.LineEditArray = []
+            self.LineEditArray = []
 
-        for x in self.Feilds:
-            self.LineEditArray.append(QLineEdit())
+            for x in self.Feilds:
+                self.LineEditArray.append(QLineEdit())
 
-        for x in range(len(self.LineEditArray)):
-            layout.addRow(QLabel(self.Feilds[x]), self.LineEditArray[x])
+            for x in range(len(self.LineEditArray)):
+                layout.addRow(QLabel(self.Feilds[x]), self.LineEditArray[x])
 
-        formGroupBox.setLayout(layout)
+            formGroupBox.setLayout(layout)
+        else:
+            print("Using Feild Dict")
+            layout = QFormLayout()
 
+            self.LineEditArray = []
+
+            keys = list(self.FeildDict.keys())
+            print(keys)
+
+            for x in range(len(keys)):
+                self.LineEditArray.append(QLineEdit())
+
+            for x in range(len(keys)):
+                layout.addRow(QLabel(keys[x]), self.LineEditArray[x])
+
+            formGroupBox.setLayout(layout)
         return formGroupBox
 
     def GetAllFeildResponses(self):
         Responses = []
         for x in self.LineEditArray:
             Responses.append(x.text())
-        
-        return Responses;
+
+        return Responses
 
     # Custom Accept Function.
     def Accept(self):
