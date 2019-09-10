@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import QTableView
 class Table(QTableView):
     def __init__(self, databaseName, TableName, parent=None):
         super().__init__(parent=parent)
-        self.setEditTriggers(self.NoEditTriggers);
         self.dbName = databaseName
         self.table = TableName
         self.createTable()
