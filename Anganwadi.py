@@ -41,7 +41,7 @@ class Anganwadi(QWidget):
         tab_child = InsertAndTable(
             "Child",
             {
-                "ID": FeildSpecify(Feilds.Text),
+                "ID": FeildSpecify(Feilds.Text, True),
                 "Aadhar_Number": FeildSpecify(Feilds.Text),
                 "Name": FeildSpecify(Feilds.Text),
                 "DOB": FeildSpecify(Feilds.Text),

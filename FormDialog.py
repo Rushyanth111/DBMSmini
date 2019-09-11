@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import (
     QDialogButtonBox,
     QVBoxLayout,
     QGroupBox,
+    QPushButton,
+    QMessageBox
 )
 
 from enum import Enum
@@ -30,15 +32,15 @@ class FormDialog(QDialog):
 
         ###self.Feilds = FeildNames
         ##Set the FormName.
-        self.setWindowTitle(formName)
 
         self.FeildDict = FeildDict
+        self.Responses = []; 
 
         form = self.CreateForm()
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
 
         ##Connect the ButtonBoxes to Various Things.
-        buttonBox.accepted.connect(self.accept)
+        buttonBox.accepted.connect(self.Accept)
         buttonBox.rejected.connect(self.reject)
 
         ##Set the Widgets to the layouts.
@@ -46,50 +48,54 @@ class FormDialog(QDialog):
         layout.addWidget(form)
         layout.addWidget(buttonBox)
 
+        self.setWindowTitle(formName)
         self.setLayout(layout)
 
     def CreateForm(self):
         formGroupBox = QGroupBox("Form layout")
-        if self.FeildDict is None:
-            layout = QFormLayout()
 
-            self.LineEditArray = []
+        print("Using Feild Dict")
+        layout = QFormLayout()
 
-            for x in self.Feilds:
-                self.LineEditArray.append(QLineEdit())
+        self.LineEditArray = []
 
-            for x in range(len(self.LineEditArray)):
-                layout.addRow(QLabel(self.Feilds[x]), self.LineEditArray[x])
+        keys = list(self.FeildDict.keys())
+        print(keys)
 
-            formGroupBox.setLayout(layout)
-        else:
-            print("Using Feild Dict")
-            layout = QFormLayout()
+        for x in range(len(keys)):
+            Box = QLineEdit();
+            Box.textChanged.connect(self.NoteText)
+            self.LineEditArray.append(Box)
+            self.Responses.append("");
 
-            self.LineEditArray = []
+        for x in range(len(keys)):
+            layout.addRow(QLabel(keys[x]), self.LineEditArray[x])
 
-            keys = list(self.FeildDict.keys())
-            print(keys)
-
-            for x in range(len(keys)):
-                self.LineEditArray.append(QLineEdit())
-
-            for x in range(len(keys)):
-                layout.addRow(QLabel(keys[x]), self.LineEditArray[x])
-
-            formGroupBox.setLayout(layout)
+        formGroupBox.setLayout(layout)
         return formGroupBox
 
     def GetAllFeildResponses(self):
-        Responses = []
-        for x in self.LineEditArray:
-            Responses.append(x.text())
 
-        return Responses
+        return self.Responses
 
+
+    def NoteText(self):
+        for x in range(len(self.Responses)):
+            self.Responses[x] = self.LineEditArray[x].text();
+    
     # Custom Accept Function.
     def Accept(self):
-        Q = QDialog(self)
-        Q.setWindowTitle("Something Else!")
-        Q.exec_()
-        self.accept()
+        print(self.Responses)
+        AllTestsPass = False;
+        for x in self.LineEditArray:
+            if(x.text() == ""):
+                Q = QMessageBox();
+                Q.setIcon(QMessageBox.Critical);
+                Q.setStandardButtons(QMessageBox.Ok);
+                Q.setWindowTitle("BBBB")
+                Q.setText("AAA");
+                Q.setDetailedText("More Additional Information.")
+                Q.exec_();
+                break;
+        if AllTestsPass == True:
+            self.accept();
