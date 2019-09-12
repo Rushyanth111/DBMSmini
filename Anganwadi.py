@@ -15,8 +15,9 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import QAbstractTableModel
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
 
-from FormDialog import FormDialog
+from FormDialog import FormDialog, Feilds, FeildSpecify
 from TableView import Table
+
 
 class Anganwadi(QWidget):
     def __init__(self, parent=None):
@@ -36,14 +37,104 @@ class Anganwadi(QWidget):
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName("projects.db")
         db.open()
-        tab_child = InsertAndTable("Child",["ID", "Aadhar_Number","Name","DOB","Mother's Name", "Mother_ID","Father_Name","Father_ID","Address"],db,self)
-        tab_mother = InsertAndTable("Mother",["ID","Aadhar_Number","Name","DOB","Height","Weight","Date_of_registration", "Address"],db,self)
-        tab_father = InsertAndTable("Father",["ID","Aadhar_Number","Name","DOB","Height","Weight","Date_of_registration", "Address"],db,self)
-        tab_vaccine = InsertAndTable("Vacccine",["Vaccine_ID","Vaccine_Name","Stock_available", "Date_of_Supply","Expiry_Date", "Additional_Details"],db,self)
-        tab_vaccination = InsertAndTable("Vaccination",["Name","Recipient_ID","Vaccine_ID", "Date_of_Vaccination"],db,self)
-        tab_childHealth = InsertAndTable("Child Health",["ID", "Name","Date_of_checkup","Height", "Weight","Remarks"],db,self)
-        tab_motherHealth = InsertAndTable("Mother Health", ["ID","Name","Date_of_checkup", "Height", "Weight","Remarks"],db,self)
-        
+
+        tab_child = InsertAndTable(
+            "Child",
+            {
+                "ID": FeildSpecify(Feilds.Text, True),
+                "Aadhar_Number": FeildSpecify(Feilds.Text),
+                "Name": FeildSpecify(Feilds.Text),
+                "DOB": FeildSpecify(Feilds.Text),
+                "Mother's Name": FeildSpecify(Feilds.Text),
+                "Mother_ID": FeildSpecify(Feilds.Text),
+                "Father_Name": FeildSpecify(Feilds.Text),
+                "Father_ID": FeildSpecify(Feilds.Text),
+                "Address": FeildSpecify(Feilds.Text),
+            },
+            db,
+            self,
+        )
+        tab_mother = InsertAndTable(
+            "Mother",
+            {
+                "ID": FeildSpecify(Feilds.Text),
+                "Aadhar_Number": FeildSpecify(Feilds.Text),
+                "Name": FeildSpecify(Feilds.Text),
+                "DOB": FeildSpecify(Feilds.Text),
+                "Height": FeildSpecify(Feilds.Text),
+                "Weight": FeildSpecify(Feilds.Text),
+                "Date_of_registration": FeildSpecify(Feilds.Text),
+                "Address": FeildSpecify(Feilds.Text),
+            },
+            db,
+            self,
+        )
+        tab_father = InsertAndTable(
+            "Father",
+            {
+                "ID": FeildSpecify(Feilds.Text),
+                "Aadhar_Number": FeildSpecify(Feilds.Text),
+                "Name": FeildSpecify(Feilds.Text),
+                "DOB": FeildSpecify(Feilds.Text),
+                "Height": FeildSpecify(Feilds.Text),
+                "Weight": FeildSpecify(Feilds.Text),
+                "Date_of_registration": FeildSpecify(Feilds.Text),
+                "Address": FeildSpecify(Feilds.Text),
+            },
+            db,
+            self,
+        )
+        tab_vaccine = InsertAndTable(
+            "Vacccine",
+            {
+                "Vaccine_ID": FeildSpecify(Feilds.Text),
+                "Vaccine_Name": FeildSpecify(Feilds.Text),
+                "Stock_available": FeildSpecify(Feilds.Text),
+                "Date_of_Supply": FeildSpecify(Feilds.Text),
+                "Expiry_Date": FeildSpecify(Feilds.Text),
+                "Additional_Details": FeildSpecify(Feilds.Text),
+            },
+            db,
+            self,
+        )
+        tab_vaccination = InsertAndTable(
+            "Vaccination",
+            {
+                "Name": FeildSpecify(Feilds.Text),
+                "Recipient_ID": FeildSpecify(Feilds.Text),
+                "Vaccine_ID": FeildSpecify(Feilds.Text),
+                "Date_of_Vaccination": FeildSpecify(Feilds.Text),
+            },
+            db,
+            self,
+        )
+        tab_childHealth = InsertAndTable(
+            "Child_Health",
+            {
+                "ID": FeildSpecify(Feilds.Text),
+                "Name": FeildSpecify(Feilds.Text),
+                "Date_of_checkup": FeildSpecify(Feilds.Text),
+                "Height": FeildSpecify(Feilds.Text),
+                "Weight": FeildSpecify(Feilds.Text),
+                "Remarks": FeildSpecify(Feilds.Text),
+            },
+            db,
+            self,
+        )
+        tab_motherHealth = InsertAndTable(
+            "Mother_Health",
+            {
+                "ID": FeildSpecify(Feilds.Text),
+                "Name": FeildSpecify(Feilds.Text),
+                "Date_of_checkup": FeildSpecify(Feilds.Text),
+                "Height": FeildSpecify(Feilds.Text),
+                "Weight": FeildSpecify(Feilds.Text),
+                "Remarks": FeildSpecify(Feilds.Text),
+            },
+            db,
+            self,
+        )
+
         tabs.addTab(tab_child, "Child")
         tabs.addTab(tab_mother, "Mother")
         tabs.addTab(tab_father, "Father")
@@ -56,26 +147,25 @@ class Anganwadi(QWidget):
 
 
 class InsertAndTable(QWidget):
-    def __init__(self, db_name, db_arr, database, parent=None):
+    def __init__(self, Tablename, FeildForm, database, parent=None):
         super().__init__(parent=parent)
-        self.db_name = db_name
-        self.db_arr = db_arr
+        self.Tablename = Tablename
         self.database = database
+        self.FeildForm = FeildForm
         self.setInsertAndLayout()
-
 
     def setInsertAndLayout(self):
         layout = QVBoxLayout(self)
         button = QPushButton("Start", self)
         button.clicked.connect(self.InsertShow)
 
-        table = Table("projects.db","Sample",self.database,self)
+        table = Table("projects.db", self.Tablename, self.database, self)
 
         layout.addWidget(button)
         layout.addWidget(table)
 
     def InsertShow(self):
-        FormButton = FormDialog(self.db_name,self.db_arr, self)
+        FormButton = FormDialog(self.Tablename, self.FeildForm, self)
         FormButton.exec_()
         print(FormButton.GetAllFeildResponses())
 

@@ -15,6 +15,8 @@ class Table(QTableView):
         model = QSqlTableModel(self, self.db)
         model.setTable(self.table)
         model.select()
-        self.setModel(model)        
+        self.setModel(model)
+
     def refresh(self):
-        self.model.select();
+        self.model.select()
+
