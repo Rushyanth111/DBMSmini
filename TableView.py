@@ -12,10 +12,10 @@ class Table(QTableView):
         self.createTable()
 
     def createTable(self):
-        model = QSqlTableModel(self, self.db)
-        model.setTable(self.table)
-        model.select()
-        self.setModel(model)
+        self.model = QSqlTableModel(self, self.db)
+        self.model.setTable(self.table)
+        self.model.select()
+        self.setModel(self.model)
 
     def refresh(self):
         self.model.select()

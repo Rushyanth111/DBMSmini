@@ -38,7 +38,6 @@ class Anganwadi(QWidget):
         db.setDatabaseName("projects.db")
         db.open()
 
-
         tab_child = InsertAndTable(
             "Child",
             {
@@ -207,6 +206,7 @@ class Anganwadi(QWidget):
                 "Discussion": FeildSpecify(Feilds.Text),
             },
             db,
+            """INSERT INTO PTM VALUES({},'{}','{}','{}')""",
             self,
         )
 
@@ -216,36 +216,40 @@ class Anganwadi(QWidget):
         tabs.addTab(tab_child, "Child")
         tabs.addTab(tab_daily, "Daily Food")
         tabs.addTab(tab_family, "Family Census")
-        tabs.addTab(tab_Vaccination,"Vaccination")
-        tabs.addTab(tab_Child_Health,"Child Health")
-        tabs.addTab(tab_Pregnant_Ladies,"Pregnant Ladies.")
+        tabs.addTab(tab_Vaccination, "Vaccination")
+        tabs.addTab(tab_Child_Health, "Child Health")
+        tabs.addTab(tab_Pregnant_Ladies, "Pregnant Ladies.")
         return tabs
 
 
 class InsertAndTable(QWidget):
-    def __init__(self, Tablename, FeildForm, database, parent=None):
+    def __init__(self, Tablename, FeildForm, database, InsertQuery, parent=None):
         super().__init__(parent=parent)
         self.Tablename = Tablename
         self.database = database
         self.FeildForm = FeildForm
         self.setInsertAndLayout()
+        self.InsertQuery = InsertQuery
 
     def setInsertAndLayout(self):
         layout = QVBoxLayout(self)
         button = QPushButton("Start", self)
         button.clicked.connect(self.InsertShow)
 
-        table = Table("projects.db", self.Tablename, self.database, self)
+        self.table = Table("projects.db", self.Tablename, self.database, self)
 
         layout.addWidget(button)
-        layout.addWidget(table)
+        layout.addWidget(self.table)
 
     def InsertShow(self):
         FormButton = FormDialog(self.Tablename, self.FeildForm, self)
         result = FormButton.exec_()
         if result == True:
             print("Accepted")
-            print(FormButton.GetAllFeildResponses())
+            if(self.InsertQuery != ""):
+                ExecQuery = self.InsertQuery.format(*FormButton.GetAllFeildResponses());
+                self.database.exec_(ExecQuery);
+                self.table.refresh();
         else:
             print("Rejected")
 
