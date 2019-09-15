@@ -54,7 +54,64 @@ class Anganwadi(QWidget):
             db,
             self,
         )
+
         tabs.addTab(tab_child, "Child")
+
+        tab_Admission = InsertAndTable(
+            "Admission",
+            {
+                "No.": FeildSpecify(Feilds.Int, True),
+                "SurveyNo": FeildSpecify(Feilds.Int, True),
+                "Name": FeildSpecify(Feilds.Text),
+                "FatherName": FeildSpecify(Feilds.Text),
+                "MotherName": FeildSpecify(Feilds.Text),
+                "DOB": FeildSpecify(Feilds.Text),
+                "Caste": FeildSpecify(Feilds.Text),
+                "RegisterDate": FeildSpecify(Feilds.Text),
+                "Weight": FeildSpecify(Feilds.Text),
+                "DateOfSomething": FeildSpecify(Feilds.Text),
+                "Doctor'sName": FeildSpecify(Feilds.Text),
+                "Officer": FeildSpecify(Feilds.Text),
+                "Signature": FeildSpecify(Feilds.Text),
+                "Address": FeildSpecify(Feilds.Text),
+            },
+            db,
+            self,
+        )
+        tabs.addTab(tab_Admission, "Admission")
+
+        tab_BirthRegister = InsertAndTable(
+            "BirthRegister",
+            {
+                "SNo.": FeildSpecify(Feilds.Int, True),
+                "Name": FeildSpecify(Feilds.Text),
+                "FatherName": FeildSpecify(Feilds.Text),
+                "NoOfSiblings": FeildSpecify(Feilds.Int),
+                "DeliveryDate": FeildSpecify(Feilds.Text),
+                "PlaceOfBirth": FeildSpecify(Feilds.Text),
+                "MethodOfBirth": FeildSpecify(Feilds.Text),
+                "Weight": FeildSpecify(Feilds.Text),
+
+            },
+            db,
+            self,
+        )
+        tabs.addTab(tab_BirthRegister, "BirthRegister")
+
+
+        tab_PTM = InsertAndTable(
+            "PTM",
+            {
+                "SNo.": FeildSpecify(Feilds.Int, True),
+                "Name": FeildSpecify(Feilds.Text),
+                "Guardian'sName": FeildSpecify(Feilds.Text),
+                "Discussion": FeildSpecify(Feilds.Text),
+            },
+            db,
+            self,
+        )
+        tabs.addTab(tab_PTM, "PTM")
+
 
         return tabs
 
