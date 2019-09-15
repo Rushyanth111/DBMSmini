@@ -52,12 +52,13 @@ class Anganwadi(QWidget):
                 "Address": FeildSpecify(Feilds.Range, Range=["1", "2", "3", "4", "5"]),
             },
             db,
+            """INSERT INTO CHILD VALUES('{}',{},'{}','{}','{}','{}','{}','{}','{}')""",
             self,
         )
         tab_daily = InsertAndTable(
-            "Daily Food[3-6]",
+            "DailyFood",
             {
-                "Sl.No": FeildSpecify(Feilds.Text, True),
+                "Sl.No": FeildSpecify(Feilds.Integer, True),
                 "Name(Child)": FeildSpecify(Feilds.Text),
                 "Wheat(Kgs)": FeildSpecify(Feilds.Real),
                 "Sugar(gms)": FeildSpecify(Feilds.Integer),
@@ -70,10 +71,11 @@ class Anganwadi(QWidget):
                 "Signature": FeildSpecify(Feilds.Text),
             },
             db,
+            """INSERT INTO DailyFood VALUES({},'{}',{},{},{},{},{},{},{},{},'{}')""",
             self,
         )
         tab_family = InsertAndTable(
-            "Family Census",
+            "Family",
             {
                 "Sl No.": FeildSpecify(Feilds.Integer, True),
                 "Survey No": FeildSpecify(Feilds.Integer),
@@ -98,6 +100,7 @@ class Anganwadi(QWidget):
                 ),
             },
             db,
+            """INSERT INTO Family VALUES({},{},'{}','{}','{}','{}','{}',{},'{}','{}','{}','{}','{}','{}','{}','')""",
             self,
         )
         tab_Vaccination = InsertAndTable(
@@ -126,11 +129,12 @@ class Anganwadi(QWidget):
                 "Survived first Birth": FeildSpecify(Feilds.Date),
             },
             db,
+            """INSERT INTO VACCINATION VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')""",
             self,
         )
 
         tab_Child_Health = InsertAndTable(
-            "Child's Health",
+            "CHILD_HEALTH",
             {
                 "No.": FeildSpecify(Feilds.Real),
                 "Child's Name": FeildSpecify(Feilds.Text),
@@ -140,11 +144,12 @@ class Anganwadi(QWidget):
                 "Weight": FeildSpecify(Feilds.Range, Range=["N", "M", "S"]),
             },
             db,
+            """INSERT INTO CHILD_HEALTH VALUES({},{},'{}','{}','{}','{}')""",
             self,
         )
 
         tab_Pregnant_Ladies = InsertAndTable(
-            "Pregnant Ladies",
+            "PREGNANT_LADIES",
             {
                 "Sl. No.": FeildSpecify(Feilds.Integer),
                 "Survey No.": FeildSpecify(Feilds.Integer),
@@ -156,6 +161,7 @@ class Anganwadi(QWidget):
                 "Signature": FeildSpecify(Feilds.Text),
             },
             db,
+            """INSERT INTO PREGNANT_LADIES VALUES({},{},'{}','{}','{}','{}')""",
             self,
         )
 
@@ -178,6 +184,7 @@ class Anganwadi(QWidget):
                 "Address": FeildSpecify(Feilds.Text),
             },
             db,
+            """INSERT INTO Admission VALUES({},{},'{}','{}','{}','{}','{}','{}',{}.,'{}','{}','{}','{}','{}')""",
             self,
         )
 
@@ -194,6 +201,7 @@ class Anganwadi(QWidget):
                 "Weight": FeildSpecify(Feilds.Text),
             },
             db,
+            """INSERT INTO BirthRegister VALUES({},'{}','{}',{},'{}','{}','{}',{})""",
             self,
         )
 
@@ -248,7 +256,7 @@ class InsertAndTable(QWidget):
             print("Accepted")
             if(self.InsertQuery != ""):
                 ExecQuery = self.InsertQuery.format(*FormButton.GetAllFeildResponses());
-                self.database.exec_(ExecQuery);
+                result = self.database.exec_(ExecQuery)
                 self.table.refresh();
         else:
             print("Rejected")
