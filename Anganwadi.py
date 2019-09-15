@@ -86,7 +86,7 @@ class Anganwadi(QWidget):
                 "SNo.": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
                 "FatherName": FeildSpecify(Feilds.Text),
-                "NoOfSiblings": FeildSpecify(Feilds.Int),
+                "NoOfSiblings": FeildSpecify(Feilds.Integer),
                 "DeliveryDate": FeildSpecify(Feilds.Text),
                 "PlaceOfBirth": FeildSpecify(Feilds.Text),
                 "MethodOfBirth": FeildSpecify(Feilds.Text),
