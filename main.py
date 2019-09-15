@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import (
     QTabWidget,
     QVBoxLayout,
     QHBoxLayout,
+    QLayout
 )
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
@@ -37,7 +38,7 @@ class CentralWidget(QWidget):
         self.setAllLayouts()
 
     def setAllLayouts(self):
-        layout = QVBoxLayout(self)
+        layout = QHBoxLayout();
 
         layout.addWidget(Anganwadi(self))
         self.setLayout(layout)

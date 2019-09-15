@@ -37,6 +37,8 @@ class Anganwadi(QWidget):
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName("projects.db")
         db.open()
+
+
         tab_child = InsertAndTable(
             "Child",
             {
@@ -54,9 +56,9 @@ class Anganwadi(QWidget):
             self,
         )
         tab_daily = InsertAndTable(
-            "Daily Food(3-6 years)",
+            "Daily Food[3-6]",
             {
-                "Sl.No": FeildSpecify(Feilds.Text,True),
+                "Sl.No": FeildSpecify(Feilds.Text, True),
                 "Name(Child)": FeildSpecify(Feilds.Text),
                 "Wheat(Kgs)": FeildSpecify(Feilds.Real),
                 "Sugar(gms)": FeildSpecify(Feilds.Integer),
@@ -74,78 +76,89 @@ class Anganwadi(QWidget):
         tab_family = InsertAndTable(
             "Family Census",
             {
-                "Sl No.": FeildSpecify(Feilds.Integer,True),
+                "Sl No.": FeildSpecify(Feilds.Integer, True),
                 "Survey No": FeildSpecify(Feilds.Integer),
                 "Name": FeildSpecify(Feilds.Text),
                 "Relation With Head": FeildSpecify(Feilds.Text),
-                "Gender": FeildSpecify(Feilds.Range, Range=["Male","Female"]),
-                "Marital Status": FeildSpecify(Feilds.Range,Range=["Yes","No"]),
+                "Gender": FeildSpecify(Feilds.Range, Range=["Male", "Female"]),
+                "Marital Status": FeildSpecify(Feilds.Range, Range=["Yes", "No"]),
                 "Date of Birth": FeildSpecify(Feilds.Date),
                 "Age": FeildSpecify(Feilds.Integer),
                 "Mothers Name(If child les than 6 Years)": FeildSpecify(Feilds.Text),
-                "Physical Disabilities": FeildSpecify(Feilds.Range,Range=["Blind",""]),
-                "Residence of Anganwadi?":FeildSpecify(Feilds.Range,Range=["Yes","No"]),
-                "Native of Marsandra?": FeildSpecify(Feilds.Range, Range=["Yes","No"]),
+                "Physical Disabilities": FeildSpecify(
+                    Feilds.Range, Range=["Blind", ""]
+                ),
+                "Residence of Anganwadi?": FeildSpecify(
+                    Feilds.Range, Range=["Yes", "No"]
+                ),
+                "Native of Marsandra?": FeildSpecify(Feilds.Range, Range=["Yes", "No"]),
                 "Date of Arrival": FeildSpecify(Feilds.Date),
                 "Date of Death": FeildSpecify(Feilds.Date),
-                "If Child, Has Lunch in School ": FeildSpecify(Feilds.Range,Range = ["Yes","No"]),
-                },
-                db,
-                self,
+                "If Child, Has Lunch in School ": FeildSpecify(
+                    Feilds.Range, Range=["Yes", "No"]
+                ),
+            },
+            db,
+            self,
         )
         tab_Vaccination = InsertAndTable(
-            "Vaccination", 
+            "Vaccination",
             {
-                 "Child's Name" : FeildSpecify(Feilds.Text),
-                 "Gender" : FeildSpecify(Fields.Range, Range=["Male", "Female"]),
-                 "DOB" : FeildSpecify(Feilds.Date),
-                 "Registration Date" : FeildSpecify(Feilds.Date),
-                 "Polio" : FeildSpecify(Feilds.Date),
-                 "Hepatitis-0" : FeildSpecify(Feilds.Date),
-                 "BCG" : FeildSpecify(Feilds.Date),
-                 "DPT-1" : FeildSpecify(Feilds.Date),
-                 "Hepatitis-1" : FeildSpecify(Feilds.Date),
-                 "OPV" : FeildSpecify(Feilds.Date),
-                 "DPT-2" : FeildSpecify(Feilds.Date),
-                 "Hepatitis-2" : FeildSpecify(Feilds.Date),
-                 "OPV-2" : FeildSpecify(Feilds.Date),
-                 "DPT-3" : FeildSpecify(Feilds.Date),
-                 "Hepatitis-3" : FeildSpecify(Feilds.Date),
-                 "OPV-3" : FeildSpecify(Feilds.Date), 
-                 "++MMR-1" : FeildSpecify(Feilds.Date),
-                 "+ life dose 1 " : FeildSpecify(Feilds.Date),
-                 "DPT Booster" : FeildSpecify(Feilds.Date),
-                 "++MMR-2" : FeildSpecify(Feilds.Date),
-                 "Survived first Birth" : FeildSpecify(Feilds.Date)
-                }
+                "Child's Name": FeildSpecify(Feilds.Text),
+                "Gender": FeildSpecify(Feilds.Range, Range=["Male", "Female"]),
+                "DOB": FeildSpecify(Feilds.Date),
+                "Registration Date": FeildSpecify(Feilds.Date),
+                "Polio": FeildSpecify(Feilds.Date),
+                "Hepatitis-0": FeildSpecify(Feilds.Date),
+                "BCG": FeildSpecify(Feilds.Date),
+                "DPT-1": FeildSpecify(Feilds.Date),
+                "Hepatitis-1": FeildSpecify(Feilds.Date),
+                "OPV": FeildSpecify(Feilds.Date),
+                "DPT-2": FeildSpecify(Feilds.Date),
+                "Hepatitis-2": FeildSpecify(Feilds.Date),
+                "OPV-2": FeildSpecify(Feilds.Date),
+                "DPT-3": FeildSpecify(Feilds.Date),
+                "Hepatitis-3": FeildSpecify(Feilds.Date),
+                "OPV-3": FeildSpecify(Feilds.Date),
+                "++MMR-1": FeildSpecify(Feilds.Date),
+                "+ life dose 1 ": FeildSpecify(Feilds.Date),
+                "DPT Booster": FeildSpecify(Feilds.Date),
+                "++MMR-2": FeildSpecify(Feilds.Date),
+                "Survived first Birth": FeildSpecify(Feilds.Date),
+            },
+            db,
+            self,
         )
 
         tab_Child_Health = InsertAndTable(
             "Child's Health",
             {
-                "No." : FeildSpecify(Feilds.Real),
-                "Child's Name" : FeildSpecify(Feilds.Text),
-                "Father's Name" : FeildSpecify(Feilds.Text),
-                "Mother's Name" : FeildSpecify(Feilds.Text),
-                "DOB" : FeildSpecify(Feilds.Date),
-                "Weight" : FeildSpecify(Feilds.Range, Range["N","M","S"]),
-            }
+                "No.": FeildSpecify(Feilds.Real),
+                "Child's Name": FeildSpecify(Feilds.Text),
+                "Father's Name": FeildSpecify(Feilds.Text),
+                "Mother's Name": FeildSpecify(Feilds.Text),
+                "DOB": FeildSpecify(Feilds.Date),
+                "Weight": FeildSpecify(Feilds.Range, Range=["N", "M", "S"]),
+            },
+            db,
+            self,
         )
 
         tab_Pregnant_Ladies = InsertAndTable(
             "Pregnant Ladies",
             {
-                "Sl. No." : FeildSpecify(Feilds.Integer),
-                "Survey No." : FeildSpecify(Feilds.Integer),
-                "Name" : FeildSpecify(Feilds.Text),
-                "Pregnant/Post-Delivery ?" : FeildSpecify(Feilds.Range, Range=["Pregnant", "Post-Delivery"]),
-                "Date" : FeildSpecify(Feilds.Date),
-                "Signature" :FeildSpecify(Feilds.Text),
-            }
+                "Sl. No.": FeildSpecify(Feilds.Integer),
+                "Survey No.": FeildSpecify(Feilds.Integer),
+                "Name": FeildSpecify(Feilds.Text),
+                "Pregnant/Post-Delivery ?": FeildSpecify(
+                    Feilds.Range, Range=["Pregnant", "Post-Delivery"]
+                ),
+                "Date": FeildSpecify(Feilds.Date),
+                "Signature": FeildSpecify(Feilds.Text),
+            },
+            db,
+            self,
         )
-        tabs.addTab(tab_child, "Child")
-        tabs.addTab(tab_daily,"Daily Food")
-        tabs.addTab(tab_family,"Family Census")
 
         tab_Admission = InsertAndTable(
             "Admission",
@@ -168,7 +181,6 @@ class Anganwadi(QWidget):
             db,
             self,
         )
-        tabs.addTab(tab_Admission, "Admission")
 
         tab_BirthRegister = InsertAndTable(
             "BirthRegister",
@@ -181,13 +193,10 @@ class Anganwadi(QWidget):
                 "PlaceOfBirth": FeildSpecify(Feilds.Text),
                 "MethodOfBirth": FeildSpecify(Feilds.Text),
                 "Weight": FeildSpecify(Feilds.Text),
-
             },
             db,
             self,
         )
-        tabs.addTab(tab_BirthRegister, "BirthRegister")
-
 
         tab_PTM = InsertAndTable(
             "PTM",
@@ -200,9 +209,16 @@ class Anganwadi(QWidget):
             db,
             self,
         )
+
         tabs.addTab(tab_PTM, "PTM")
-
-
+        tabs.addTab(tab_BirthRegister, "Birth Register")
+        tabs.addTab(tab_Admission, "Admission")
+        tabs.addTab(tab_child, "Child")
+        tabs.addTab(tab_daily, "Daily Food")
+        tabs.addTab(tab_family, "Family Census")
+        tabs.addTab(tab_Vaccination,"Vaccination")
+        tabs.addTab(tab_Child_Health,"Child Health")
+        tabs.addTab(tab_Pregnant_Ladies,"Pregnant Ladies.")
         return tabs
 
 
@@ -220,7 +236,6 @@ class InsertAndTable(QWidget):
         button.clicked.connect(self.InsertShow)
 
         table = Table("projects.db", self.Tablename, self.database, self)
-
 
         layout.addWidget(button)
         layout.addWidget(table)
