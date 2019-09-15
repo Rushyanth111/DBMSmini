@@ -60,8 +60,8 @@ class Anganwadi(QWidget):
         tab_Admission = InsertAndTable(
             "Admission",
             {
-                "No.": FeildSpecify(Feilds.Int, True),
-                "SurveyNo": FeildSpecify(Feilds.Int, True),
+                "No.": FeildSpecify(Feilds.Integer, True),
+                "SurveyNo": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
                 "FatherName": FeildSpecify(Feilds.Text),
                 "MotherName": FeildSpecify(Feilds.Text),
@@ -83,7 +83,7 @@ class Anganwadi(QWidget):
         tab_BirthRegister = InsertAndTable(
             "BirthRegister",
             {
-                "SNo.": FeildSpecify(Feilds.Int, True),
+                "SNo.": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
                 "FatherName": FeildSpecify(Feilds.Text),
                 "NoOfSiblings": FeildSpecify(Feilds.Int),
@@ -102,7 +102,7 @@ class Anganwadi(QWidget):
         tab_PTM = InsertAndTable(
             "PTM",
             {
-                "SNo.": FeildSpecify(Feilds.Int, True),
+                "SNo.": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
                 "Guardian'sName": FeildSpecify(Feilds.Text),
                 "Discussion": FeildSpecify(Feilds.Text),
