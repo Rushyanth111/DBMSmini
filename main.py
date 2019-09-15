@@ -38,20 +38,9 @@ class CentralWidget(QWidget):
 
     def setAllLayouts(self):
         layout = QVBoxLayout(self)
-        tabs = self.makeTabs()
 
-        layout.addWidget(tabs)
+        layout.addWidget(Anganwadi(self))
         self.setLayout(layout)
-
-    def makeTabs(self):
-        tabs = QTabWidget(self)
-
-        tab1 = Anganwadi(self)
-        tab2 = School(self)
-        tabs.addTab(tab1, "Anganwadi")
-        tabs.addTab(tab2, "School")
-
-        return tabs
 
 
 app = QApplication(sys.argv)
