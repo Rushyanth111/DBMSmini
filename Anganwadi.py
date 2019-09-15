@@ -241,12 +241,16 @@ class InsertAndTable(QWidget):
 
     def setInsertAndLayout(self):
         layout = QVBoxLayout(self)
-        button = QPushButton("Start", self)
+        button = QPushButton("Input Data", self)
+        button2 = QPushButton("Find Row")
+
         button.clicked.connect(self.InsertShow)
+        button2.clicked.connect(self.DeleteRow)
 
         self.table = Table("projects.db", self.Tablename, self.database, self)
 
         layout.addWidget(button)
+        layout.addWidget(button2)
         layout.addWidget(self.table)
 
     def InsertShow(self):
@@ -254,10 +258,15 @@ class InsertAndTable(QWidget):
         result = FormButton.exec_()
         if result == True:
             print("Accepted")
-            if(self.InsertQuery != ""):
-                ExecQuery = self.InsertQuery.format(*FormButton.GetAllFeildResponses());
+            if self.InsertQuery != "":
+                ExecQuery = self.InsertQuery.format(*FormButton.GetAllFeildResponses())
                 result = self.database.exec_(ExecQuery)
-                self.table.refresh();
+                self.table.refresh()
         else:
             print("Rejected")
+
+    def DeleteRow(self):
+        self.table.model.removeRow(self.table.currentIndex().row())
+        self.table.refresh()
+
 
