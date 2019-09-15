@@ -37,7 +37,6 @@ class Anganwadi(QWidget):
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName("projects.db")
         db.open()
-
         tab_child = InsertAndTable(
             "Child",
             {
@@ -54,6 +53,58 @@ class Anganwadi(QWidget):
             db,
             self,
         )
+
+        tab_Vaccination = InsertAndTable(
+            "Vaccination", 
+            {
+                 "Child's Name" : FeildSpecify(Feilds.Text),
+                 "Gender" : FeildSpecify(Fields.Range, Range=["Male", "Female"]),
+                 "DOB" : FeildSpecify(Feilds.Date),
+                 "Registration Date" : FeildSpecify(Feilds.Date),
+                 "Polio" : FeildSpecify(Feilds.Date),
+                 "Hepatitis-0" : FeildSpecify(Feilds.Date),
+                 "BCG" : FeildSpecify(Feilds.Date),
+                 "DPT-1" : FeildSpecify(Feilds.Date),
+                 "Hepatitis-1" : FeildSpecify(Feilds.Date),
+                 "OPV" : FeildSpecify(Feilds.Date),
+                 "DPT-2" : FeildSpecify(Feilds.Date),
+                 "Hepatitis-2" : FeildSpecify(Feilds.Date),
+                 "OPV-2" : FeildSpecify(Feilds.Date),
+                 "DPT-3" : FeildSpecify(Feilds.Date),
+                 "Hepatitis-3" : FeildSpecify(Feilds.Date),
+                 "OPV-3" : FeildSpecify(Feilds.Date), 
+                 "++MMR-1" : FeildSpecify(Feilds.Date),
+                 "+ life dose 1 " : FeildSpecify(Feilds.Date),
+                 "DPT Booster" : FeildSpecify(Feilds.Date),
+                 "++MMR-2" : FeildSpecify(Feilds.Date),
+                 "Survived first Birth" : FeildSpecify(Feilds.Date)
+                }
+        )
+
+        tab_Child_Health = InsertAndTable(
+            "Child's Health",
+            {
+                "No." : FeildSpecify(Feilds.Real),
+                "Child's Name" : FeildSpecify(Feilds.Text),
+                "Father's Name" : FeildSpecify(Feilds.Text),
+                "Mother's Name" : FeildSpecify(Feilds.Text),
+                "DOB" : FeildSpecify(Feilds.Date),
+                "Weight" : FeildSpecify(Feilds.Range, Range["N","M","S"]),
+            }
+        )
+
+        tab_Pregnant_Ladies = InsertAndTable(
+            "Pregnant Ladies",
+            {
+                "Sl. No." : FeildSpecify(Feilds.Integer),
+                "Survey No." : FeildSpecify(Feilds.Integer),
+                "Name" : FeildSpecify(Feilds.Text),
+                "Pregnant/Post-Delivery ?" : FeildSpecify(Feilds.Range, Range=["Pregnant", "Post-Delivery"]),
+                "Date" : FeildSpecify(Feilds.Date),
+                "Signature" :FeildSpecify(Feilds.Text),
+            }
+        )
+
 
         tabs.addTab(tab_child, "Child")
 
@@ -130,6 +181,7 @@ class InsertAndTable(QWidget):
         button.clicked.connect(self.InsertShow)
 
         table = Table("projects.db", self.Tablename, self.database, self)
+
 
         layout.addWidget(button)
         layout.addWidget(table)
