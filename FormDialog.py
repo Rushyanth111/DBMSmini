@@ -29,6 +29,8 @@ class Feilds(Enum):
 def FeildSpecify(Feild: Feilds, NotNull: bool = False, Range: list = []):
     return [Feild, NotNull, Range]
 
+def YNRange():
+    return ["Y","N"]
 
 class FormDialog(QDialog):
     def __init__(self, formName, FeildDict=None, parent=None):
