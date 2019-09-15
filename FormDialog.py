@@ -7,8 +7,13 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QGroupBox,
     QPushButton,
-    QMessageBox
+    QMessageBox,
+    QCalendarWidget,
+    QDateEdit,
+    QComboBox,
 )
+
+from PyQt5.QtGui import QIntValidator, QDoubleValidator
 
 from enum import Enum
 
@@ -18,7 +23,7 @@ class Feilds(Enum):
     Text = 1
     Date = 2
     Real = 3
-    Nill = 4
+    Range = 4
     Blob = 5
 
 
@@ -34,7 +39,7 @@ class FormDialog(QDialog):
         ##Set the FormName.
 
         self.FeildDict = FeildDict
-        self.Responses = []; 
+        self.Responses = []
 
         form = self.CreateForm()
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -63,10 +68,35 @@ class FormDialog(QDialog):
         print(keys)
 
         for x in range(len(keys)):
-            Box = QLineEdit();
-            Box.textChanged.connect(self.NoteText)
+            if (
+                self.FeildDict[keys[x]][0] == Feilds.Text
+                or self.FeildDict[keys[x]][0] == Feilds.Blob
+            ):
+                Box = QLineEdit(self)
+                Box.textChanged.connect(self.NoteText)
+
+            elif self.FeildDict[keys[x]][0] == Feilds.Date:
+                Box = QDateEdit(self)
+                Box.dateChanged.connect(self.NoteText)
+
+            elif self.FeildDict[keys[x]][0] == Feilds.Integer:
+                Box = QLineEdit(self)
+                Box.setValidator(QIntValidator(0, 999999, self))
+                Box.textChanged.connect(self.NoteText)
+
+            elif self.FeildDict[keys[x]][0] == Feilds.Real:
+                Box = QLineEdit(self)
+                Box.setValidator(QDoubleValidator(0.0, 999999.0, 2, self))
+                Box.textChanged.connect(self.NoteText)
+
+            else:
+                Box = QComboBox(self)
+                RangeFeilds = self.FeildDict[keys[x]][2]
+                Box.addItems(RangeFeilds)
+                Box.currentTextChanged.connect(self.NoteText)
+
             self.LineEditArray.append(Box)
-            self.Responses.append("");
+            self.Responses.append("")
 
         for x in range(len(keys)):
             layout.addRow(QLabel(keys[x]), self.LineEditArray[x])
@@ -75,27 +105,28 @@ class FormDialog(QDialog):
         return formGroupBox
 
     def GetAllFeildResponses(self):
-
         return self.Responses
-
 
     def NoteText(self):
         for x in range(len(self.Responses)):
-            self.Responses[x] = self.LineEditArray[x].text();
-    
+            try:
+                self.Responses[x] = self.LineEditArray[x].text()
+            except:
+                self.Responses[x] = self.LineEditArray[x].currentText()
+
     # Custom Accept Function.
     def Accept(self):
         print(self.Responses)
-        AllTestsPass = False;
+        AllTestsPass = False
         for x in self.LineEditArray:
-            if(x.text() == ""):
-                Q = QMessageBox();
-                Q.setIcon(QMessageBox.Critical);
-                Q.setStandardButtons(QMessageBox.Ok);
+            if x.text() == "":
+                Q = QMessageBox()
+                Q.setIcon(QMessageBox.Critical)
+                Q.setStandardButtons(QMessageBox.Ok)
                 Q.setWindowTitle("BBBB")
-                Q.setText("AAA");
+                Q.setText("AAA")
                 Q.setDetailedText("More Additional Information.")
-                Q.exec_();
-                break;
+                Q.exec_()
+                break
         if AllTestsPass == True:
-            self.accept();
+            self.accept()
