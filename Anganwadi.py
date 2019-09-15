@@ -53,7 +53,46 @@ class Anganwadi(QWidget):
             db,
             self,
         )
-
+        tab_daily = InsertAndTable(
+            "Daily Food(3-6 years)",
+            {
+                "Sl.No": FeildSpecify(Feilds.Text,True),
+                "Name(Child)": FeildSpecify(Feilds.Text),
+                "Wheat(Kgs)": FeildSpecify(Feilds.Real),
+                "Sugar(gms)": FeildSpecify(Feilds.Integer),
+                "Jaggery(gms)": FeildSpecify(Feilds.Integer),
+                "Milk(gms)": FeildSpecify(Feilds.Integer),
+                "Nutrient Mix(gms)": FeildSpecify(Feilds.Integer),
+                "Pulses(gms)": FeildSpecify(Feilds.Integer),
+                "Height": FeildSpecify(Feilds.Integer),
+                "Weight": FeildSpecify(Feilds.Integer),
+                "Signature": FeildSpecify(Feilds.Text),
+            },
+            db,
+            self,
+        )
+        tab_family = InsertAndTable(
+            "Family Census",
+            {
+                "Sl No.": FeildSpecify(Feilds.Integer,True),
+                "Survey No": FeildSpecify(Feilds.Integer),
+                "Name": FeildSpecify(Feilds.Text),
+                "Relation With Head": FeildSpecify(Feilds.Text),
+                "Gender": FeildSpecify(Feilds.Range, Range=["Male","Female"]),
+                "Marital Status": FeildSpecify(Feilds.Range,Range=["Yes","No"]),
+                "Date of Birth": FeildSpecify(Feilds.Date),
+                "Age": FeildSpecify(Feilds.Integer),
+                "Mothers Name(If child les than 6 Years)": FeildSpecify(Feilds.Text),
+                "Physical Disabilities": FeildSpecify(Feilds.Range,Range=["Blind",""]),
+                "Residence of Anganwadi?":FeildSpecify(Feilds.Range,Range=["Yes","No"]),
+                "Native of Marsandra?": FeildSpecify(Feilds.Range, Range=["Yes","No"]),
+                "Date of Arrival": FeildSpecify(Feilds.Date),
+                "Date of Death": FeildSpecify(Feilds.Date),
+                "If Child, Has Lunch in School ": FeildSpecify(Feilds.Range,Range = ["Yes","No"]),
+                },
+                db,
+                self,
+        )
         tab_Vaccination = InsertAndTable(
             "Vaccination", 
             {
@@ -104,9 +143,9 @@ class Anganwadi(QWidget):
                 "Signature" :FeildSpecify(Feilds.Text),
             }
         )
-
-
         tabs.addTab(tab_child, "Child")
+        tabs.addTab(tab_daily,"Daily Food")
+        tabs.addTab(tab_family,"Family Census")
 
         tab_Admission = InsertAndTable(
             "Admission",
