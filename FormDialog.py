@@ -93,7 +93,7 @@ class FormDialog(QDialog):
                 Box = QComboBox(self)
                 RangeFeilds = self.FeildDict[keys[x]][2]
                 Box.addItems(RangeFeilds)
-                Box.currentTextChanged.connect(self.NoteText)
+                Box.activated.connect(self.NoteText)
 
             self.LineEditArray.append(Box)
             self.Responses.append("")
@@ -115,18 +115,23 @@ class FormDialog(QDialog):
                 self.Responses[x] = self.LineEditArray[x].currentText()
 
     # Custom Accept Function.
+    # Validate All Input Chosen.
     def Accept(self):
-        print(self.Responses)
-        AllTestsPass = False
-        for x in self.LineEditArray:
-            if x.text() == "":
+        self.NoteText()
+        AllTestsPass = True
+        keys = list(self.FeildDict.keys())
+        for x in range(len(self.Responses)):
+            if self.FeildDict[keys[x]][1] == True and self.Responses[x] == "":
                 Q = QMessageBox()
                 Q.setIcon(QMessageBox.Critical)
                 Q.setStandardButtons(QMessageBox.Ok)
-                Q.setWindowTitle("BBBB")
-                Q.setText("AAA")
-                Q.setDetailedText("More Additional Information.")
+                Q.setWindowTitle("Bad Value!")
+                Q.setText("The Value Left out was: " + keys[x])
+                Q.setDetailedText(
+                    "You need to fill in the information else this cannot be accepted."
+                )
                 Q.exec_()
+                AllTestsPass = False
                 break
         if AllTestsPass == True:
             self.accept()

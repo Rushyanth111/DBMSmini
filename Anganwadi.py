@@ -49,7 +49,7 @@ class Anganwadi(QWidget):
                 "Mother_ID": FeildSpecify(Feilds.Real),
                 "Father_Name": FeildSpecify(Feilds.Text),
                 "Father_ID": FeildSpecify(Feilds.Text),
-                "Address": FeildSpecify(Feilds.Range, Range=["1","2","3","4","5"]),
+                "Address": FeildSpecify(Feilds.Range, Range=["1", "2", "3", "4", "5"]),
             },
             db,
             self,
@@ -79,6 +79,10 @@ class InsertAndTable(QWidget):
 
     def InsertShow(self):
         FormButton = FormDialog(self.Tablename, self.FeildForm, self)
-        FormButton.exec_()
-        print(FormButton.GetAllFeildResponses())
+        result = FormButton.exec_()
+        if result == True:
+            print("Accepted")
+            print(FormButton.GetAllFeildResponses())
+        else:
+            print("Rejected")
 
