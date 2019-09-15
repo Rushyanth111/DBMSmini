@@ -24,7 +24,6 @@ class Feilds(Enum):
     Date = 2
     Real = 3
     Range = 4
-    Blob = 5
 
 
 def FeildSpecify(Feild: Feilds, NotNull: bool = False, Range: list = []):
@@ -68,10 +67,7 @@ class FormDialog(QDialog):
         print(keys)
 
         for x in range(len(keys)):
-            if (
-                self.FeildDict[keys[x]][0] == Feilds.Text
-                or self.FeildDict[keys[x]][0] == Feilds.Blob
-            ):
+            if self.FeildDict[keys[x]][0] == Feilds.Text:
                 Box = QLineEdit(self)
                 Box.textChanged.connect(self.NoteText)
 
@@ -108,11 +104,23 @@ class FormDialog(QDialog):
         return self.Responses
 
     def NoteText(self):
+        keys = list(self.FeildDict.keys())
         for x in range(len(self.Responses)):
-            try:
+            if (
+                self.FeildDict[keys[x]][0] == Feilds.Integer
+                or self.FeildDict[keys[x]][0] == Feilds.Real
+                or self.FeildDict[keys[x]][0] == Feilds.Text
+            ):
                 self.Responses[x] = self.LineEditArray[x].text()
-            except:
+            elif self.FeildDict[keys[x]][0] == Feilds.Range:
                 self.Responses[x] = self.LineEditArray[x].currentText()
+            else:
+                self.Responses[x] = (
+                    self.LineEditArray[x]
+                    .date()
+                    .toPyDate()
+                    .strftime("%Y-%m-%d")
+                )
 
     # Custom Accept Function.
     # Validate All Input Chosen.
