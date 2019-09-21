@@ -8,7 +8,8 @@ from PyQt5.QtWidgets import (
     QTabWidget,
     QVBoxLayout,
     QHBoxLayout,
-    QLayout
+    QLayout,
+    QMenuBar
 )
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
@@ -22,6 +23,7 @@ class App(QMainWindow):
         self.setLayout()
         self.setTitle()
         self.setCentralWidget(CentralWidget(self))
+        self.setMenu();
         self.show()
 
     def setLayout(self):
@@ -30,6 +32,11 @@ class App(QMainWindow):
 
     def setTitle(self):
         self.setWindowTitle("DBMS Mini Project")
+
+    def setMenu(self):
+        menu = QMenuBar(self);
+        menu.addMenu("Title");
+        self.setMenuBar(menu);
 
 
 class CentralWidget(QWidget):

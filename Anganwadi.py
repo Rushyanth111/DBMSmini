@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import (
     QLabel,
     QLineEdit,
     QDialogButtonBox,
-    QHBoxLayout
+    QHBoxLayout,
 )
 from PyQt5.QtCore import QAbstractTableModel
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
@@ -33,12 +33,14 @@ class Anganwadi(QWidget):
         self.setLayout(layout)
 
     def makeInternalTabs(self):
+        tabs1 = QTabWidget(self)
+        tabs2 = QTabWidget(self)
         tabs = QTabWidget(self)
-
+        
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName("projects.db")
         db.open()
-
+        
         tab_child = InsertAndTable(
             "Child",
             {
@@ -219,15 +221,17 @@ class Anganwadi(QWidget):
             self,
         )
 
-        tabs.addTab(tab_PTM, "PTM")
-        tabs.addTab(tab_BirthRegister, "Birth Register")
-        tabs.addTab(tab_Admission, "Admission")
-        tabs.addTab(tab_child, "Child")
-        tabs.addTab(tab_daily, "Daily Food")
-        tabs.addTab(tab_family, "Family Census")
-        tabs.addTab(tab_Vaccination, "Vaccination")
-        tabs.addTab(tab_Child_Health, "Child Health")
-        tabs.addTab(tab_Pregnant_Ladies, "Pregnant Ladies.")
+        tabs1.addTab(tab_PTM, "PTM")
+        tabs1.addTab(tab_BirthRegister, "Birth Register")
+        tabs1.addTab(tab_Admission, "Admission")
+        tabs1.addTab(tab_child, "Child")
+        tabs1.addTab(tab_daily, "Daily Food")
+        tabs2.addTab(tab_family, "Family Census")
+        tabs2.addTab(tab_Vaccination, "Vaccination")
+        tabs2.addTab(tab_Child_Health, "Child Health")
+        tabs2.addTab(tab_Pregnant_Ladies, "Pregnant Ladies.")
+        tabs.addTab(tabs1,"Part 1");
+        tabs.addTab(tabs2, "Part 2");
         return tabs
 
 
@@ -243,8 +247,8 @@ class InsertAndTable(QWidget):
     def setInsertAndLayout(self):
         layout = QVBoxLayout(self)
 
-        layout1 = QHBoxLayout(self);
-        layout2 = QVBoxLayout(self);
+        layout1 = QHBoxLayout();
+        layout2 = QVBoxLayout();
         button = QPushButton("Input Data", self)
         button2 = QPushButton("Delete")
 
@@ -263,13 +267,10 @@ class InsertAndTable(QWidget):
         FormButton = FormDialog(self.Tablename, self.FeildForm, self)
         result = FormButton.exec_()
         if result == True:
-            print("Accepted")
             if self.InsertQuery != "":
                 ExecQuery = self.InsertQuery.format(*FormButton.GetAllFeildResponses())
                 result = self.database.exec_(ExecQuery)
                 self.table.refresh()
-        else:
-            print("Rejected")
 
     def DeleteRow(self):
         self.table.model.removeRow(self.table.currentIndex().row())
