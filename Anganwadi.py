@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import QAbstractTableModel
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
-
+from PyQt5.QtPrintSupport import QPrintDialog
 from FormDialog import FormDialog, Feilds, FeildSpecify
 from TableView import Table
 
@@ -251,14 +251,16 @@ class InsertAndTable(QWidget):
         layout2 = QVBoxLayout();
         button = QPushButton("Input Data", self)
         button2 = QPushButton("Delete")
+        button3 = QPushButton("Printer!")
 
         button.clicked.connect(self.InsertShow)
         button2.clicked.connect(self.DeleteRow)
-
+        button3.clicked.connect(self.Print)
         self.table = Table("projects.db", self.Tablename, self.database, self)
 
         layout1.addWidget(button)
         layout1.addWidget(button2)
+        layout1.addWidget(button3)
         layout2.addWidget(self.table)
         layout.addLayout(layout1);
         layout.addLayout(layout2);
@@ -276,3 +278,6 @@ class InsertAndTable(QWidget):
         self.table.model.removeRow(self.table.currentIndex().row())
         self.table.refresh()
 
+    def Print(self):
+        Page = QPrintDialog(self)
+        Page.exec_();
