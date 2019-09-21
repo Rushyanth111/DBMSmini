@@ -7,3 +7,4 @@ Scripts
 .vscode/
 venv/
 __pycache__
+dist

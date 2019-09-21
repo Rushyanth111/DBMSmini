@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import (
     QLabel,
     QLineEdit,
     QDialogButtonBox,
+    QHBoxLayout
 )
 from PyQt5.QtCore import QAbstractTableModel
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
@@ -241,17 +242,22 @@ class InsertAndTable(QWidget):
 
     def setInsertAndLayout(self):
         layout = QVBoxLayout(self)
+
+        layout1 = QHBoxLayout(self);
+        layout2 = QVBoxLayout(self);
         button = QPushButton("Input Data", self)
-        button2 = QPushButton("Find Row")
+        button2 = QPushButton("Delete")
 
         button.clicked.connect(self.InsertShow)
         button2.clicked.connect(self.DeleteRow)
 
         self.table = Table("projects.db", self.Tablename, self.database, self)
 
-        layout.addWidget(button)
-        layout.addWidget(button2)
-        layout.addWidget(self.table)
+        layout1.addWidget(button)
+        layout1.addWidget(button2)
+        layout2.addWidget(self.table)
+        layout.addLayout(layout1);
+        layout.addLayout(layout2);
 
     def InsertShow(self):
         FormButton = FormDialog(self.Tablename, self.FeildForm, self)
@@ -268,5 +274,4 @@ class InsertAndTable(QWidget):
     def DeleteRow(self):
         self.table.model.removeRow(self.table.currentIndex().row())
         self.table.refresh()
-
 
