@@ -54,7 +54,7 @@ class CentralWidget(QWidget):
     def setAllLayouts(self):
         layout = QHBoxLayout();
 
-        layout.addWidget(Anganwadi(self))
+        layout.addWidget(Anganwadi(self)); 
         self.setLayout(layout)
 
 

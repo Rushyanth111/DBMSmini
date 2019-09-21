@@ -15,9 +15,19 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import QAbstractTableModel
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
-from PyQt5.QtPrintSupport import QPrintDialog
+from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
+from PyQt5.QtGui import QPainter
+
+from reportlab.platypus import SimpleDocTemplate
+from reportlab.platypus.tables import Table as rTable,TableStyle
+from reportlab.lib.pagesizes import letter, landscape, A4
+from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+
+
 from FormDialog import FormDialog, Feilds, FeildSpecify
 from TableView import Table
+from CustomSQLQuery import QCustomQuery
 
 
 class Anganwadi(QWidget):
@@ -36,11 +46,11 @@ class Anganwadi(QWidget):
         tabs1 = QTabWidget(self)
         tabs2 = QTabWidget(self)
         tabs = QTabWidget(self)
-        
+
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName("projects.db")
         db.open()
-        
+
         tab_child = InsertAndTable(
             "Child",
             {
@@ -230,13 +240,20 @@ class Anganwadi(QWidget):
         tabs2.addTab(tab_Vaccination, "Vaccination")
         tabs2.addTab(tab_Child_Health, "Child Health")
         tabs2.addTab(tab_Pregnant_Ladies, "Pregnant Ladies.")
-        tabs.addTab(tabs1,"Part 1");
-        tabs.addTab(tabs2, "Part 2");
+        tabs.addTab(tabs1, "Part 1")
+        tabs.addTab(tabs2, "Part 2")
         return tabs
 
 
 class InsertAndTable(QWidget):
-    def __init__(self, Tablename, FeildForm, database, InsertQuery, parent=None):
+    def __init__(
+        self,
+        Tablename: str,
+        FeildForm: dict,
+        database: QSqlDatabase,
+        InsertQuery: str,
+        parent=None,
+    ):
         super().__init__(parent=parent)
         self.Tablename = Tablename
         self.database = database
@@ -247,8 +264,8 @@ class InsertAndTable(QWidget):
     def setInsertAndLayout(self):
         layout = QVBoxLayout(self)
 
-        layout1 = QHBoxLayout();
-        layout2 = QVBoxLayout();
+        layout1 = QHBoxLayout()
+        layout2 = QVBoxLayout()
         button = QPushButton("Input Data", self)
         button2 = QPushButton("Delete")
         button3 = QPushButton("Printer!")
@@ -256,14 +273,15 @@ class InsertAndTable(QWidget):
         button.clicked.connect(self.InsertShow)
         button2.clicked.connect(self.DeleteRow)
         button3.clicked.connect(self.Print)
+
         self.table = Table("projects.db", self.Tablename, self.database, self)
 
         layout1.addWidget(button)
         layout1.addWidget(button2)
         layout1.addWidget(button3)
         layout2.addWidget(self.table)
-        layout.addLayout(layout1);
-        layout.addLayout(layout2);
+        layout.addLayout(layout1)
+        layout.addLayout(layout2)
 
     def InsertShow(self):
         FormButton = FormDialog(self.Tablename, self.FeildForm, self)
@@ -279,5 +297,46 @@ class InsertAndTable(QWidget):
         self.table.refresh()
 
     def Print(self):
-        Page = QPrintDialog(self)
-        Page.exec_();
+        Records = QCustomQuery(
+            "Select * FROM " + self.Tablename, self.database
+        ).GetAllRecords()
+        AllCols = [
+            [
+                x[1]
+                for x in QCustomQuery(
+                    "PRAGMA table_info({})".format(self.Tablename), self.database
+                ).GetAllRecords()
+            ]
+        ]
+
+        NewList = []
+
+        for x in AllCols:
+            NewList.append(x)
+        for x in Records:
+            NewList.append(x)
+        print(NewList)
+        cm = 2.54
+        elements = []
+        doc = SimpleDocTemplate(
+            "Out.pdf",
+            rightMargin=0,
+            leftMargin=6 * cm,
+            topMargin=3 * cm,
+            bottomMargin=0,
+            hAlign="LEFT",
+            pagesize = landscape(A4)
+        )
+        table = rTable(NewList, hAlign="LEFT")
+        table.setStyle(
+            TableStyle(
+                [
+                    ("ALIGN", (0, 0), (-1, -1), "RIGHT"),
+                    ('GRID',(0,0),(-1,-1),0.5,colors.black),
+                    ("BOX", (0, 0), (-1, -1), 0.25, colors.black),
+                ]
+            )
+        )
+        elements.append(table)
+        doc.build(elements)
+
