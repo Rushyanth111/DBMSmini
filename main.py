@@ -30,7 +30,7 @@ class App(QMainWindow):
         self.setGeometry(posx, posy, width, height)
 
     def setTitle(self):
-        self.setWindowTitle("DBMS Mini Project")
+        self.setWindowTitle("Marsandra Anganwadi Database Management System")
 
     def setMenu(self):
         menu = self.menuBar()

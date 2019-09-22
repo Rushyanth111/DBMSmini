@@ -101,7 +101,7 @@ class Anganwadi(QWidget):
                 "Age": FeildSpecify(Feilds.Integer),
                 "Mothers Name(If child les than 6 Years)": FeildSpecify(Feilds.Text),
                 "Physical Disabilities": FeildSpecify(
-                    Feilds.Range, Range=["Blind", ""]
+                    Feilds.Range, Range=["Heart", "Mental","Blind","Hearing","Speaking"]
                 ),
                 "Residence of Anganwadi?": FeildSpecify(
                     Feilds.Range, Range=["Yes", "No"]
@@ -187,11 +187,11 @@ class Anganwadi(QWidget):
                 "Name": FeildSpecify(Feilds.Text),
                 "FatherName": FeildSpecify(Feilds.Text),
                 "MotherName": FeildSpecify(Feilds.Text),
-                "DOB": FeildSpecify(Feilds.Text),
+                "DOB": FeildSpecify(Feilds.Date),
                 "Caste": FeildSpecify(Feilds.Text),
                 "RegisterDate": FeildSpecify(Feilds.Text),
                 "Weight": FeildSpecify(Feilds.Real),
-                "DateOfArrival": FeildSpecify(Feilds.Text),
+                "DateOfArrival": FeildSpecify(Feilds.Date),
                 "Doctor'sName": FeildSpecify(Feilds.Text),
                 "OfficerSignature": FeildSpecify(Feilds.Text),
                 "Signature": FeildSpecify(Feilds.Text),
@@ -209,7 +209,7 @@ class Anganwadi(QWidget):
                 "Name": FeildSpecify(Feilds.Text),
                 "FatherName": FeildSpecify(Feilds.Text),
                 "NoOfSiblings": FeildSpecify(Feilds.Integer),
-                "DeliveryDate": FeildSpecify(Feilds.Text),
+                "DeliveryDate": FeildSpecify(Feilds.Date),
                 "PlaceOfBirth": FeildSpecify(Feilds.Text),
                 "MethodOfBirth": FeildSpecify(Feilds.Text),
                 "Weight": FeildSpecify(Feilds.Text),
