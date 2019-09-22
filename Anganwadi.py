@@ -101,7 +101,7 @@ class Anganwadi(QWidget):
                 "Age": FeildSpecify(Feilds.Integer),
                 "Mothers Name(If child les than 6 Years)": FeildSpecify(Feilds.Text),
                 "Physical Disabilities": FeildSpecify(
-                    Feilds.Range, Range=["Blind", ""]
+                    Feilds.Range, Range=["Heart", "Mental","Blind","Hearing","Speaking"]
                 ),
                 "Residence of Anganwadi?": FeildSpecify(
                     Feilds.Range, Range=["Yes", "No"]
