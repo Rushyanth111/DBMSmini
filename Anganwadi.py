@@ -12,6 +12,7 @@ from PyQt5.QtWidgets import (
     QLineEdit,
     QDialogButtonBox,
     QHBoxLayout,
+    QComboBox
 )
 from PyQt5.QtCore import QAbstractTableModel
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
@@ -273,7 +274,6 @@ class InsertAndTable(QWidget):
         button.clicked.connect(self.InsertShow)
         button2.clicked.connect(self.DeleteRow)
         button3.clicked.connect(self.Print)
-
         self.table = Table("projects.db", self.Tablename, self.database, self)
 
         layout1.addWidget(button)
@@ -295,7 +295,6 @@ class InsertAndTable(QWidget):
     def DeleteRow(self):
         self.table.model.removeRow(self.table.currentIndex().row())
         self.table.refresh()
-
     def Print(self):
         Records = QCustomQuery(
             "Select * FROM " + self.Tablename, self.database
