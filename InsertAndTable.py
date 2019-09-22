@@ -55,8 +55,16 @@ class InsertAndTable(QWidget):
         result = FormButton.exec_()
         if result == True:
             if self.InsertQuery != "":
-                ExecQuery = self.InsertQuery.format(*FormButton.GetAllFeildResponses())
+                CorrectedResponses = []
+                for x in FormButton.GetAllFeildResponses():
+                    if x == '':
+                        CorrectedResponses.append('NULL')
+                    else:
+                        CorrectedResponses.append(x)
+                ExecQuery = self.InsertQuery.format(*CorrectedResponses)
+                print(self.InsertQuery.format(*CorrectedResponses))
                 result = self.database.exec_(ExecQuery)
+                print(self.database.lastError().text())
                 self.table.refresh()
 
     def DeleteRow(self):
