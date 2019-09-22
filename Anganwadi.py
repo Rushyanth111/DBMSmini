@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QDialog, QHBoxLayout, QTabWidget, QVBoxLayout, QWidg
 
 from FormDialog import Feilds, FeildSpecify
 from InsertAndTable import InsertAndTable
-
+from SQLinit import SQLinit
 
 class Anganwadi(QWidget):
     def __init__(self, parent=None):
@@ -27,7 +27,7 @@ class Anganwadi(QWidget):
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName("projects.db")
         db.open()
-
+        SQLinit(db)
         tab_child = InsertAndTable(
             "Child",
             {
