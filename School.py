@@ -43,7 +43,7 @@ class School(QWidget):
 
         tab_Attendance = InsertAndTable(
             "Attendance", {
-                "AdmissionNo.": FieldSpecify(Fields.Int, True),
+                "AdmissionNo.": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
                 "English": FeildSpecify(Feilds.Text),
                 "Kannada": FeildSpecify(Feilds.Text),
@@ -57,25 +57,25 @@ class School(QWidget):
             """INSERT INTO Stationary VALUES({},'{}','{}','{}','{}','{}','{}','{}')""",
             self,
         )
-        tabs.addTab(tab_Admission, "Attendance")
+        tabs.addTab(tab_Attendance, "Attendance")
 
         tab_MidDay = InsertAndTable(
             "MidDay", {
-                "AdmissionNo.": FieldSpecify(Fields.Int, True),
+                "AdmissionNo.": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
-                "Quantity": FieldSpecify(Fields.Int, True),
+                "Quantity": FeildSpecify(Feilds.Integer, True),
 
             },
             db,
             """INSERT INTO Stationary VALUES({},'{}',{})""",
             self,
         )
-        tabs.addTab(tab_Admission, "MidDay")
+        tabs.addTab(tab_MidDay, "MidDay")
 
 
         tab_Stationary = InsertAndTable(
             "Stationary", {
-                "AdmissionNo.": FieldSpecify(Fields.Int, True),
+                "AdmissionNo.": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
                 "Books": FeildSpecify(Feilds.Text),
                 "Uniform": FeildSpecify(Feilds.Text),
@@ -86,18 +86,18 @@ class School(QWidget):
             """INSERT INTO Stationary VALUES({},'{}','{}','{}','{}','{}')""",
             self,
         )
-        tabs.addTab(tab_Admission, "Stationary")
+        tabs.addTab(tab_Stationary, "Stationary")
 
         tab_FA1 = InsertAndTable(
             "FA1", {
-                "AdmissionNo.": FieldSpecify(Fields.Int, True),
+                "AdmissionNo.": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
-                "English": FeildSpecify(Feilds.Int,True),
-                "Kannada": FeildSpecify(Feilds.Int,True),
-                "Mathematics": FeildSpecify(Feilds.Int,True),
-                "EVS": FeildSpecify(Feilds.Int,True),
-                "Science": FeildSpecify(Feilds.Int,True),
-                "Social Science": FeildSpecify(Feilds.Int,True),
+                "English": FeildSpecify(Feilds.Integer,True),
+                "Kannada": FeildSpecify(Feilds.Integer,True),
+                "Mathematics": FeildSpecify(Feilds.Integer,True),
+                "EVS": FeildSpecify(Feilds.Integer,True),
+                "Science": FeildSpecify(Feilds.Integer,True),
+                "Social Science": FeildSpecify(Feilds.Integer,True),
 
             },
             db,
@@ -108,15 +108,15 @@ class School(QWidget):
 
         tab_FA2 = InsertAndTable(
             "FA2", {
-                "AdmissionNo.": FieldSpecify(Fields.Int, True),
+                "AdmissionNo.": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
-                "Class": FeildSpecify(Feilds.Int, True),
-                "English": FeildSpecify(Feilds.Int, True),
-                "Kannada": FeildSpecify(Feilds.Int, True),
-                "Mathematics": FeildSpecify(Feilds.Int, True),
-                "EVS": FeildSpecify(Feilds.Int, True),
-                "Science": FeildSpecify(Feilds.Int, True),
-                "Social Science": FeildSpecify(Feilds.Int, True),
+                "Class": FeildSpecify(Feilds.Integer, True),
+                "English": FeildSpecify(Feilds.Integer, True),
+                "Kannada": FeildSpecify(Feilds.Integer, True),
+                "Mathematics": FeildSpecify(Feilds.Integer, True),
+                "EVS": FeildSpecify(Feilds.Integer, True),
+                "Science": FeildSpecify(Feilds.Integer, True),
+                "Social Science": FeildSpecify(Feilds.Integer, True),
 
             },
             db,
@@ -127,15 +127,15 @@ class School(QWidget):
 
         tab_FA3 = InsertAndTable(
             "FA3", {
-                "AdmissionNo.": FieldSpecify(Fields.Int, True),
+                "AdmissionNo.": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
-                "Class": FeildSpecify(Feilds.Int, True),
-                "English": FeildSpecify(Feilds.Int, True),
-                "Kannada": FeildSpecify(Feilds.Int, True),
-                "Mathematics": FeildSpecify(Feilds.Int, True),
-                "EVS": FeildSpecify(Feilds.Int, True),
-                "Science": FeildSpecify(Feilds.Int, True),
-                "Social Science": FeildSpecify(Feilds.Int, True),
+                "Class": FeildSpecify(Feilds.Integer, True),
+                "English": FeildSpecify(Feilds.Integer, True),
+                "Kannada": FeildSpecify(Feilds.Integer, True),
+                "Mathematics": FeildSpecify(Feilds.Integer, True),
+                "EVS": FeildSpecify(Feilds.Integer, True),
+                "Science": FeildSpecify(Feilds.Integer, True),
+                "Social Science": FeildSpecify(Feilds.Integer, True),
 
             },
             db,
@@ -146,15 +146,15 @@ class School(QWidget):
 
         tab_FA4 = InsertAndTable(
             "FA4", {
-                "AdmissionNo.": FieldSpecify(Fields.Int, True),
+                "AdmissionNo.": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
-                "Class": FeildSpecify(Feilds.Int, True),
-                "English": FeildSpecify(Feilds.Int, True),
-                "Kannada": FeildSpecify(Feilds.Int, True),
-                "Mathematics": FeildSpecify(Feilds.Int, True),
-                "EVS": FeildSpecify(Feilds.Int, True),
-                "Science": FeildSpecify(Feilds.Int, True),
-                "Social Science": FeildSpecify(Feilds.Int, True),
+                "Class": FeildSpecify(Feilds.Integer, True),
+                "English": FeildSpecify(Feilds.Integer, True),
+                "Kannada": FeildSpecify(Feilds.Integer, True),
+                "Mathematics": FeildSpecify(Feilds.Integer, True),
+                "EVS": FeildSpecify(Feilds.Integer, True),
+                "Science": FeildSpecify(Feilds.Integer, True),
+                "Social Science": FeildSpecify(Feilds.Integer, True),
 
             },
             db,
@@ -165,15 +165,15 @@ class School(QWidget):
 
         tab_SA1 = InsertAndTable(
             "SA1", {
-                "AdmissionNo.": FieldSpecify(Fields.Int, True),
+                "AdmissionNo.": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
-                "Class": FeildSpecify(Feilds.Int, True),
-                "English": FeildSpecify(Feilds.Int, True),
-                "Kannada": FeildSpecify(Feilds.Int, True),
-                "Mathematics": FeildSpecify(Feilds.Int, True),
-                "EVS": FeildSpecify(Feilds.Int, True),
-                "Science": FeildSpecify(Feilds.Int, True),
-                "Social Science": FeildSpecify(Feilds.Int, True),
+                "Class": FeildSpecify(Feilds.Integer, True),
+                "English": FeildSpecify(Feilds.Integer, True),
+                "Kannada": FeildSpecify(Feilds.Integer, True),
+                "Mathematics": FeildSpecify(Feilds.Integer, True),
+                "EVS": FeildSpecify(Feilds.Integer, True),
+                "Science": FeildSpecify(Feilds.Integer, True),
+                "Social Science": FeildSpecify(Feilds.Integer, True),
 
             },
             db,
@@ -184,22 +184,22 @@ class School(QWidget):
 
         tab_SA2 = InsertAndTable(
             "SA2", {
-                "AdmissionNo.": FieldSpecify(Fields.Int, True),
+                "AdmissionNo.": FeildSpecify(Feilds.Integer, True),
                 "Name": FeildSpecify(Feilds.Text),
-                "Class": FeildSpecify(Feilds.Int, True),
-                "English": FeildSpecify(Feilds.Int, True),
-                "Kannada": FeildSpecify(Feilds.Int, True),
-                "Mathematics": FeildSpecify(Feilds.Int, True),
-                "EVS": FeildSpecify(Feilds.Int, True),
-                "Science": FeildSpecify(Feilds.Int, True),
-                "Social Science": FeildSpecify(Feilds.Int, True),
+                "Class": FeildSpecify(Feilds.Integer, True),
+                "English": FeildSpecify(Feilds.Integer, True),
+                "Kannada": FeildSpecify(Feilds.Integer, True),
+                "Mathematics": FeildSpecify(Feilds.Integer, True),
+                "EVS": FeildSpecify(Feilds.Integer, True),
+                "Science": FeildSpecify(Feilds.Integer, True),
+                "Social Science": FeildSpecify(Feilds.Integer, True),
 
             },
             db,
             """INSERT INTO SA2 VALUES({},'{}',{},{},{},{},{},{},{})""",
             self,
         )
-        tabs.addTab(tab_SA2, "SA2")
+        '''tabs.addTab(tab_SA2, "SA2")'''
 
         tabs1.addTab(tab_Attendance, "Attendance")
         tabs1.addTab(tab_MidDay, "MidDay")
@@ -209,10 +209,10 @@ class School(QWidget):
         tabs2.addTab(tab_FA3, "FA3")
         tabs2.addTab(tab_FA4, "FA4")
         tabs2.addTab(tab_SA1, "SA1")
-        tabs2.addTab(tab_SA1, "SA2")
+        tabs2.addTab(tab_SA2, "SA2")
 
-        tabs.addTab(tabs1, "Part 1");
-        tabs.addTab(tabs2, "Part 2");
+        tabs.addTab(tabs1, "Students");
+        tabs.addTab(tabs2, "Performance");
         return tabs
 
 
