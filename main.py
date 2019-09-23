@@ -40,6 +40,8 @@ class CentralWidget(QWidget):
         layout = QVBoxLayout(self)
 
         layout.addWidget(Anganwadi(self))
+        layout.addWidget(School(self))
+
         self.setLayout(layout)
 
 
