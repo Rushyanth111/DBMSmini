@@ -52,9 +52,12 @@ class CentralWidget(QWidget):
         self.setAllLayouts()
 
     def setAllLayouts(self):
-        layout = QHBoxLayout();
+        layout = QHBoxLayout(self)
+        Tabs = QTabWidget(self)
 
-        layout.addWidget(Anganwadi(self)); 
+        Tabs.addTab(Anganwadi(self), "Anganwadi")
+        Tabs.addTab(School(self), "School")
+        layout.addWidget(Tabs)
         self.setLayout(layout)
 
 
