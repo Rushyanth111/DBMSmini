@@ -4,7 +4,7 @@ from PyQt5.QtSql import QSqlDatabase
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, landscape, letter
 from reportlab.pdfgen import canvas
-from reportlab.platypus import SimpleDocTemplate
+from reportlab.platypus import SimpleDocTemplate, PageBreak
 from reportlab.platypus.tables import Table as rTable
 from reportlab.platypus.tables import TableStyle
 
@@ -57,8 +57,8 @@ class InsertAndTable(QWidget):
             if self.InsertQuery != "":
                 CorrectedResponses = []
                 for x in FormButton.GetAllFeildResponses():
-                    if x == '':
-                        CorrectedResponses.append('NULL')
+                    if x == "":
+                        CorrectedResponses.append("NULL")
                     else:
                         CorrectedResponses.append(x)
                 ExecQuery = self.InsertQuery.format(*CorrectedResponses)
@@ -83,14 +83,6 @@ class InsertAndTable(QWidget):
                 ).GetAllRecords()
             ]
         ]
-
-        NewList = []
-
-        for x in AllCols:
-            NewList.append(x)
-        for x in Records:
-            NewList.append(x)
-        print(NewList)
         cm = 2.54
         elements = []
         doc = SimpleDocTemplate(
@@ -102,15 +94,48 @@ class InsertAndTable(QWidget):
             hAlign="LEFT",
             pagesize=landscape(A4),
         )
-        table = rTable(NewList, hAlign="LEFT")
-        table.setStyle(
-            TableStyle(
-                [
-                    ("ALIGN", (0, 0), (-1, -1), "RIGHT"),
-                    ("GRID", (0, 0), (-1, -1), 0.5, colors.black),
-                    ("BOX", (0, 0), (-1, -1), 0.25, colors.black),
-                ]
-            )
+
+        Style = TableStyle(
+            [
+                ("ALIGN", (0, 0), (-1, -1), "RIGHT"),
+                ("GRID", (0, 0), (-1, -1), 0.5, colors.black),
+                ("BOX", (0, 0), (-1, -1), 0.25, colors.black),
+            ]
         )
-        elements.append(table)
-        doc.build(elements)
+
+        NewList = []
+        for x in AllCols:
+            NewList.append(x)
+        for x in Records:
+            NewList.append(x)
+
+        if len(AllCols[0]) > 10:
+            NewList = list(map(list, zip(*NewList)))
+            isMore = False
+            if len(NewList) > 7:
+                NewLists = [NewList[i : i + 7] for i in range(0, len(NewList), 7)]
+                isMore = True
+                print(NewLists)
+            TableList = []
+            if isMore == True:
+                for x in NewLists:
+                    T = rTable(x, hAlign="LEFT")
+                    T.setStyle(Style)
+                    TableList.append(T)
+                    TableList.append(PageBreak())
+            else:
+                T = rTable(NewList, hAlign="LEFT")
+                T.setStyle(Style)
+                TableList.append(T)
+
+            for x in TableList:
+                elements.append(x)
+            
+            doc.build(elements)
+
+        else:
+
+            table = rTable(NewList, hAlign="LEFT", repeatRows=1)
+
+            elements.append(table)
+            doc.build(elements)
