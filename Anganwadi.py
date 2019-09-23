@@ -11,12 +11,24 @@ from PyQt5.QtWidgets import (
     QLabel,
     QLineEdit,
     QDialogButtonBox,
+    QHBoxLayout,
+    QComboBox
 )
 from PyQt5.QtCore import QAbstractTableModel
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
+from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
+from PyQt5.QtGui import QPainter
+
+from reportlab.platypus import SimpleDocTemplate
+from reportlab.platypus.tables import Table as rTable,TableStyle
+from reportlab.lib.pagesizes import letter, landscape, A4
+from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+
 
 from FormDialog import FormDialog, Feilds, FeildSpecify
 from TableView import Table
+from CustomSQLQuery import QCustomQuery
 
 
 class Anganwadi(QWidget):
@@ -32,6 +44,8 @@ class Anganwadi(QWidget):
         self.setLayout(layout)
 
     def makeInternalTabs(self):
+        tabs1 = QTabWidget(self)
+        tabs2 = QTabWidget(self)
         tabs = QTabWidget(self)
 
         db = QSqlDatabase.addDatabase("QSQLITE")
@@ -52,10 +66,118 @@ class Anganwadi(QWidget):
                 "Address": FeildSpecify(Feilds.Range, Range=["1", "2", "3", "4", "5"]),
             },
             db,
+            """INSERT INTO CHILD VALUES('{}',{},'{}','{}','{}','{}','{}','{}','{}')""",
+            self,
+        )
+        tab_daily = InsertAndTable(
+            "DailyFood",
+            {
+                "Sl.No": FeildSpecify(Feilds.Integer, True),
+                "Name(Child)": FeildSpecify(Feilds.Text),
+                "Wheat(Kgs)": FeildSpecify(Feilds.Real),
+                "Sugar(gms)": FeildSpecify(Feilds.Integer),
+                "Jaggery(gms)": FeildSpecify(Feilds.Integer),
+                "Milk(gms)": FeildSpecify(Feilds.Integer),
+                "Nutrient Mix(gms)": FeildSpecify(Feilds.Integer),
+                "Pulses(gms)": FeildSpecify(Feilds.Integer),
+                "Height": FeildSpecify(Feilds.Integer),
+                "Weight": FeildSpecify(Feilds.Integer),
+                "Signature": FeildSpecify(Feilds.Text),
+            },
+            db,
+            """INSERT INTO DailyFood VALUES({},'{}',{},{},{},{},{},{},{},{},'{}')""",
+            self,
+        )
+        tab_family = InsertAndTable(
+            "Family",
+            {
+                "Sl No.": FeildSpecify(Feilds.Integer, True),
+                "Survey No": FeildSpecify(Feilds.Integer),
+                "Name": FeildSpecify(Feilds.Text),
+                "Relation With Head": FeildSpecify(Feilds.Text),
+                "Gender": FeildSpecify(Feilds.Range, Range=["Male", "Female"]),
+                "Marital Status": FeildSpecify(Feilds.Range, Range=["Yes", "No"]),
+                "Date of Birth": FeildSpecify(Feilds.Date),
+                "Age": FeildSpecify(Feilds.Integer),
+                "Mothers Name(If child les than 6 Years)": FeildSpecify(Feilds.Text),
+                "Physical Disabilities": FeildSpecify(
+                    Feilds.Range, Range=["Blind", ""]
+                ),
+                "Residence of Anganwadi?": FeildSpecify(
+                    Feilds.Range, Range=["Yes", "No"]
+                ),
+                "Native of Marsandra?": FeildSpecify(Feilds.Range, Range=["Yes", "No"]),
+                "Date of Arrival": FeildSpecify(Feilds.Date),
+                "Date of Death": FeildSpecify(Feilds.Date),
+                "If Child, Has Lunch in School ": FeildSpecify(
+                    Feilds.Range, Range=["Yes", "No"]
+                ),
+            },
+            db,
+            """INSERT INTO Family VALUES({},{},'{}','{}','{}','{}','{}',{},'{}','{}','{}','{}','{}','{}','{}','')""",
+            self,
+        )
+        tab_Vaccination = InsertAndTable(
+            "Vaccination",
+            {
+                "Child's Name": FeildSpecify(Feilds.Text),
+                "Gender": FeildSpecify(Feilds.Range, Range=["Male", "Female"]),
+                "DOB": FeildSpecify(Feilds.Date),
+                "Registration Date": FeildSpecify(Feilds.Date),
+                "Polio": FeildSpecify(Feilds.Date),
+                "Hepatitis-0": FeildSpecify(Feilds.Date),
+                "BCG": FeildSpecify(Feilds.Date),
+                "DPT-1": FeildSpecify(Feilds.Date),
+                "Hepatitis-1": FeildSpecify(Feilds.Date),
+                "OPV": FeildSpecify(Feilds.Date),
+                "DPT-2": FeildSpecify(Feilds.Date),
+                "Hepatitis-2": FeildSpecify(Feilds.Date),
+                "OPV-2": FeildSpecify(Feilds.Date),
+                "DPT-3": FeildSpecify(Feilds.Date),
+                "Hepatitis-3": FeildSpecify(Feilds.Date),
+                "OPV-3": FeildSpecify(Feilds.Date),
+                "++MMR-1": FeildSpecify(Feilds.Date),
+                "+ life dose 1 ": FeildSpecify(Feilds.Date),
+                "DPT Booster": FeildSpecify(Feilds.Date),
+                "++MMR-2": FeildSpecify(Feilds.Date),
+                "Survived first Birth": FeildSpecify(Feilds.Date),
+            },
+            db,
+            """INSERT INTO VACCINATION VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')""",
             self,
         )
 
-        tabs.addTab(tab_child, "Child")
+        tab_Child_Health = InsertAndTable(
+            "CHILD_HEALTH",
+            {
+                "No.": FeildSpecify(Feilds.Real),
+                "Child's Name": FeildSpecify(Feilds.Text),
+                "Father's Name": FeildSpecify(Feilds.Text),
+                "Mother's Name": FeildSpecify(Feilds.Text),
+                "DOB": FeildSpecify(Feilds.Date),
+                "Weight": FeildSpecify(Feilds.Range, Range=["N", "M", "S"]),
+            },
+            db,
+            """INSERT INTO CHILD_HEALTH VALUES({},{},'{}','{}','{}','{}')""",
+            self,
+        )
+
+        tab_Pregnant_Ladies = InsertAndTable(
+            "PREGNANT_LADIES",
+            {
+                "Sl. No.": FeildSpecify(Feilds.Integer),
+                "Survey No.": FeildSpecify(Feilds.Integer),
+                "Name": FeildSpecify(Feilds.Text),
+                "Pregnant/Post-Delivery ?": FeildSpecify(
+                    Feilds.Range, Range=["Pregnant", "Post-Delivery"]
+                ),
+                "Date": FeildSpecify(Feilds.Date),
+                "Signature": FeildSpecify(Feilds.Text),
+            },
+            db,
+            """INSERT INTO PREGNANT_LADIES VALUES({},{},'{}','{}','{}','{}')""",
+            self,
+        )
 
         tab_Admission = InsertAndTable(
             "Admission",
@@ -76,9 +198,9 @@ class Anganwadi(QWidget):
                 "Address": FeildSpecify(Feilds.Text),
             },
             db,
+            """INSERT INTO Admission VALUES({},{},'{}','{}','{}','{}','{}','{}',{}.,'{}','{}','{}','{}','{}')""",
             self,
         )
-        tabs.addTab(tab_Admission, "Admission")
 
         tab_BirthRegister = InsertAndTable(
             "BirthRegister",
@@ -91,13 +213,11 @@ class Anganwadi(QWidget):
                 "PlaceOfBirth": FeildSpecify(Feilds.Text),
                 "MethodOfBirth": FeildSpecify(Feilds.Text),
                 "Weight": FeildSpecify(Feilds.Text),
-
             },
             db,
+            """INSERT INTO BirthRegister VALUES({},'{}','{}',{},'{}','{}','{}',{})""",
             self,
         )
-        tabs.addTab(tab_BirthRegister, "BirthRegister")
-
 
         tab_PTM = InsertAndTable(
             "PTM",
@@ -108,38 +228,114 @@ class Anganwadi(QWidget):
                 "Discussion": FeildSpecify(Feilds.Text),
             },
             db,
+            """INSERT INTO PTM VALUES({},'{}','{}','{}')""",
             self,
         )
-        tabs.addTab(tab_PTM, "PTM")
 
-
+        tabs1.addTab(tab_PTM, "PTM")
+        tabs1.addTab(tab_BirthRegister, "Birth Register")
+        tabs1.addTab(tab_Admission, "Admission")
+        tabs1.addTab(tab_child, "Child")
+        tabs1.addTab(tab_daily, "Daily Food")
+        tabs2.addTab(tab_family, "Family Census")
+        tabs2.addTab(tab_Vaccination, "Vaccination")
+        tabs2.addTab(tab_Child_Health, "Child Health")
+        tabs2.addTab(tab_Pregnant_Ladies, "Pregnant Ladies.")
+        tabs.addTab(tabs1, "Part 1")
+        tabs.addTab(tabs2, "Part 2")
         return tabs
 
 
 class InsertAndTable(QWidget):
-    def __init__(self, Tablename, FeildForm, database, parent=None):
+    def __init__(
+        self,
+        Tablename: str,
+        FeildForm: dict,
+        database: QSqlDatabase,
+        InsertQuery: str,
+        parent=None,
+    ):
         super().__init__(parent=parent)
         self.Tablename = Tablename
         self.database = database
         self.FeildForm = FeildForm
         self.setInsertAndLayout()
+        self.InsertQuery = InsertQuery
 
     def setInsertAndLayout(self):
         layout = QVBoxLayout(self)
-        button = QPushButton("Start", self)
+
+        layout1 = QHBoxLayout()
+        layout2 = QVBoxLayout()
+        button = QPushButton("Input Data", self)
+        button2 = QPushButton("Delete")
+        button3 = QPushButton("Printer!")
+
         button.clicked.connect(self.InsertShow)
+        button2.clicked.connect(self.DeleteRow)
+        button3.clicked.connect(self.Print)
+        self.table = Table("projects.db", self.Tablename, self.database, self)
 
-        table = Table("projects.db", self.Tablename, self.database, self)
-
-        layout.addWidget(button)
-        layout.addWidget(table)
+        layout1.addWidget(button)
+        layout1.addWidget(button2)
+        layout1.addWidget(button3)
+        layout2.addWidget(self.table)
+        layout.addLayout(layout1)
+        layout.addLayout(layout2)
 
     def InsertShow(self):
         FormButton = FormDialog(self.Tablename, self.FeildForm, self)
         result = FormButton.exec_()
         if result == True:
-            print("Accepted")
-            print(FormButton.GetAllFeildResponses())
-        else:
-            print("Rejected")
+            if self.InsertQuery != "":
+                ExecQuery = self.InsertQuery.format(*FormButton.GetAllFeildResponses())
+                result = self.database.exec_(ExecQuery)
+                self.table.refresh()
+
+    def DeleteRow(self):
+        self.table.model.removeRow(self.table.currentIndex().row())
+        self.table.refresh()
+    def Print(self):
+        Records = QCustomQuery(
+            "Select * FROM " + self.Tablename, self.database
+        ).GetAllRecords()
+        AllCols = [
+            [
+                x[1]
+                for x in QCustomQuery(
+                    "PRAGMA table_info({})".format(self.Tablename), self.database
+                ).GetAllRecords()
+            ]
+        ]
+
+        NewList = []
+
+        for x in AllCols:
+            NewList.append(x)
+        for x in Records:
+            NewList.append(x)
+        print(NewList)
+        cm = 2.54
+        elements = []
+        doc = SimpleDocTemplate(
+            "Out.pdf",
+            rightMargin=0,
+            leftMargin=6 * cm,
+            topMargin=3 * cm,
+            bottomMargin=0,
+            hAlign="LEFT",
+            pagesize = landscape(A4)
+        )
+        table = rTable(NewList, hAlign="LEFT")
+        table.setStyle(
+            TableStyle(
+                [
+                    ("ALIGN", (0, 0), (-1, -1), "RIGHT"),
+                    ('GRID',(0,0),(-1,-1),0.5,colors.black),
+                    ("BOX", (0, 0), (-1, -1), 0.25, colors.black),
+                ]
+            )
+        )
+        elements.append(table)
+        doc.build(elements)
 

@@ -8,10 +8,11 @@ from PyQt5.QtWidgets import (
     QTabWidget,
     QVBoxLayout,
     QHBoxLayout,
+    QLayout,
+    QMenuBar
 )
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
-
+from PyQt5.QtGui import QIcon, QDesktopServices
+from PyQt5.QtCore import pyqtSlot, QUrl
 from Anganwadi import Anganwadi
 
 from School import School
@@ -21,6 +22,7 @@ class App(QMainWindow):
         self.setLayout()
         self.setTitle()
         self.setCentralWidget(CentralWidget(self))
+        self.setMenu();
         self.show()
 
     def setLayout(self):
@@ -30,6 +32,19 @@ class App(QMainWindow):
     def setTitle(self):
         self.setWindowTitle("DBMS Mini Project")
 
+    def setMenu(self):
+        menu = self.menuBar()
+        HelpMenu = menu.addMenu("Help");
+        
+        Action = QAction("HELP",self);
+        Action.triggered.connect(self.openPDF)
+        
+        HelpMenu.addAction(Action)
+        
+        self.setMenuBar(menu);
+
+    def openPDF(self):
+        QDesktopServices.openUrl(QUrl.fromLocalFile("./Help.pdf"))
 
 class CentralWidget(QWidget):
     def __init__(self, parent):

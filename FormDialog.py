@@ -29,6 +29,8 @@ class Feilds(Enum):
 def FeildSpecify(Feild: Feilds, NotNull: bool = False, Range: list = []):
     return [Feild, NotNull, Range]
 
+def YNRange():
+    return ["Y","N"]
 
 class FormDialog(QDialog):
     def __init__(self, formName, FeildDict=None, parent=None):
@@ -58,13 +60,11 @@ class FormDialog(QDialog):
     def CreateForm(self):
         formGroupBox = QGroupBox("Form layout")
 
-        print("Using Feild Dict")
         layout = QFormLayout()
 
         self.LineEditArray = []
 
         keys = list(self.FeildDict.keys())
-        print(keys)
 
         for x in range(len(keys)):
             if self.FeildDict[keys[x]][0] == Feilds.Text:
