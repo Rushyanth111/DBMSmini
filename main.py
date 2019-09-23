@@ -59,6 +59,7 @@ class CentralWidget(QWidget):
         Tabs.addTab(Anganwadi(self), "Anganwadi")
         Tabs.addTab(School(self), "School")
         layout.addWidget(Tabs)
+
         self.setLayout(layout)
 
 

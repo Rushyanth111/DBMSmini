@@ -83,6 +83,14 @@ class InsertAndTable(QWidget):
                 ).GetAllRecords()
             ]
         ]
+
+        NewList = []
+
+        for x in AllCols:
+            NewList.append(x)
+        for x in Records:
+            NewList.append(x)
+        print(NewList)
         cm = 2.54
         elements = []
         doc = SimpleDocTemplate(
@@ -130,7 +138,7 @@ class InsertAndTable(QWidget):
 
             for x in TableList:
                 elements.append(x)
-            
+
             doc.build(elements)
 
         else:
