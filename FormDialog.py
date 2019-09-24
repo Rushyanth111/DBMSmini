@@ -6,9 +6,7 @@ from PyQt5.QtWidgets import (
     QDialogButtonBox,
     QVBoxLayout,
     QGroupBox,
-    QPushButton,
     QMessageBox,
-    QCalendarWidget,
     QDateEdit,
     QComboBox,
 )
@@ -29,15 +27,14 @@ class Feilds(Enum):
 def FeildSpecify(Feild: Feilds, NotNull: bool = False, Range: list = []):
     return [Feild, NotNull, Range]
 
+
 def YNRange():
-    return ["Y","N"]
+    return ["Y", "N"]
+
 
 class FormDialog(QDialog):
     def __init__(self, formName, FeildDict=None, parent=None):
         super().__init__(parent=parent)
-
-        ###self.Feilds = FeildNames
-        ##Set the FormName.
 
         self.FeildDict = FeildDict
         self.Responses = []
@@ -45,11 +42,11 @@ class FormDialog(QDialog):
         form = self.CreateForm()
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
 
-        ##Connect the ButtonBoxes to Various Things.
+        # Connect the ButtonBoxes to Various Things.
         buttonBox.accepted.connect(self.Accept)
         buttonBox.rejected.connect(self.reject)
 
-        ##Set the Widgets to the layouts.
+        # Set the Widgets to the layouts.
         layout = QVBoxLayout()
         layout.addWidget(form)
         layout.addWidget(buttonBox)
@@ -116,10 +113,7 @@ class FormDialog(QDialog):
                 self.Responses[x] = self.LineEditArray[x].currentText()
             else:
                 self.Responses[x] = (
-                    self.LineEditArray[x]
-                    .date()
-                    .toPyDate()
-                    .strftime("%Y-%m-%d")
+                    self.LineEditArray[x].date().toPyDate().strftime("%Y-%m-%d")
                 )
 
     # Custom Accept Function.
@@ -129,7 +123,7 @@ class FormDialog(QDialog):
         AllTestsPass = True
         keys = list(self.FeildDict.keys())
         for x in range(len(self.Responses)):
-            if self.FeildDict[keys[x]][1] == True and self.Responses[x] == "":
+            if self.FeildDict[keys[x]][1] is True and self.Responses[x] == "":
                 Q = QMessageBox()
                 Q.setIcon(QMessageBox.Critical)
                 Q.setStandardButtons(QMessageBox.Ok)
@@ -141,5 +135,5 @@ class FormDialog(QDialog):
                 Q.exec_()
                 AllTestsPass = False
                 break
-        if AllTestsPass == True:
+        if AllTestsPass is True:
             self.accept()

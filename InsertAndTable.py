@@ -2,14 +2,11 @@ from PyQt5.QtWidgets import QHBoxLayout, QPushButton, QVBoxLayout, QWidget
 from PyQt5.QtSql import QSqlDatabase
 
 from PyQt5.QtPrintSupport import QPrintDialog
-from CustomSQLQuery import QCustomQuery
 from FormDialog import FormDialog
 from TableView import Table
 
 from pandas import DataFrame
 import openpyxl
-import os
-import xlsxwriter
 import string
 
 
@@ -53,7 +50,7 @@ class InsertAndTable(QWidget):
     def InsertShow(self):
         FormButton = FormDialog(self.Tablename, self.FeildForm, self)
         result = FormButton.exec_()
-        if result == True:
+        if result is True:
             if self.InsertQuery != "":
                 ExecQuery = self.InsertQuery.format(*FormButton.GetAllFeildResponses())
                 result = self.database.exec_(ExecQuery)
@@ -68,7 +65,7 @@ class InsertAndTable(QWidget):
         Page = QPrintDialog(self)
         dec = Page.exec_()
 
-        ###Code added for creating the excel file
+        # Code added for creating the excel file
         if dec == 1:
             model = self.table.model
             data = []
@@ -82,7 +79,7 @@ class InsertAndTable(QWidget):
             dp = dict(enumerate(string.ascii_uppercase, 1))
             xlsFilepath = "./testing1.xlsx"
 
-            ### creating dataframes adding columns to the dataframe
+            # creating dataframes adding columns to the dataframe
             self.df = DataFrame(data)
             self.attr = list(self.FeildForm.keys())
             self.df.columns = self.attr

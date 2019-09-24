@@ -1,10 +1,11 @@
-from PyQt5.QtCore import QAbstractTableModel
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
 from PyQt5.QtWidgets import QTableView
 
-## Simple Table View.
+# Simple Table View.
+
+
 class Table(QTableView):
-    def __init__(self, databaseName, TableName, database, parent=None):
+    def __init__(self, databaseName, TableName, database: QSqlDatabase, parent=None):
         super().__init__(parent=parent)
         self.dbName = databaseName
         self.table = TableName
@@ -19,4 +20,3 @@ class Table(QTableView):
 
     def refresh(self):
         self.model.select()
-

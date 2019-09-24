@@ -1,11 +1,8 @@
 from PyQt5.QtSql import QSqlDatabase
-from PyQt5.QtWidgets import QHBoxLayout, QTabWidget, QVBoxLayout, QWidget
-from CustomSQLQuery import QCustomQuery
-from FormDialog import Feilds, FeildSpecify, FormDialog
+from PyQt5.QtWidgets import QTabWidget, QVBoxLayout, QWidget
+from FormDialog import Feilds, FeildSpecify
 from InsertAndTable import InsertAndTable
 from SQLinit import SQLinit
-from TableView import Table
-
 
 class Anganwadi(QWidget):
     def __init__(self, parent=None):

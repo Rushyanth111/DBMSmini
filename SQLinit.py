@@ -66,15 +66,15 @@ CREATE TABLE IF NOT EXISTS Family(
 
 CREATE TABLE IF NOT EXISTS CHILD(
     ID TEXT,
-    Aadhar_Number INT UNIQUE, 
+    Aadhar_Number INT UNIQUE,
     Name TEXT NOT NULL,
     Date_of_Birth Date,
-    Mother_Name TEXT NOT NULL, 
-    Mother_ID TEXT NOT NULL UNIQUE, 
-    Father_Name TEXT, 
-    Father_ID TEXT NOT NULL UNIQUE, 
-    Address TEXT, 
-    PRIMARY KEY(ID) 
+    Mother_Name TEXT NOT NULL,
+    Mother_ID TEXT NOT NULL UNIQUE,
+    Father_Name TEXT,
+    Father_ID TEXT NOT NULL UNIQUE,
+    Address TEXT,
+    PRIMARY KEY(ID)
 );
 
 
