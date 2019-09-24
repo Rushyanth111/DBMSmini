@@ -19,7 +19,7 @@ from PyQt5.QtCore import QAbstractTableModel
 from PyQt5.QtGui import QPainter
 from PyQt5.QtSql import QSqlDatabase
 from PyQt5.QtWidgets import QDialog, QHBoxLayout, QTabWidget, QVBoxLayout, QWidget
-
+from PyQt5.QtPrintSupport import QPrintDialog
 from FormDialog import Feilds, FeildSpecify
 from InsertAndTable import InsertAndTable
 from SQLinit import SQLinit
@@ -247,58 +247,4 @@ class Anganwadi(QWidget):
         tabs2.addTab(tab_Pregnant_Ladies, "Pregnant Ladies.")
         tabs.addTab(tabs1, "Part 1")
         tabs.addTab(tabs2, "Part 2")
-<<<<<<< HEAD
         return tabs
-=======
-        return tabs
-
-
-class InsertAndTable(QWidget):
-    def __init__(
-        self,
-        Tablename: str,
-        FeildForm: dict,
-        database: QSqlDatabase,
-        InsertQuery: str,
-        parent=None,
-    ):
-        super().__init__(parent=parent)
-        self.Tablename = Tablename
-        self.database = database
-        self.FeildForm = FeildForm
-        self.setInsertAndLayout()
-        self.InsertQuery = InsertQuery
-
-    def setInsertAndLayout(self):
-        layout = QVBoxLayout(self)
-
-        layout1 = QHBoxLayout()
-        layout2 = QVBoxLayout()
-        button = QPushButton("Input Data", self)
-        button2 = QPushButton("Delete")
-        button3 = QPushButton("Printer!")
-
-        button.clicked.connect(self.InsertShow)
-        button2.clicked.connect(self.DeleteRow)
-        button3.clicked.connect(self.Print)
-        self.table = Table("projects.db", self.Tablename, self.database, self)
-
-        layout1.addWidget(button)
-        layout1.addWidget(button2)
-        layout1.addWidget(button3)
-        layout2.addWidget(self.table)
-        layout.addLayout(layout1)
-        layout.addLayout(layout2)
-
-    def InsertShow(self):
-        FormButton = FormDialog(self.Tablename, self.FeildForm, self)
-        result = FormButton.exec_()
-        if result == True:
-            if self.InsertQuery != "":
-                ExecQuery = self.InsertQuery.format(*FormButton.GetAllFeildResponses())
-                result = self.database.exec_(ExecQuery)
-                self.table.refresh()
-
-    def DeleteRow(self):
-        self.table.model.removeRow(self.table.currentIndex().row())
-        self.table.refresh()
