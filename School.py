@@ -1,24 +1,9 @@
-from PyQt5.QtCore import QAbstractTableModel
-from PyQt5.QtPrintSupport import QPrintDialog
-from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
-from PyQt5.QtWidgets import (
-    QDialog,
-    QDialogButtonBox,
-    QFormLayout,
-    QGroupBox,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QMainWindow,
-    QPushButton,
-    QTableView,
-    QTabWidget,
-    QVBoxLayout,
-    QWidget,
-)
-
+from PyQt5.QtSql import QSqlDatabase
+from PyQt5.QtWidgets import QHBoxLayout, QTabWidget, QVBoxLayout, QWidget
+from CustomSQLQuery import QCustomQuery
 from FormDialog import Feilds, FeildSpecify, FormDialog
 from InsertAndTable import InsertAndTable
+from SQLinit import SQLinit
 from TableView import Table
 
 
