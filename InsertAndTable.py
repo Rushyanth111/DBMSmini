@@ -12,6 +12,11 @@ from CustomSQLQuery import QCustomQuery
 from FormDialog import FormDialog
 from TableView import Table
 
+import pandas as pd
+import openpyxl
+import os
+import xlsxwriter
+import string
 
 class InsertAndTable(QWidget):
     def __init__(
@@ -46,104 +51,107 @@ class InsertAndTable(QWidget):
         layout1.addWidget(button)
         layout1.addWidget(button2)
         layout1.addWidget(button3)
-        layout2.addWidget(self.table)
-        layout.addLayout(layout1)
-        layout.addLayout(layout2)
+        layout2.addWidget(self.table);
+        layout.addLayout(layout1);
+        layout.addLayout(layout2);
 
     def InsertShow(self):
         FormButton = FormDialog(self.Tablename, self.FeildForm, self)
         result = FormButton.exec_()
         if result == True:
             if self.InsertQuery != "":
-                CorrectedResponses = []
-                for x in FormButton.GetAllFeildResponses():
-                    if x == "":
-                        CorrectedResponses.append("NULL")
-                    else:
-                        CorrectedResponses.append(x)
-                ExecQuery = self.InsertQuery.format(*CorrectedResponses)
-                print(self.InsertQuery.format(*CorrectedResponses))
+                ExecQuery = self.InsertQuery.format(*FormButton.GetAllFeildResponses())
                 result = self.database.exec_(ExecQuery)
-                print(self.database.lastError().text())
                 self.table.refresh()
+
 
     def DeleteRow(self):
         self.table.model.removeRow(self.table.currentIndex().row())
         self.table.refresh()
 
+
     def Print(self):
-        Records = QCustomQuery(
-            "Select * FROM " + self.Tablename, self.database
-        ).GetAllRecords()
-        AllCols = [
-            [
-                x[1]
-                for x in QCustomQuery(
-                    "PRAGMA table_info({})".format(self.Tablename), self.database
-                ).GetAllRecords()
-            ]
-        ]
 
-        NewList = []
+        Page = QPrintDialog(self)   
+        dec = Page.exec_()
+        
+        ###Code added for creating the excel file
+        if dec==1:
+            model = self.table.model
+            data = []
+            for row in range(model.rowCount()):
+                data.append([])
+                for column in range(model.columnCount()):
+                    index = model.index(row, column)
+                    data[row].append(str(model.data(index)))
 
-        for x in AllCols:
-            NewList.append(x)
-        for x in Records:
-            NewList.append(x)
-        print(NewList)
-        cm = 2.54
-        elements = []
-        doc = SimpleDocTemplate(
-            "Out.pdf",
-            rightMargin=0,
-            leftMargin=6 * cm,
-            topMargin=3 * cm,
-            bottomMargin=0,
-            hAlign="LEFT",
-            pagesize=landscape(A4),
-        )
+            #for formatting excels
+            dp = dict(enumerate(string.ascii_uppercase, 1))
+            xlsFilepath = 'testing1.xlsx'
 
-        Style = TableStyle(
-            [
-                ("ALIGN", (0, 0), (-1, -1), "RIGHT"),
-                ("GRID", (0, 0), (-1, -1), 0.5, colors.black),
-                ("BOX", (0, 0), (-1, -1), 0.25, colors.black),
-            ]
-        )
+            ### creating dataframes adding columns to the dataframe
+            self.df = pd.DataFrame(data)
+            self.attr = list(self.FeildForm.keys())
+            self.df.columns = self.attr
+            self.no_of_attr = len(self.df.columns)
+            
+            #greater than  or equal to 7 no_of_attr
+            if self.no_of_attr >= 7 :
 
-        NewList = []
-        for x in AllCols:
-            NewList.append(x)
-        for x in Records:
-            NewList.append(x)
 
-        if len(AllCols[0]) > 10:
-            NewList = list(map(list, zip(*NewList)))
-            isMore = False
-            if len(NewList) > 7:
-                NewLists = [NewList[i : i + 7] for i in range(0, len(NewList), 7)]
-                isMore = True
-                print(NewLists)
-            TableList = []
-            if isMore == True:
-                for x in NewLists:
-                    T = rTable(x, hAlign="LEFT")
-                    T.setStyle(Style)
-                    TableList.append(T)
-                    TableList.append(PageBreak())
+                self.df=self.df.transpose()
+        
+                self.df.to_excel("testing1.xlsx")
+
+                wb = openpyxl.load_workbook("testing1.xlsx") 
+                sheet = wb.active
+            
+                column_len = len(max(self.df.index))
+                sheet.column_dimensions[dp[1]].width = column_len + 5
+            
+            
+                for x,y in enumerate(self.df.columns):
+
+                    column_len = self.df[x].astype(str).str.len().max()                
+                    print(dp[x+2])
+                    sheet.column_dimensions[dp[x+2]].width = column_len+5
+
+                wb.save(xlsFilepath)
+            #for no_of_attributes <7
             else:
-                T = rTable(NewList, hAlign="LEFT")
-                T.setStyle(Style)
-                TableList.append(T)
+        
+                self.df.to_excel("testing1.xlsx")
 
-            for x in TableList:
-                elements.append(x)
+                wb = openpyxl.load_workbook("testing1.xlsx") 
+                sheet = wb.active
+            
+                for x,y in enumerate(self.df.columns):
 
-            doc.build(elements)
+                    column_len = len(max(self.df[self.df.columns[x]]))
+                    
+                    column_attr_len =len(self.df.columns[x])
 
-        else:
+                    print("cl=",column_len," attr =", column_attr_len)
+                    
+                    column_len = column_len if column_len >= column_attr_len else column_attr_len
+                    
+                    sheet.column_dimensions[dp[x+2]].width = column_len +5
+                    print(dp[x+1], column_len+5)
 
-            table = rTable(NewList, hAlign="LEFT", repeatRows=1)
+                sheet.column_dimensions[dp[x+2]].width = column_len +5
+                print(dp[x+2], column_len+5)
 
-            elements.append(table)
-            doc.build(elements)
+
+                wb.save(xlsFilepath)
+
+
+
+            
+            try:
+                os.system('lp testing1.xlsx')
+            except:
+                print(Exception)
+            try:
+                os.system('rm testing1.xlsx')
+            except:
+                print(Exception)

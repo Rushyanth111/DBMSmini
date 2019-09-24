@@ -6,6 +6,20 @@ from PyQt5.QtWidgets import QDialog, QHBoxLayout, QTabWidget, QVBoxLayout, QWidg
 from FormDialog import Feilds, FeildSpecify
 from InsertAndTable import InsertAndTable
 from SQLinit import SQLinit
+from reportlab.platypus import SimpleDocTemplate
+from reportlab.platypus.tables import Table as rTable,TableStyle
+from reportlab.lib.pagesizes import letter, landscape, A4
+from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+
+
+from FormDialog import FormDialog, Feilds, FeildSpecify
+from TableView import Table
+from CustomSQLQuery import QCustomQuery
+
+#from import DataFrame
+
+
 
 class Anganwadi(QWidget):
     def __init__(self, parent=None):
@@ -217,6 +231,6 @@ class Anganwadi(QWidget):
         tabs2.addTab(tab_Vaccination, "Vaccination")
         tabs2.addTab(tab_Child_Health, "Child Health")
         tabs2.addTab(tab_Pregnant_Ladies, "Pregnant Ladies.")
-        tabs.addTab(tabs1, "Part 1")
+        tabs.addTab(tabs1,"Part 1")
         tabs.addTab(tabs2, "Part 2")
         return tabs
