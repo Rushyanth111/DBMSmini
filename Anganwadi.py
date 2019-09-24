@@ -1,3 +1,4 @@
+
 from PyQt5.QtWidgets import (
     QVBoxLayout,
     QTabWidget,
@@ -12,15 +13,18 @@ from PyQt5.QtWidgets import (
     QLineEdit,
     QDialogButtonBox,
     QHBoxLayout,
-    QComboBox
+    QComboBox,
 )
 from PyQt5.QtCore import QAbstractTableModel
-from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
-from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
 from PyQt5.QtGui import QPainter
-
+from PyQt5.QtSql import QSqlDatabase
+from PyQt5.QtWidgets import QDialog, QHBoxLayout, QTabWidget, QVBoxLayout, QWidget
+from PyQt5.QtPrintSupport import QPrintDialog
+from FormDialog import Feilds, FeildSpecify
+from InsertAndTable import InsertAndTable
+from SQLinit import SQLinit
 from reportlab.platypus import SimpleDocTemplate
-from reportlab.platypus.tables import Table as rTable,TableStyle
+from reportlab.platypus.tables import Table as rTable, TableStyle
 from reportlab.lib.pagesizes import letter, landscape, A4
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
@@ -51,7 +55,7 @@ class Anganwadi(QWidget):
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName("projects.db")
         db.open()
-
+        SQLinit(db)
         tab_child = InsertAndTable(
             "Child",
             {
@@ -101,7 +105,7 @@ class Anganwadi(QWidget):
                 "Age": FeildSpecify(Feilds.Integer),
                 "Mothers Name(If child les than 6 Years)": FeildSpecify(Feilds.Text),
                 "Physical Disabilities": FeildSpecify(
-                    Feilds.Range, Range=["Blind", ""]
+                    Feilds.Range, Range=["","Blind"]
                 ),
                 "Residence of Anganwadi?": FeildSpecify(
                     Feilds.Range, Range=["Yes", "No"]
@@ -244,98 +248,3 @@ class Anganwadi(QWidget):
         tabs.addTab(tabs1, "Part 1")
         tabs.addTab(tabs2, "Part 2")
         return tabs
-
-
-class InsertAndTable(QWidget):
-    def __init__(
-        self,
-        Tablename: str,
-        FeildForm: dict,
-        database: QSqlDatabase,
-        InsertQuery: str,
-        parent=None,
-    ):
-        super().__init__(parent=parent)
-        self.Tablename = Tablename
-        self.database = database
-        self.FeildForm = FeildForm
-        self.setInsertAndLayout()
-        self.InsertQuery = InsertQuery
-
-    def setInsertAndLayout(self):
-        layout = QVBoxLayout(self)
-
-        layout1 = QHBoxLayout()
-        layout2 = QVBoxLayout()
-        button = QPushButton("Input Data", self)
-        button2 = QPushButton("Delete")
-        button3 = QPushButton("Printer!")
-
-        button.clicked.connect(self.InsertShow)
-        button2.clicked.connect(self.DeleteRow)
-        button3.clicked.connect(self.Print)
-        self.table = Table("projects.db", self.Tablename, self.database, self)
-
-        layout1.addWidget(button)
-        layout1.addWidget(button2)
-        layout1.addWidget(button3)
-        layout2.addWidget(self.table)
-        layout.addLayout(layout1)
-        layout.addLayout(layout2)
-
-    def InsertShow(self):
-        FormButton = FormDialog(self.Tablename, self.FeildForm, self)
-        result = FormButton.exec_()
-        if result == True:
-            if self.InsertQuery != "":
-                ExecQuery = self.InsertQuery.format(*FormButton.GetAllFeildResponses())
-                result = self.database.exec_(ExecQuery)
-                self.table.refresh()
-
-    def DeleteRow(self):
-        self.table.model.removeRow(self.table.currentIndex().row())
-        self.table.refresh()
-    def Print(self):
-        Records = QCustomQuery(
-            "Select * FROM " + self.Tablename, self.database
-        ).GetAllRecords()
-        AllCols = [
-            [
-                x[1]
-                for x in QCustomQuery(
-                    "PRAGMA table_info({})".format(self.Tablename), self.database
-                ).GetAllRecords()
-            ]
-        ]
-
-        NewList = []
-
-        for x in AllCols:
-            NewList.append(x)
-        for x in Records:
-            NewList.append(x)
-        print(NewList)
-        cm = 2.54
-        elements = []
-        doc = SimpleDocTemplate(
-            "Out.pdf",
-            rightMargin=0,
-            leftMargin=6 * cm,
-            topMargin=3 * cm,
-            bottomMargin=0,
-            hAlign="LEFT",
-            pagesize = landscape(A4)
-        )
-        table = rTable(NewList, hAlign="LEFT")
-        table.setStyle(
-            TableStyle(
-                [
-                    ("ALIGN", (0, 0), (-1, -1), "RIGHT"),
-                    ('GRID',(0,0),(-1,-1),0.5,colors.black),
-                    ("BOX", (0, 0), (-1, -1), 0.25, colors.black),
-                ]
-            )
-        )
-        elements.append(table)
-        doc.build(elements)
-
