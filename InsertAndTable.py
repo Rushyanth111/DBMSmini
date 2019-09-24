@@ -2,19 +2,11 @@ from PyQt5.QtWidgets import QHBoxLayout, QPushButton, QVBoxLayout, QWidget
 from PyQt5.QtSql import QSqlDatabase
 
 from PyQt5.QtPrintSupport import QPrintDialog
-
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import A4, landscape, letter
-from reportlab.pdfgen import canvas
-from reportlab.platypus import SimpleDocTemplate, PageBreak
-from reportlab.platypus.tables import Table as rTable
-from reportlab.platypus.tables import TableStyle
-
 from CustomSQLQuery import QCustomQuery
 from FormDialog import FormDialog
 from TableView import Table
 
-import pandas as pd
+from pandas import DataFrame
 import openpyxl
 import os
 import xlsxwriter
@@ -88,10 +80,10 @@ class InsertAndTable(QWidget):
 
             # for formatting excels
             dp = dict(enumerate(string.ascii_uppercase, 1))
-            xlsFilepath = "testing1.xlsx"
+            xlsFilepath = "./testing1.xlsx"
 
             ### creating dataframes adding columns to the dataframe
-            self.df = pd.DataFrame(data)
+            self.df = DataFrame(data)
             self.attr = list(self.FeildForm.keys())
             self.df.columns = self.attr
             self.no_of_attr = len(self.df.columns)
@@ -143,12 +135,3 @@ class InsertAndTable(QWidget):
                 print(dp[x + 2], column_len + 5)
 
                 wb.save(xlsFilepath)
-
-            try:
-                os.system("lp testing1.xlsx")
-            except:
-                print(Exception)
-            try:
-                os.system("rm testing1.xlsx")
-            except:
-                print(Exception)
