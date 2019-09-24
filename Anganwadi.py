@@ -1,38 +1,10 @@
-
-from PyQt5.QtWidgets import (
-    QVBoxLayout,
-    QTabWidget,
-    QWidget,
-    QTableView,
-    QDialog,
-    QMainWindow,
-    QPushButton,
-    QGroupBox,
-    QFormLayout,
-    QLabel,
-    QLineEdit,
-    QDialogButtonBox,
-    QHBoxLayout,
-    QComboBox,
-)
-from PyQt5.QtCore import QAbstractTableModel
-from PyQt5.QtGui import QPainter
 from PyQt5.QtSql import QSqlDatabase
-from PyQt5.QtWidgets import QDialog, QHBoxLayout, QTabWidget, QVBoxLayout, QWidget
-from PyQt5.QtPrintSupport import QPrintDialog
-from FormDialog import Feilds, FeildSpecify
+from PyQt5.QtWidgets import QHBoxLayout, QTabWidget, QVBoxLayout, QWidget
+from CustomSQLQuery import QCustomQuery
+from FormDialog import Feilds, FeildSpecify, FormDialog
 from InsertAndTable import InsertAndTable
 from SQLinit import SQLinit
-from reportlab.platypus import SimpleDocTemplate
-from reportlab.platypus.tables import Table as rTable, TableStyle
-from reportlab.lib.pagesizes import letter, landscape, A4
-from reportlab.pdfgen import canvas
-from reportlab.lib import colors
-
-
-from FormDialog import FormDialog, Feilds, FeildSpecify
 from TableView import Table
-from CustomSQLQuery import QCustomQuery
 
 
 class Anganwadi(QWidget):
@@ -105,7 +77,7 @@ class Anganwadi(QWidget):
                 "Age": FeildSpecify(Feilds.Integer),
                 "Mothers Name(If child les than 6 Years)": FeildSpecify(Feilds.Text),
                 "Physical Disabilities": FeildSpecify(
-                    Feilds.Range, Range=["","Blind"]
+                    Feilds.Range, Range=["", "Blind"]
                 ),
                 "Residence of Anganwadi?": FeildSpecify(
                     Feilds.Range, Range=["Yes", "No"]
