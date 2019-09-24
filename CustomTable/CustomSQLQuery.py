@@ -5,33 +5,30 @@ class QCustomQuery(QSqlQuery):
     def __init__(self, db=QSqlDatabase()):
         super().__init__(db=db)
 
-    def executeQuery(self, Query) -> list:
+    def ExecuteQuery(self, Query) -> list:
         self.exec_(Query)
-        Res = []
+        Result = []
         while self.next():
-            InRes = []
+            CurrentRow = []
             for x in range(self.record().count()):
-                InRes.append(self.value(x))
-            Res.append(InRes)
-        return Res
+                CurrentRow.append(self.value(x))
+            Result.append(CurrentRow)
+        return Result
 
     def ObtainColoumnTypes(self, TableName: str) -> list:
         PragmaString = """PRAGMA table_info({})""".format(TableName)
-        Types = [x[2] for x in self.executeQuery(PragmaString)]
-        return Types
+        Result = [x[2] for x in self.ExecuteQuery(PragmaString)]
+        return Result
 
-    def GenerateInsertStatement(self, TableName: str):
+    def GenerateInsertStatement(self, TableName: str) -> str:
         pass
 
-    def Insert(self, InsertArguments: str):
-        pass
-
-    def SelectionCritera(self, SelectionQuery: str):
+    def Insert(self, InsertArguments: str) -> bool:
         pass
 
 
 A = QSqlDatabase.addDatabase("QSQLITE")
 A.setDatabaseName("projects.db")
 A.open()
-B = QCustomQuery("", A)
+B = QCustomQuery()
 B.ObtainColoumnTypes("Admission")
