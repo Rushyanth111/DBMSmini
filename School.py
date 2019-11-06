@@ -8,8 +8,9 @@ from TableView import Table
 
 
 class School(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, database, parent=None):
         super().__init__(parent=parent)
+        self.database = database
         self.setInternalCategory()
 
     def setInternalCategory(self):
@@ -23,10 +24,7 @@ class School(QWidget):
         tabs1 = QTabWidget(self)
         tabs2 = QTabWidget(self)
         tabs = QTabWidget(self)
-
-        db = QSqlDatabase.addDatabase("QSQLITE")
-        db.setDatabaseName("projects.db")
-        db.open()
+        db = self.database
 
         tab_Attendance = InsertAndTable(
             "Attendance",
@@ -41,7 +39,7 @@ class School(QWidget):
                 "Social Science": FeildSpecify(Feilds.Text),
             },
             db,
-            """INSERT INTO Stationary VALUES({},'{}','{}','{}','{}','{}','{}','{}')""",
+            """INSERT INTO Attendance VALUES({},'{}','{}','{}','{}','{}','{}','{}')""",
             self,
         )
         tabs.addTab(tab_Attendance, "Attendance")

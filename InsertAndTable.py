@@ -2,14 +2,11 @@ from PyQt5.QtWidgets import QHBoxLayout, QPushButton, QVBoxLayout, QWidget
 from PyQt5.QtSql import QSqlDatabase
 
 from PyQt5.QtPrintSupport import QPrintDialog
-from CustomSQLQuery import QCustomQuery
 from FormDialog import FormDialog
 from TableView import Table
 
 from pandas import DataFrame
 import openpyxl
-import os
-import xlsxwriter
 import string
 
 

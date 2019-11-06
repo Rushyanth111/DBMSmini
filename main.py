@@ -11,9 +11,11 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
+from PyQt5.QtSql import QSqlDatabase
 from Anganwadi import Anganwadi
 from School import School
+
+from SQLinit import SQLinit
 
 
 class App(QMainWindow):
@@ -55,8 +57,13 @@ class CentralWidget(QWidget):
     def setAllLayouts(self):
         layout = QHBoxLayout(self)
         Tabs = QTabWidget(self)
-        Tabs.addTab(Anganwadi(self), "Anganwadi")
-        Tabs.addTab(School(self), "School")
+
+        db = QSqlDatabase.addDatabase("QSQLITE")
+        db.setDatabaseName("projects.db")
+        db.open()
+        SQLinit(db)
+        Tabs.addTab(Anganwadi(db, self), "Anganwadi")
+        Tabs.addTab(School(db, self), "School")
         layout.addWidget(Tabs)
         self.setLayout(layout)
 

@@ -8,8 +8,9 @@ from TableView import Table
 
 
 class Anganwadi(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, database, parent=None):
         super().__init__(parent=parent)
+        self.database = database
         self.setInternalCategory()
 
     def setInternalCategory(self):
@@ -24,10 +25,6 @@ class Anganwadi(QWidget):
         tabs2 = QTabWidget(self)
         tabs = QTabWidget(self)
 
-        db = QSqlDatabase.addDatabase("QSQLITE")
-        db.setDatabaseName("projects.db")
-        db.open()
-        SQLinit(db)
         tab_child = InsertAndTable(
             "Child",
             {
@@ -41,7 +38,7 @@ class Anganwadi(QWidget):
                 "Father_ID": FeildSpecify(Feilds.Text),
                 "Address": FeildSpecify(Feilds.Range, Range=["1", "2", "3", "4", "5"]),
             },
-            db,
+            self.database,
             """INSERT INTO CHILD VALUES('{}',{},'{}','{}','{}','{}','{}','{}','{}')""",
             self,
         )
@@ -60,7 +57,7 @@ class Anganwadi(QWidget):
                 "Weight": FeildSpecify(Feilds.Integer),
                 "Signature": FeildSpecify(Feilds.Text),
             },
-            db,
+            self.database,
             """INSERT INTO DailyFood VALUES({},'{}',{},{},{},{},{},{},{},{},'{}')""",
             self,
         )
@@ -89,7 +86,7 @@ class Anganwadi(QWidget):
                     Feilds.Range, Range=["Yes", "No"]
                 ),
             },
-            db,
+            self.database,
             """INSERT INTO Family VALUES({},{},'{}','{}','{}','{}','{}',{},'{}','{}','{}','{}','{}','{}','{}','')""",
             self,
         )
@@ -118,7 +115,7 @@ class Anganwadi(QWidget):
                 "++MMR-2": FeildSpecify(Feilds.Date),
                 "Survived first Birth": FeildSpecify(Feilds.Date),
             },
-            db,
+            self.database,
             """INSERT INTO VACCINATION VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')""",
             self,
         )
@@ -133,7 +130,7 @@ class Anganwadi(QWidget):
                 "DOB": FeildSpecify(Feilds.Date),
                 "Weight": FeildSpecify(Feilds.Range, Range=["N", "M", "S"]),
             },
-            db,
+            self.database,
             """INSERT INTO CHILD_HEALTH VALUES({},{},'{}','{}','{}','{}')""",
             self,
         )
@@ -150,7 +147,7 @@ class Anganwadi(QWidget):
                 "Date": FeildSpecify(Feilds.Date),
                 "Signature": FeildSpecify(Feilds.Text),
             },
-            db,
+            self.database,
             """INSERT INTO PREGNANT_LADIES VALUES({},{},'{}','{}','{}','{}')""",
             self,
         )
@@ -173,7 +170,7 @@ class Anganwadi(QWidget):
                 "Signature": FeildSpecify(Feilds.Text),
                 "Address": FeildSpecify(Feilds.Text),
             },
-            db,
+            self.database,
             """INSERT INTO Admission VALUES({},{},'{}','{}','{}','{}','{}','{}',{}.,'{}','{}','{}','{}','{}')""",
             self,
         )
@@ -190,7 +187,7 @@ class Anganwadi(QWidget):
                 "MethodOfBirth": FeildSpecify(Feilds.Text),
                 "Weight": FeildSpecify(Feilds.Text),
             },
-            db,
+            self.database,
             """INSERT INTO BirthRegister VALUES({},'{}','{}',{},'{}','{}','{}',{})""",
             self,
         )
@@ -203,7 +200,7 @@ class Anganwadi(QWidget):
                 "Guardian'sName": FeildSpecify(Feilds.Text),
                 "Discussion": FeildSpecify(Feilds.Text),
             },
-            db,
+            self.database,
             """INSERT INTO PTM VALUES({},'{}','{}','{}')""",
             self,
         )
