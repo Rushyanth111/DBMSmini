@@ -9,7 +9,7 @@ Query = """CREATE TABLE IF NOT EXISTS Admission(
                 DOB Text,
                 Caste Text,
                 RegisterDate Text,
-                Weight float,
+                Weight Float,
                 DateOfArrival Text,
                 DoctorName Text,
                 OfficerSignature Text,
@@ -30,12 +30,12 @@ CREATE TABLE IF NOT EXISTS BirthRegister(
                 DeliveryDate Text,
                 PlaceOfBirth Text,
                 MethodOfBirth Text,
-                Weight float);
+                Weight Float);
 
 CREATE TABLE IF NOT EXISTS DailyFood(
                 SNo Integer PRIMARY KEY,
                 Name Text,
-                Wheat FLOAT,
+                Wheat Float,
                 Sugar Integer,
                 Jaggery Integer,
                 Milk Integer,
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS Family(
                 Relation Text,
                 Gender Text,
                 Marriage Text,
-                DOB DATE,
+                DOB Date,
                 Age Integer,
                 Mothers_name Text,
                 PhysicalDisabilities Text,
@@ -65,22 +65,22 @@ CREATE TABLE IF NOT EXISTS Family(
                 Signature Text);
 
 CREATE TABLE IF NOT EXISTS CHILD(
-    ID TEXT,
-    Aadhar_Number INT UNIQUE,
-    Name TEXT NOT NULL,
+    ID Text,
+    Aadhar_Number Integer UNIQUE,
+    Name Text NOT NULL,
     Date_of_Birth Date,
-    Mother_Name TEXT NOT NULL,
-    Mother_ID TEXT NOT NULL UNIQUE,
-    Father_Name TEXT,
-    Father_ID TEXT NOT NULL UNIQUE,
-    Address TEXT,
+    Mother_Name Text NOT NULL,
+    Mother_ID Text NOT NULL UNIQUE,
+    Father_Name Text,
+    Father_ID Text NOT NULL UNIQUE,
+    Address Text,
     PRIMARY KEY(ID)
 );
 
 
 CREATE TABLE IF NOT EXISTS VACCINATION(
-    Child_Name TEXT,
-    Gender TEXT,
+    Child_Name Text,
+    Gender Text,
     DOB DATE,
     Registration_Date DATE,
     Polio DATE,
@@ -105,20 +105,20 @@ CREATE TABLE IF NOT EXISTS VACCINATION(
 
 CREATE TABLE IF NOT EXISTS CHILD_HEALTH(
     No INTEGER,
-    Child_Name TEXT,
-    Father_Name TEXT,
-    Mother_Name TEXT,
+    Child_Name Text,
+    Father_Name Text,
+    Mother_Name Text,
     DOB DATE,
-    Weight TEXT
+    Weight Text
     );
 
 CREATE TABLE IF NOT EXISTS PREGNANT_LADIES(
-    Sl_No INT,
-    Survey_No INT,
-    Name TEXT,
-    Pregnancy_status TEXT,
+    Sl_No Integer,
+    Survey_No Integer,
+    Name Text,
+    Pregnancy_status Text,
     Date_ DATE,
-    Signature TEXT
+    Signature Text
     );
 CREATE TABLE IF NOT EXISTS FA1(
                 Adm_No  Integer PRIMARY KEY,
