@@ -48,6 +48,7 @@ class InsertAndTable(QWidget):
         layout.addLayout(layout2)
 
     def InsertShow(self):
+        """
         FormButton = FormDialog(self.Tablename, self.FeildForm, self)
         result = FormButton.exec_()
         if result is True:
@@ -55,6 +56,8 @@ class InsertAndTable(QWidget):
                 ExecQuery = self.InsertQuery.format(*FormButton.GetAllFeildResponses())
                 result = self.database.exec_(ExecQuery)
                 self.table.refresh()
+        """
+        self.table.InsertGenerate();
 
     def DeleteRow(self):
         self.table.model.removeRow(self.table.currentIndex().row())
@@ -119,7 +122,7 @@ class InsertAndTable(QWidget):
 
                     column_attr_len = len(self.df.columns[x])
 
-                    print("cl=", column_len, " attr =", column_attr_len)
+                    print("cl=", column_len, " attr=", column_attr_len)
 
                     column_len = (
                         column_len if column_len >= column_attr_len else column_attr_len

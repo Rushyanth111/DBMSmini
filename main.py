@@ -29,13 +29,13 @@ class App(QMainWindow):
         self.setGeometry(posx, posy, width, height)
 
     def setTitle(self):
-        self.setWindowTitle("DBMS Mini Project")
+        self.setWindowTitle("Anganwadi Management System")
 
     def setMenu(self):
         menu = self.menuBar()
         HelpMenu = menu.addMenu("Help")
 
-        Action = QAction("HELP", self)
+        Action = QAction("Show Help", self)
         Action.triggered.connect(self.openPDF)
 
         HelpMenu.addAction(Action)
@@ -55,7 +55,7 @@ class CentralWidget(QWidget):
         layout = QHBoxLayout(self)
         Tabs = QTabWidget(self)
         Tabs.addTab(Anganwadi(self), "Anganwadi")
-        Tabs.addTab(School(self), "School")
+        ##Tabs.addTab(School(self), "School")
         layout.addWidget(Tabs)
         self.setLayout(layout)
 
