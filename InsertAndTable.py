@@ -57,7 +57,12 @@ class InsertAndTable(QWidget):
                 result = self.database.exec_(ExecQuery)
                 self.table.refresh()
         """
-        self.table.InsertGenerate();
+        FormButton = FormDialog(self.Tablename, self.FeildForm, self)
+        result = FormButton.exec_()
+        print(result)
+        if result == 1:
+            print("Called Insert")
+            self.table.Insert(*FormButton.GetAllFeildResponses())
 
     def DeleteRow(self):
         self.table.model.removeRow(self.table.currentIndex().row())
