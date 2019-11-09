@@ -1,14 +1,22 @@
 """Holds QWidget Table and it's assorted Functions.
 """
+from typing import List
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
 from PyQt5.QtWidgets import QTableView
 from PyQt5.QtCore import Qt
-# Simple Table View.
+
+from QSqlCustomQuery import QCustomQuery
 
 
 class Table(QTableView):
-    """[summary]
+    """Custom Implementation of QTableView
 
+    Arguments:
+        table_name {str} -- Name of the table in the database.
+        database {QSqlDatabase} -- The Database Object from QSqlDatabase.
+
+    Keyword Arguments:
+        parent {Any} -- Parent to the Table (default: {None})
     """
 
     def __init__(self, table_name: str, database: QSqlDatabase, parent=None) -> None:
@@ -61,9 +69,6 @@ class Table(QTableView):
 
     def insert_into_table(self, *args) -> None:
         """Inserts args into table.
-
-        Returns:
-            None -- [description]
         """
         arr = [*args]
         for itr, item in enumerate(arr):
@@ -74,14 +79,22 @@ class Table(QTableView):
         self.__db__.exec_(formattedquery)
         self.refresh()
 
-    def obtain_col_names(self) -> str:
+    def get_col_names(self, fmt: bool = False) -> List[str]:
         """Obtains the column Names for the table.
 
-        Returns:
-            str -- [description]
-        """
-        query = QSqlQuery()
-        query.exec_("pragma table_info({})".format(self.__table__))
+        Optionally Formats them replacing underscores with whitespaces.
 
-        while query.next():
-            pass
+        Arguments:
+
+            fmt {bool} -- Set to true if need to format.
+
+        Returns:
+            List[str] -- Returns a List of Strings containing Column Names.
+        """
+        query = QCustomQuery("pragma table_info({})".format(self.__table__))
+        cols = query.get_column(1)
+
+        if fmt is True:
+            cols = [x.replace("_", " ") for x in cols]
+
+        return cols

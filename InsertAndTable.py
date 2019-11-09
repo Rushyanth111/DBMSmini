@@ -31,15 +31,17 @@ class InsertAndTable(QWidget):
         button = QPushButton("Input Data", self)
         button2 = QPushButton("Delete")
         button3 = QPushButton("Printer!")
-
+        button4 = QPushButton("Test that shit!")
         button.clicked.connect(self.InsertShow)
         button2.clicked.connect(self.DeleteRow)
         button3.clicked.connect(self.pdf)
+        button4.clicked.connect(self.tests)
         self.table = Table(self.Tablename, self.database, self)
 
         layout1.addWidget(button)
         layout1.addWidget(button2)
         layout1.addWidget(button3)
+        layout1.addWidget(button4)
         layout2.addWidget(self.table)
         layout.addLayout(layout1)
         layout.addLayout(layout2)
@@ -58,3 +60,6 @@ class InsertAndTable(QWidget):
 
     def pdf(self):
         pass
+
+    def tests(self):
+        print(self.table.get_col_names())
