@@ -1,11 +1,5 @@
 """[summary]
 """
-import string
-
-import openpyxl
-from pandas import DataFrame
-
-from PyQt5.QtPrintSupport import QPrintDialog
 from PyQt5.QtSql import QSqlDatabase
 from PyQt5.QtWidgets import QHBoxLayout, QPushButton, QVBoxLayout, QWidget
 
@@ -63,4 +57,4 @@ class InsertAndTable(QWidget):
         self.table.refresh()
 
     def pdf(self):
-        print("Not Yet Implemented.")
+        pass

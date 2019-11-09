@@ -1,16 +1,39 @@
+"""Holds QCustomQuery -- A replacement for the QSqlQuery Class Internally with convience
+"""
+
 from PyQt5.QtSql import QSqlQuery, QSqlDatabase
 
 
 class QCustomQuery(QSqlQuery):
-    def __init__(self, query="", db=QSqlDatabase()):
-        super().__init__(query=query, db=db)
-        self.exec_(query)
+    """Custom Query Class with Convience.
 
-    def GetAllRecords(Query: QSqlQuery):
-        Res = []
-        while Query.next():
-            InRes = []
-            for x in range(Query.record().count()):
-                InRes.append(Query.value(x))
-            Res.append(InRes)
-        return Res
+    Keyword Arguments:
+
+        query {str} -- [Query String to be executed] (default: {""})
+
+        db {QSqlDatabase} -- [Database for the Query to be executed on] (default: {QSqlDatabase()})
+    """
+
+    def __init__(self, query: str = "", db=QSqlDatabase()):
+        super().__init__(query=query, db=db)
+        self.__result__ = []
+        self.exec_(query)
+        self.GetAllRecords()
+
+    def GetAllRecords(self):
+        while query.next():
+            inner_res = []
+            for x in range(query.record().count()):
+                inner_res.append(query.value(x))
+            self.__result__.append(inner_res)
+        return self.__result__
+
+    def get_row(self, row_num):
+        pass
+
+    def get_column(self, col_num):
+        pass
+
+    def check_empty_result(self):
+        pass
+

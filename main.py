@@ -12,8 +12,6 @@ from PyQt5.QtWidgets import (
 )
 
 from Anganwadi import Anganwadi
-from School import School
-
 
 class App(QMainWindow):
     def __init__(self):
@@ -55,7 +53,6 @@ class CentralWidget(QWidget):
         layout = QHBoxLayout(self)
         Tabs = QTabWidget(self)
         Tabs.addTab(Anganwadi(self), "Anganwadi")
-        ##Tabs.addTab(School(self), "School")
         layout.addWidget(Tabs)
         self.setLayout(layout)
 

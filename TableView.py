@@ -11,9 +11,7 @@ class Table(QTableView):
 
     """
 
-    def __init__(
-        self, table_name: str, database: QSqlDatabase, parent=None
-    ):
+    def __init__(self, table_name: str, database: QSqlDatabase, parent=None):
         super().__init__(parent=parent)
 
         # Set Some variables.
@@ -60,8 +58,11 @@ class Table(QTableView):
         tempquery = tempquery.rstrip(",") + ");"
         self.insert_statement = tempquery
 
-    def insert_into_table(self, *args):
-        """Convinience Function to insert into the table and refresh the view.
+    def insert_into_table(self, *args) -> None:
+        """Inserts args into table.
+
+        Returns:
+            None -- [description]
         """
         arr = [*args]
         for itr, item in enumerate(arr):
@@ -71,3 +72,15 @@ class Table(QTableView):
         formattedquery = self.insert_statement.format(*arr)
         self.__db__.exec_(formattedquery)
         self.refresh()
+
+    def obtain_col_names(self) -> str:
+        """Obtains the column Names for the table.
+
+        Returns:
+            str -- [description]
+        """
+        query = QSqlQuery()
+        query.exec_("pragma table_info({})".format(self.__table__))
+
+        while query.next():
+            pass
