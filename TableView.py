@@ -12,7 +12,7 @@ class Table(QTableView):
     """
 
     def __init__(
-        self, database_name: str, table_name: str, database: QSqlDatabase, parent=None
+        self, table_name: str, database: QSqlDatabase, parent=None
     ):
         super().__init__(parent=parent)
 
@@ -20,59 +20,54 @@ class Table(QTableView):
         self.__insert_statement__ = ""
         self.__data_types__ = []
         self.__primary_keys__ = []
-        self.__db_name__ = database_name
         self.__table__ = table_name
         self.__db__ = database
         # Generate the Insert Statement
-        self.InsertGenerate()
+        self.__insert_generate__()
 
         # Set the table Outlook.
-        self.model = QSqlTableModel(self, self.db)
-        self.model.setTable(self.table)
-        self.model.select()
+        self.__model__ = QSqlTableModel(self, self.__db__)
+        self.__model__.setTable(self.__table__)
+        self.__model__.select()
 
         # Set the model
-        self.setModel(self.model)
+        self.setModel(self.__model__)
 
     def refresh(self):
         """ Refershes the Table Upon an Insert Operation.
         """
-        self.model.select()
+        self.__model__.select()
 
-    def InsertGenerate(self):
+    def __insert_generate__(self):
+        """Generates the insert Query for the current table.
+        """
         print("called")
-        q = QSqlQuery()
-        q.exec_("PRAGMA table_info({})".format(self.table))
-        dataTypes = []
-        pk = []
+        query = QSqlQuery()
+        query.exec_("PRAGMA table_info({})".format(self.__table__))
         # Values Required: Datatype is value(2)
         # pk value is present in value(5)
-        while q.next():
-            dataTypes.append(q.value(2))
-            pk.append(5)
+        while query.next():
+            self.__data_types__.append(query.value(2))
+            self.__primary_keys__.append(5)
 
-        InsertQuery = "INSERT INTO " + self.table + " VALUES ("
-        for x in range(len(dataTypes)):
-            if (
-                dataTypes[x] == "Integer"
-                or dataTypes[x] == "Real"
-                or dataTypes[x] == "Float"
-            ):
-                InsertQuery += "{}"
+        tempquery = "INSERT INTO " + self.__table__ + " VALUES ("
+        for value in self.__data_types__:
+            if value in ("Integer", "Real", "Float"):
+                tempquery += "{},"
             else:
-                InsertQuery += '"{}"'
-            if len(dataTypes) != x + 1:
-                InsertQuery += ","
+                tempquery += '"{}",'
 
-        InsertQuery += ");"
-        self.insert_statement = InsertQuery
+        tempquery = tempquery.rstrip(",") + ");"
+        self.insert_statement = tempquery
 
-    def Insert(self, *args):
+    def insert_into_table(self, *args):
+        """Convinience Function to insert into the table and refresh the view.
+        """
         arr = [*args]
-        for x in range(len(arr)):
-            if not str(arr[x]):  # Catches Empty String.
-                arr[x] = "NULL"
+        for itr, item in enumerate(arr):
+            if not str(item):  # Catches Empty String.
+                arr[itr] = "NULL"
 
-        CompleteInsertQuery = self.insert_statement.format(*arr)
-        self.db.exec_(CompleteInsertQuery)
+        formattedquery = self.insert_statement.format(*arr)
+        self.__db__.exec_(formattedquery)
         self.refresh()

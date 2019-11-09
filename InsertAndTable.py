@@ -38,7 +38,7 @@ class InsertAndTable(QWidget):
         button.clicked.connect(self.InsertShow)
         button2.clicked.connect(self.DeleteRow)
         button3.clicked.connect(self.Print)
-        self.table = Table("projects.db", self.Tablename, self.database, self)
+        self.table = Table(self.Tablename, self.database, self)
 
         layout1.addWidget(button)
         layout1.addWidget(button2)
@@ -62,10 +62,10 @@ class InsertAndTable(QWidget):
         print(result)
         if result == 1:
             print("Called Insert")
-            self.table.Insert(*FormButton.GetAllFeildResponses())
+            self.table.insert_into_table(*FormButton.GetAllFeildResponses())
 
     def DeleteRow(self):
-        self.table.model.removeRow(self.table.currentIndex().row())
+        self.table.__model__.removeRow(self.table.currentIndex().row())
         self.table.refresh()
 
     def Print(self):
@@ -75,7 +75,7 @@ class InsertAndTable(QWidget):
 
         # Code added for creating the excel file
         if dec == 1:
-            model = self.table.model
+            model = self.table.__model__
             data = []
             for row in range(model.rowCount()):
                 data.append([])
