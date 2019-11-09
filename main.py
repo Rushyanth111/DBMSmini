@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import (
 
 from Anganwadi import Anganwadi
 
+
 class App(QMainWindow):
     def __init__(self):
         super().__init__()

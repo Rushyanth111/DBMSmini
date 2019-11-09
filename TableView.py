@@ -2,7 +2,7 @@
 """
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
 from PyQt5.QtWidgets import QTableView
-
+from PyQt5.QtCore import Qt
 # Simple Table View.
 
 
@@ -11,7 +11,7 @@ class Table(QTableView):
 
     """
 
-    def __init__(self, table_name: str, database: QSqlDatabase, parent=None):
+    def __init__(self, table_name: str, database: QSqlDatabase, parent=None) -> None:
         super().__init__(parent=parent)
 
         # Set Some variables.
@@ -24,6 +24,7 @@ class Table(QTableView):
         self.__insert_generate__()
 
         # Set the table Outlook.
+        self.setGridStyle(Qt.DashLine)
         self.__model__ = QSqlTableModel(self, self.__db__)
         self.__model__.setTable(self.__table__)
         self.__model__.select()
@@ -31,12 +32,12 @@ class Table(QTableView):
         # Set the model
         self.setModel(self.__model__)
 
-    def refresh(self):
+    def refresh(self) -> None:
         """ Refershes the Table Upon an Insert Operation.
         """
         self.__model__.select()
 
-    def __insert_generate__(self):
+    def __insert_generate__(self) -> None:
         """Generates the insert Query for the current table.
         """
         print("called")

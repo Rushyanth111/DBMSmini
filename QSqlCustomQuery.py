@@ -21,10 +21,10 @@ class QCustomQuery(QSqlQuery):
         self.GetAllRecords()
 
     def GetAllRecords(self):
-        while query.next():
+        while self.next():
             inner_res = []
-            for x in range(query.record().count()):
-                inner_res.append(query.value(x))
+            for x in range(self.record().count()):
+                inner_res.append(self.value(x))
             self.__result__.append(inner_res)
         return self.__result__
 
