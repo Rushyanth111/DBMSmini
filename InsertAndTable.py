@@ -1,7 +1,14 @@
 """[summary]
 """
 from PyQt5.QtSql import QSqlDatabase
-from PyQt5.QtWidgets import QHBoxLayout, QPushButton, QVBoxLayout, QWidget, QMessageBox
+from PyQt5.QtWidgets import (
+    QHBoxLayout,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+    QMessageBox,
+    QDialogButtonBox,
+)
 
 from TableView import Table
 from InsertDialog import InsertDialog
@@ -19,25 +26,31 @@ class InsertAndTable(QWidget):
     def __set_layout__(self):
         layout = QVBoxLayout(self)
 
-        layout1 = QHBoxLayout()
-        layout2 = QVBoxLayout()
+        boxx = QDialogButtonBox(self)
+
         button = QPushButton("Input Data", self)
         button2 = QPushButton("Delete")
         button3 = QPushButton("Printer!")
-        button4 = QPushButton("Test that shit!")
+        button4 = QPushButton("Update")
+        button5 = QPushButton("Show in Window")
+        button6 = QPushButton("Test that shit!")
+
+        boxx.addButton(button, boxx.ActionRole)
+        boxx.addButton(button2, boxx.ActionRole)
+        boxx.addButton(button3, boxx.ActionRole)
+        boxx.addButton(button4, boxx.ActionRole)
+        boxx.addButton(button5, boxx.ActionRole)
+
         button.clicked.connect(self.__insert_show__)
         button2.clicked.connect(self.__delete_row__)
         button3.clicked.connect(self.__pdf__)
         button4.clicked.connect(self.tests)
+
         self.table = Table(self.Tablename, self.database, self)
 
-        layout1.addWidget(button)
-        layout1.addWidget(button2)
-        layout1.addWidget(button3)
-        layout1.addWidget(button4)
-        layout2.addWidget(self.table)
-        layout.addLayout(layout1)
-        layout.addLayout(layout2)
+        layout.addWidget(boxx)
+        layout.addWidget(self.table)
+        layout.addWidget(button6)
 
     def __insert_show__(self):
         # Form Button Holds the data even after exec_(),
