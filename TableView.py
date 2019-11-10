@@ -76,7 +76,11 @@ class Table(QTableView):
                 arr[itr] = "NULL"
 
         formattedquery = self.insert_statement.format(*arr)
-        self.__db__.exec_(formattedquery)
+        query = QSqlQuery()
+        if query.exec_(formattedquery) is False:
+            # TODO: Ensure that the Exception is properly handled
+            # and displayed to the user.
+            raise Exception('Inputted Format is not correct!')
         self.refresh()
 
     def get_col_names(self, fmt: bool = False) -> List[str]:

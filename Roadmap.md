@@ -1,5 +1,7 @@
 # Things to Do
 
+## General
+
 - Re-write all of it to fit better within code guidelines.[]
 - Re-Write using Module Behavior.[]
 - Change GUI to look better.[]
@@ -23,3 +25,12 @@
 - Build a `QWebView` for the PDF.[]
 - Speed and Efficiency.[]
 - Better Table Management.[]
+
+## Specific
+
+- Write Methods to Find out and Display the Errors that are occurring.
+- Ensure that Form is correctly made with the new discoveries.
+- Minimize Code Re-use.
+- Ensure that the structure is Defined Properly.
+
+---

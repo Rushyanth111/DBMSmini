@@ -51,7 +51,6 @@ class InsertAndTable(QWidget):
         result = FormButton.exec_()
         print(result)
         if result == 1:
-            print("Called Insert")
             self.table.insert_into_table(*FormButton.GetAllFeildResponses())
 
     def DeleteRow(self):

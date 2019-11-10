@@ -17,7 +17,7 @@ Query = """CREATE TABLE IF NOT EXISTS Admission(
                 Address Text);
 
 CREATE TABLE IF NOT EXISTS PTM(
-                SNo Integer PRIMARY KEY,
+                SNo Integer PRIMARY KEY CONSTRAINT SNO_Is_Not_Valid Check(SNo < 50),
                 Name RangedValue,
                 GuardianName Text,
                 Discussion Text);
