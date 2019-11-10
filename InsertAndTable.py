@@ -1,7 +1,7 @@
 """[summary]
 """
 from PyQt5.QtSql import QSqlDatabase
-from PyQt5.QtWidgets import QHBoxLayout, QPushButton, QVBoxLayout, QWidget
+from PyQt5.QtWidgets import QHBoxLayout, QPushButton, QVBoxLayout, QWidget, QMessageBox
 
 from TableView import Table
 from InsertDialog import InsertDialog
@@ -50,7 +50,15 @@ class InsertAndTable(QWidget):
 
         while form_result and not insert_result:
             # form_result has to be true and insert result has to be false
-            print(self.table.get_last_error())
+            warn = QMessageBox()
+
+            warn.setIcon(QMessageBox.Critical)
+            warn.setStandardButtons(QMessageBox.Ok)
+            warn.setWindowTitle("Error")
+            warn.setText(self.table.get_last_error())
+            warn.setDetailedText(self.table.__last__error__)
+
+            warn.exec_()
             form_result = form.exec_()
             insert_result = self.table.insert_into_table(*form.get_input())
 
