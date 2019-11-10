@@ -5,15 +5,11 @@ from PyQt5.QtWidgets import QHBoxLayout, QPushButton, QVBoxLayout, QWidget
 
 from FormDialog import FormDialog
 from TableView import Table
+from InsertDialog import InsertDialog
 
 
 class InsertAndTable(QWidget):
-    def __init__(
-        self,
-        Tablename: str,
-        database: QSqlDatabase,
-        parent=None,
-    ):
+    def __init__(self, Tablename: str, database: QSqlDatabase, parent=None):
         super().__init__(parent=parent)
         self.Tablename = Tablename
         self.database = database
@@ -45,7 +41,7 @@ class InsertAndTable(QWidget):
         layout.addLayout(layout2)
 
     def InsertShow(self):
-        # FormButton = FormDialog(self.Tablename, self.FeildForm, self)
+        FormButton = InsertDialog(self.table.get_col_names(), [], self)
         result = FormButton.exec_()
         print(result)
         if result == 1:

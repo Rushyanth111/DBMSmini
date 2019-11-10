@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QTabWidget, QVBoxLayout, QWidget
 
 from FormDialog import Feilds, FeildSpecify
 from InsertAndTable import InsertAndTable
+from InsertDialog import InsertDialog
 from SQLinit import SQLinit
 
 
