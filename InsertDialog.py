@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Any
 
 from PyQt5.QtWidgets import (
     QComboBox,
@@ -15,16 +15,29 @@ from PyQt5.QtWidgets import (
 
 
 class InsertDialog(QDialog):
-    def __init__(self, form_names: List[str], form_types: List[str], parent):
+    def __init__(
+        self,
+        form_names: List[str],
+        form_types: List[str],
+        form_prim_keys: List[int],
+        parent,
+    ):
         super().__init__(parent=parent)
 
         self.__names__ = form_names
-        self.__form_types = form_types
+        self.__types__ = form_types
+        self.__primary__ = form_prim_keys
+
+        self.__resulted_data_raw__: List[QLineEdit] = []
+        self.__result_data__: List[str] = []
 
         form = self.__create_form__()
         ok_cancel_options = QDialogButtonBox(
             QDialogButtonBox.Ok | QDialogButtonBox.Cancel
         )
+
+        ok_cancel_options.accepted.connect(self.__custom_accept__)
+        ok_cancel_options.rejected.connect(self.reject)
 
         layout = QVBoxLayout()
         layout.addWidget(form)
@@ -38,9 +51,26 @@ class InsertDialog(QDialog):
 
         layout = QFormLayout()
 
-        for itr, item in enumerate(self.__names__):
-            layout.addRow(QLabel(item), QLineEdit(self))
+        for item in self.__names__:
+            edit_line = QLineEdit(self)
+            self.__resulted_data_raw__.append(edit_line)
+            layout.addRow(QLabel(item), edit_line)
 
         from_group.setLayout(layout)
 
         return from_group
+
+    def __custom_accept__(self):
+        res = []
+        for item in self.__resulted_data_raw__:
+            res.append(item.text())
+        self.__result_data__ = res
+        self.accept()
+
+    def get_input(self) -> List[Any]:
+        """Returns the data from the form
+
+        Returns:
+            List[Any] -- Data in List Form
+        """
+        return self.__result_data__

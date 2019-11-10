@@ -3,7 +3,6 @@
 from PyQt5.QtSql import QSqlDatabase
 from PyQt5.QtWidgets import QHBoxLayout, QPushButton, QVBoxLayout, QWidget
 
-from FormDialog import FormDialog
 from TableView import Table
 from InsertDialog import InsertDialog
 
@@ -14,10 +13,10 @@ class InsertAndTable(QWidget):
         self.Tablename = Tablename
         self.database = database
         # self.FeildForm = FeildForm
-        self.setInsertAndLayout()
+        self.__set_layout__()
         # self.InsertQuery = InsertQuery
 
-    def setInsertAndLayout(self):
+    def __set_layout__(self):
         layout = QVBoxLayout(self)
 
         layout1 = QHBoxLayout()
@@ -26,9 +25,9 @@ class InsertAndTable(QWidget):
         button2 = QPushButton("Delete")
         button3 = QPushButton("Printer!")
         button4 = QPushButton("Test that shit!")
-        button.clicked.connect(self.InsertShow)
-        button2.clicked.connect(self.DeleteRow)
-        button3.clicked.connect(self.pdf)
+        button.clicked.connect(self.__insert_show__)
+        button2.clicked.connect(self.__delete_row__)
+        button3.clicked.connect(self.__pdf__)
         button4.clicked.connect(self.tests)
         self.table = Table(self.Tablename, self.database, self)
 
@@ -40,18 +39,21 @@ class InsertAndTable(QWidget):
         layout.addLayout(layout1)
         layout.addLayout(layout2)
 
-    def InsertShow(self):
-        FormButton = InsertDialog(self.table.get_col_names(), [], self)
-        result = FormButton.exec_()
+    def __insert_show__(self):
+        # Form Button Holds the data even after exec_(),
+        # use that incase of error
+        form = InsertDialog(self.table.get_col_names(), [], [], self)
+        result = form.exec_()
         print(result)
         if result == 1:
-            self.table.insert_into_table(*FormButton.GetAllFeildResponses())
+            self.table.insert_into_table(*form.get_input())
+        form.exec_()
 
-    def DeleteRow(self):
+    def __delete_row__(self):
         self.table.__model__.removeRow(self.table.currentIndex().row())
         self.table.refresh()
 
-    def pdf(self):
+    def __pdf__(self):
         pass
 
     def tests(self):
