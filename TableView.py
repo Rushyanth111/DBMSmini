@@ -28,6 +28,10 @@ class Table(QTableView):
         self.__primary_keys__ = []
         self.__table__ = table_name
         self.__db__ = database
+
+        # Set some Definition Variables
+        self.__last__error__ = ""
+
         # Generate the Insert Statement
         self.__insert_generate__()
 
@@ -78,10 +82,11 @@ class Table(QTableView):
         formattedquery = self.insert_statement.format(*arr)
         query = QSqlQuery()
         if query.exec_(formattedquery) is False:
-            # TODO: Ensure that the Exception is properly handled
-            # and displayed to the user.
-            raise Exception('Inputted Format is not correct!')
+            self.__last__error__ = query.lastError().text()
+            return False
         self.refresh()
+
+        return True
 
     def get_col_names(self, fmt: bool = False) -> List[str]:
         """Obtains the column Names for the table.
@@ -102,3 +107,7 @@ class Table(QTableView):
             cols = [x.replace("_", " ") for x in cols]
 
         return cols
+
+    def get_last_error(self):
+        error = self.__last__error__.split(" ")[3]
+        return error.replace("_", " ")

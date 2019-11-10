@@ -43,11 +43,16 @@ class InsertAndTable(QWidget):
         # Form Button Holds the data even after exec_(),
         # use that incase of error
         form = InsertDialog(self.table.get_col_names(), [], [], self)
-        result = form.exec_()
-        print(result)
-        if result == 1:
-            self.table.insert_into_table(*form.get_input())
-        form.exec_()
+
+        form_result = form.exec_()
+        if form_result:
+            insert_result = self.table.insert_into_table(*form.get_input())
+
+        while form_result and not insert_result:
+            # form_result has to be true and insert result has to be false
+            print(self.table.get_last_error())
+            form_result = form.exec_()
+            insert_result = self.table.insert_into_table(*form.get_input())
 
     def __delete_row__(self):
         self.table.__model__.removeRow(self.table.currentIndex().row())
