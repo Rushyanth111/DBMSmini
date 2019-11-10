@@ -67,7 +67,7 @@ class Table(QTableView):
         tempquery = tempquery.rstrip(",") + ");"
         self.insert_statement = tempquery
 
-    def insert_into_table(self, *args) -> None:
+    def insert_into_table(self, *args) -> bool:
         """Inserts args into table.
         """
         arr = [*args]

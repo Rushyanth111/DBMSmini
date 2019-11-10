@@ -11,17 +11,15 @@ class InsertAndTable(QWidget):
     def __init__(
         self,
         Tablename: str,
-        FeildForm: dict,
         database: QSqlDatabase,
-        InsertQuery: str,
         parent=None,
     ):
         super().__init__(parent=parent)
         self.Tablename = Tablename
         self.database = database
-        self.FeildForm = FeildForm
+        # self.FeildForm = FeildForm
         self.setInsertAndLayout()
-        self.InsertQuery = InsertQuery
+        # self.InsertQuery = InsertQuery
 
     def setInsertAndLayout(self):
         layout = QVBoxLayout(self)
@@ -47,7 +45,7 @@ class InsertAndTable(QWidget):
         layout.addLayout(layout2)
 
     def InsertShow(self):
-        FormButton = FormDialog(self.Tablename, self.FeildForm, self)
+        # FormButton = FormDialog(self.Tablename, self.FeildForm, self)
         result = FormButton.exec_()
         print(result)
         if result == 1:

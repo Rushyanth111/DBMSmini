@@ -27,14 +27,7 @@ class Anganwadi(QWidget):
         SQLinit(db)
         tab_PTM = InsertAndTable(
             "PTM",
-            {
-                "SNo.": FeildSpecify(Feilds.Integer, True),
-                "Name": FeildSpecify(Feilds.Text),
-                "Guardian'sName": FeildSpecify(Feilds.Text),
-                "Discussion": FeildSpecify(Feilds.Text),
-            },
             db,
-            """INSERT INTO PTM VALUES({},'{}','{}','{}')""",
             self,
         )
 
