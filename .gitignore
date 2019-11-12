@@ -3,7 +3,6 @@ Lib
 Scripts
 *.cfg
 *.json
-.vscode/
 venv/
 __pycache__
 dist
