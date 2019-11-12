@@ -1,4 +1,5 @@
 import sys
+import pathlib
 
 from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import QDesktopServices
@@ -17,44 +18,39 @@ from Anganwadi import Anganwadi
 class App(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setLayout()
-        self.setTitle()
-        self.setCentralWidget(CentralWidget(self))
-        self.setMenu()
-        self.show()
 
-    def setLayout(self):
         posx, posy, width, height = 0, 0, 600, 600
         self.setGeometry(posx, posy, width, height)
 
-    def setTitle(self):
         self.setWindowTitle("Anganwadi Management System")
 
-    def setMenu(self):
+        self.setCentralWidget(CentralWidget(self))
+        self.__set_menu__()
+
+        self.show()
+
+    def __set_menu__(self):
         menu = self.menuBar()
-        HelpMenu = menu.addMenu("Help")
+        help_menu = menu.addMenu("Help")
 
-        Action = QAction("Show Help", self)
-        Action.triggered.connect(self.openPDF)
+        pdf_open_action = lambda x: QDesktopServices.openUrl(
+            QUrl.fromLocalFile(str(pathlib.Path(__file__).parent) + "/docs/Help.pdf")
+        )
+        action = QAction("Show Help", self)
+        action.triggered.connect(pdf_open_action)
 
-        HelpMenu.addAction(Action)
+        help_menu.addAction(action)
 
         self.setMenuBar(menu)
-
-    def openPDF(self):
-        QDesktopServices.openUrl(QUrl.fromLocalFile("./Help.pdf"))
 
 
 class CentralWidget(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
-        self.setAllLayouts()
-
-    def setAllLayouts(self):
         layout = QHBoxLayout(self)
-        Tabs = QTabWidget(self)
-        Tabs.addTab(Anganwadi(self), "Anganwadi")
-        layout.addWidget(Tabs)
+        tabs = QTabWidget(self)
+        tabs.addTab(Anganwadi(self), "Anganwadi")
+        layout.addWidget(tabs)
         self.setLayout(layout)
 
 

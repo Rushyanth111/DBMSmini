@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QTabWidget, QVBoxLayout, QWidget
 from CentralTable import Central
 from InsertDialog import InsertDialog
 from SQLinit import SQLinit
+import pathlib
 
 
 class Anganwadi(QWidget):
@@ -22,7 +23,7 @@ class Anganwadi(QWidget):
         tabs = QTabWidget(self)
 
         db = QSqlDatabase.addDatabase("QSQLITE")
-        db.setDatabaseName("projects.db")
+        db.setDatabaseName(pathlib.Path(__file__).parent.__str__() + "/DB/data.db")
         db.open()
         SQLinit(db)
         tab_PTM = Central("PTM", self)
