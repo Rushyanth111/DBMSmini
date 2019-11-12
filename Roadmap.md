@@ -34,3 +34,7 @@
 - Ensure that the structure is Defined Properly.
 
 ---
+
+### Actual Implementations
+
+- [Select Statement for Table](https://doc.qt.io/qt-5/qsqltablemodel.html#selectStatement)

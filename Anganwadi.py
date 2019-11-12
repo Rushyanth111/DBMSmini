@@ -1,7 +1,6 @@
 from PyQt5.QtSql import QSqlDatabase
 from PyQt5.QtWidgets import QTabWidget, QVBoxLayout, QWidget
 
-from FormDialog import Feilds, FeildSpecify
 from InsertAndTable import InsertAndTable
 from InsertDialog import InsertDialog
 from SQLinit import SQLinit
@@ -26,11 +25,10 @@ class Anganwadi(QWidget):
         db.setDatabaseName("projects.db")
         db.open()
         SQLinit(db)
-        tab_PTM = InsertAndTable(
-            "PTM",
-            db,
-            self,
-        )
+        tab_PTM = InsertAndTable("PTM", self)
+
+        tab_S = InsertAndTable("Admission", self)
 
         tabs.addTab(tab_PTM, "PTM")
+        tabs.addTab(tab_S, "S")
         return tabs

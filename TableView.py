@@ -13,13 +13,12 @@ class Table(QTableView):
 
     Arguments:
         table_name {str} -- Name of the table in the database.
-        database {QSqlDatabase} -- The Database Object from QSqlDatabase.
 
     Keyword Arguments:
         parent {Any} -- Parent to the Table (default: {None})
     """
 
-    def __init__(self, table_name: str, database: QSqlDatabase, parent=None) -> None:
+    def __init__(self, table_name: str, parent=None) -> None:
         super().__init__(parent=parent)
 
         # Set Some variables.
@@ -27,7 +26,7 @@ class Table(QTableView):
         self.__data_types__ = []
         self.__primary_keys__ = []
         self.__table__ = table_name
-        self.__db__ = database
+        self.__db__ = QSqlDatabase()
 
         # Set some Definition Variables
         self.__last__error__ = ""
