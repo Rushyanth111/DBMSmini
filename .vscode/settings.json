@@ -1,0 +1,8 @@
+{
+    "python.pythonPath": "venv\\Scripts\\python.exe",
+    "python.formatting.provider": "black",
+    "python.linter": "pyLint",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": ["--disable=C0330,E0611"]
+}
