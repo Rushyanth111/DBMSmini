@@ -14,7 +14,7 @@ from TableView import Table
 from InsertDialog import InsertDialog
 
 
-class InsertAndTable(QWidget):
+class Central(QWidget):
     def __init__(self, Tablename: str, parent=None):
         super().__init__(parent=parent)
         self.Tablename = Tablename
@@ -50,7 +50,7 @@ class InsertAndTable(QWidget):
         button.clicked.connect(self.__insert_show__)
         button2.clicked.connect(self.__delete_row__)
         button3.clicked.connect(self.__pdf__)
-        button4.clicked.connect(self.tests)
+        button_test.clicked.connect(self.tests)
 
         self.table = Table(self.Tablename, self)
 
