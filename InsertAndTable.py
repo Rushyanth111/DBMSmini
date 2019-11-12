@@ -28,12 +28,11 @@ class InsertAndTable(QWidget):
 
         boxx = QDialogButtonBox(self)
 
-
         button = QPushButton("Input Data", self)
         button2 = QPushButton("Delete")
         button3 = QPushButton("Print")
         button4 = QPushButton("Update")
-        
+
         button5 = QPushButton("Show in Window")
         button6 = QPushButton("Test that shit!")
 
