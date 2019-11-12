@@ -33,7 +33,7 @@ class App(QMainWindow):
         menu = self.menuBar()
         help_menu = menu.addMenu("Help")
 
-        pdf_open_action = lambda x: QDesktopServices.openUrl(
+        pdf_open_action = lambda: QDesktopServices.openUrl(
             QUrl.fromLocalFile(str(pathlib.Path(__file__).parent) + "/docs/Help.pdf")
         )
         action = QAction("Show Help", self)

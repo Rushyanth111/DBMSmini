@@ -10,26 +10,27 @@ import pathlib
 class Anganwadi(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
-        self.setInternalCategory()
-
-    def setInternalCategory(self):
         layout = QVBoxLayout(self)
-        tabs = self.makeInternalTabs()
+        tabs = self.__set_tabs__()
         layout.addWidget(tabs)
 
         self.setLayout(layout)
 
-    def makeInternalTabs(self):
+    def __set_tabs__(self):
         tabs = QTabWidget(self)
 
-        db = QSqlDatabase.addDatabase("QSQLITE")
-        db.setDatabaseName(pathlib.Path(__file__).parent.__str__() + "/DB/data.db")
-        db.open()
-        SQLinit(db)
-        tab_PTM = Central("PTM", self)
+        # Initalizing SQL Database:
+        database = QSqlDatabase.addDatabase("QSQLITE")
+        database.setDatabaseName(
+            pathlib.Path(__file__).parent.__str__() + "/DB/data.db"
+        )
+        database.open()
+        SQLinit(database)
 
-        tab_S = Central("Admission", self)
+        # Tabs
+        tab_ptm = Central("PTM", self)
+        tab_s = Central("Admission", self)
 
-        tabs.addTab(tab_PTM, "PTM")
-        tabs.addTab(tab_S, "S")
+        tabs.addTab(tab_ptm, "PTM")
+        tabs.addTab(tab_s, "S")
         return tabs
