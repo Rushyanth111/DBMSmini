@@ -1,10 +1,12 @@
+"""[summary]
+"""
+import pathlib
+
 from PyQt5.QtSql import QSqlDatabase
 from PyQt5.QtWidgets import QTabWidget, QVBoxLayout, QWidget
 
 from CentralTable import Central
-from InsertDialog import InsertDialog
 from SQLinit import SQLinit
-import pathlib
 
 
 class Anganwadi(QWidget):

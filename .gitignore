@@ -8,3 +8,4 @@ dist
 projects.db
 Out.pdf
 *.db
+Forms/*.py
