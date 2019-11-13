@@ -8,15 +8,20 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QSizePolicy,
+    QPushButton,
 )
+
+from AuthEngine import authorize
 
 
 class QLogin(QDialog):
     def __init__(self):
         super().__init__()
         self.setObjectName("self")
+        self.auth_vals = {"password": "", "username": ""}
 
         self.__set_font__()
+        self.setWindowTitle("Login Screen")
         main_layout = QVBoxLayout()
         main_layout.addLayout(self.__set_text__())
         main_layout.addLayout(self.__set_username__())
@@ -71,7 +76,6 @@ class QLogin(QDialog):
         label_2.setScaledContents(True)
         label_2.setAlignment(Qt.AlignLeft)
         label_2.setObjectName("label_2")
-
         p_layout.addWidget(label_2)
         p_layout.addWidget(self.password)
 
@@ -83,8 +87,11 @@ class QLogin(QDialog):
         confirm_reject_box.setStandardButtons(
             QDialogButtonBox.Cancel | QDialogButtonBox.Ok
         )
+        register = QPushButton("Register")
+        confirm_reject_box.addButton(register, QDialogButtonBox.ActionRole)
+        confirm_reject_box.clearFocus()
         confirm_reject_box.setObjectName("buttonBox")
-        confirm_reject_box.accepted.connect(self.accept)
+        confirm_reject_box.accepted.connect(self.__accept__)
         confirm_reject_box.rejected.connect(self.reject)
 
         return confirm_reject_box
@@ -93,15 +100,21 @@ class QLogin(QDialog):
         font = QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setBold(False)
+        font.setWeight(50)
         self.setFont(font)
 
     def __auth__(self):
-        pass
+        return authorize(**self.auth_vals)
 
     def __handle_username__(self):
-        print(self.username.text())
+        self.auth_vals["username"] = self.username.text()
 
     def __handle_password__(self):
-        print(self.password.text())
+        self.auth_vals["password"] = self.password.text()
+
+    def __accept__(self):
+        if self.__auth__():
+            self.accept()
+        else:
+            self.reject()
