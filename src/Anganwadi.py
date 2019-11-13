@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QTabWidget, QVBoxLayout, QWidget
 from CentralTable import Central
 from SQLinit import SQLinit
 
+from Tabs import PTM
 
 class Anganwadi(QWidget):
     def __init__(self, parent=None):
@@ -30,7 +31,7 @@ class Anganwadi(QWidget):
         SQLinit(database)
 
         # Tabs
-        tab_ptm = Central("PTM", self)
+        tab_ptm = PTM.PTM()
         tab_s = Central("Admission", self)
 
         tabs.addTab(tab_ptm, "PTM")

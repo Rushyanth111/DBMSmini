@@ -64,6 +64,6 @@ class CentralWidget(QWidget):
 
 APP = QApplication(sys.argv)
 LOGIN = QLogin()
-if LOGIN.exec() == True:
-    MAIN = App()
-    APP.exec()
+#if LOGIN.exec():
+MAIN = App()
+APP.exec()

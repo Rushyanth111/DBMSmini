@@ -1,17 +1,12 @@
 """[summary]
 """
-from PyQt5.QtSql import QSqlDatabase
-from PyQt5.QtWidgets import (
-    QHBoxLayout,
-    QPushButton,
-    QVBoxLayout,
-    QWidget,
-    QMessageBox,
-    QDialogButtonBox,
-)
 
-from TableView import Table
+from PyQt5.QtSql import QSqlDatabase
+from PyQt5.QtWidgets import (QDialogButtonBox, QHBoxLayout, QMessageBox,
+                             QPushButton, QVBoxLayout, QWidget)
+
 from InsertDialog import InsertDialog
+from TableView import Table
 
 
 class Central(QWidget):
