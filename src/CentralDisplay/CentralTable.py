@@ -2,11 +2,17 @@
 """
 
 from PyQt5.QtSql import QSqlDatabase
-from PyQt5.QtWidgets import (QDialogButtonBox, QMessageBox,
-                             QPushButton, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QDialogButtonBox,
+    QMessageBox,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 from InsertDialog import InsertDialog
 from CustomTable import Table
+from .ActionButtons import ActionButtons
 
 
 class Central(QWidget):
@@ -14,44 +20,28 @@ class Central(QWidget):
         super().__init__(parent=parent)
         self.Tablename = Tablename
         self.database = QSqlDatabase()
-        # self.FeildForm = FeildForm
         self.__set_layout__()
-        # self.InsertQuery = InsertQuery
 
     def __set_layout__(self):
         layout = QVBoxLayout(self)
-
-        boxx = QDialogButtonBox(self)
-
-        button = QPushButton("Input Data", self)
-        button2 = QPushButton("Delete")
-        button3 = QPushButton("Print")
-        button4 = QPushButton("Update")
-        button5 = QPushButton("Show in Window")
-        button6 = QPushButton("Filter By")
-        button7 = QPushButton("Reset Filter")
-        button8 = QPushButton("Export To")
-        button_test = QPushButton("Test that shit!")
-
-        boxx.addButton(button, boxx.ActionRole)
-        boxx.addButton(button2, boxx.ActionRole)
-        boxx.addButton(button3, boxx.ActionRole)
-        boxx.addButton(button4, boxx.ActionRole)
-        boxx.addButton(button5, boxx.ActionRole)
-        boxx.addButton(button6, boxx.ActionRole)
-        boxx.addButton(button7, boxx.ActionRole)
-        boxx.addButton(button8, boxx.ActionRole)
-
-        button.clicked.connect(self.__insert_show__)
-        button2.clicked.connect(self.__delete_row__)
-        button3.clicked.connect(self.__pdf__)
-        button_test.clicked.connect(self.tests)
-
+        boxx = ActionButtons(
+            {
+                "InputData": self.__insert_show__,
+                "Delete": self.__delete_row__,
+                "Print": self.__print__,
+                "Update": self.__update_menu__,
+                "Show in Window": self.__view_menu__,
+                "Filter By": self.__filter_window__,
+                "Reset Filter": self.__reset_filter__,
+                "Export to": self.__pdf__,
+                "Test": self.tests,
+            }
+        )
         self.table = Table(self.Tablename, self)
 
         layout.addWidget(boxx)
         layout.addWidget(self.table)
-        layout.addWidget(button_test)
+        # layout.addWidget(button_test)
 
     def __insert_show__(self):
         # Form Button Holds the data even after exec_(),
