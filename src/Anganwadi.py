@@ -31,7 +31,7 @@ class Anganwadi(QWidget):
         SQLinit(database)
 
         # Tabs
-        tab_ptm = PTM.PTM()
+        tab_ptm = PTM()
         tab_s = Central("Admission", self)
 
         tabs.addTab(tab_ptm, "PTM")
