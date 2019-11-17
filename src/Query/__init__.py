@@ -1,0 +1,1 @@
+from .QSqlCustomQuery import QCustomQuery

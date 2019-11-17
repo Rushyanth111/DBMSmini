@@ -2,11 +2,11 @@
 """
 
 from PyQt5.QtSql import QSqlDatabase
-from PyQt5.QtWidgets import (QDialogButtonBox, QHBoxLayout, QMessageBox,
+from PyQt5.QtWidgets import (QDialogButtonBox, QMessageBox,
                              QPushButton, QVBoxLayout, QWidget)
 
 from InsertDialog import InsertDialog
-from TableView import Table
+from CustomTable import Table
 
 
 class Central(QWidget):

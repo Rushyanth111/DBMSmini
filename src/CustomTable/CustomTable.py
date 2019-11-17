@@ -5,7 +5,7 @@ from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
 from PyQt5.QtWidgets import QTableView
 from PyQt5.QtCore import Qt
 
-from QSqlCustomQuery import QCustomQuery
+from Query import QCustomQuery
 
 
 class Table(QTableView):

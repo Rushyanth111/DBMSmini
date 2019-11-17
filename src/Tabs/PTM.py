@@ -1,7 +1,7 @@
 """Custom Class Extending Features of the Central Table:
 """
 
-from CentralTable import Central
+from CentralDisplay import Central
 
 
 class PTM(Central):

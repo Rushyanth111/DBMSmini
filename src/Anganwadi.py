@@ -5,7 +5,7 @@ import pathlib
 from PyQt5.QtSql import QSqlDatabase
 from PyQt5.QtWidgets import QTabWidget, QVBoxLayout, QWidget
 
-from CentralTable import Central
+from CentralDisplay import Central
 from SQLinit import SQLinit
 
 from Tabs import PTM
