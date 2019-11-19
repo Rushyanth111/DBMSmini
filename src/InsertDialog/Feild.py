@@ -1,6 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLineEdit, QTextEdit, QDateEdit
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QTextEdit, QDateEdit
 from PyQt5.QtGui import QIntValidator, QDoubleValidator
-
 from typing import Union
 
 
@@ -28,7 +27,7 @@ class QVarFeild(QWidget):
         if prim == "1":
             self.__empty_allowed__ = False
 
-        layout = QHBoxLayout(self)
+        layout = QVBoxLayout(self)
         layout.addWidget(self.input_line)
         self.setLayout(layout)
 

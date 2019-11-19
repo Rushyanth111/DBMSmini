@@ -52,7 +52,6 @@ class InsertDialog(QDialog):
         from_group = QGroupBox("SS")
 
         layout = QFormLayout()
-
         for (name, ftype, prim) in zip(
             self.__names__, self.__types__, self.__primary__
         ):
