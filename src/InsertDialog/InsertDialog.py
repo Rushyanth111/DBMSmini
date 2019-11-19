@@ -13,6 +13,8 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
 )
 
+from .Feild import QVarFeild
+
 
 class InsertDialog(QDialog):
     def __init__(
@@ -51,10 +53,13 @@ class InsertDialog(QDialog):
 
         layout = QFormLayout()
 
-        for item in self.__names__:
-            edit_line = QLineEdit(self)
+        for (name, ftype, prim) in zip(
+            self.__names__, self.__types__, self.__primary__
+        ):
+            edit_line = QVarFeild(ftype, prim)
+            # edit_line = QLineEdit()
             self.__resulted_data_raw__.append(edit_line)
-            layout.addRow(QLabel(item), edit_line)
+            layout.addRow(QLabel(name), edit_line)
 
         from_group.setLayout(layout)
 
@@ -74,3 +79,4 @@ class InsertDialog(QDialog):
             List[Any] -- Data in List Form
         """
         return self.__result_data__
+
