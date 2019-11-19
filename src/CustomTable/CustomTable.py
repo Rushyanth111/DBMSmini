@@ -110,3 +110,18 @@ class Table(QTableView):
     def get_last_error(self):
         error = self.__last__error__.split(" ")[3]
         return error.replace("_", " ")
+
+    def get_col_types(self, fmt: bool = False) -> List[str]:
+        query = QCustomQuery("pragma table_info({})".format(self.__table__))
+        cols = query.get_column(2)
+
+        if fmt is True:
+            cols = [x.replace("_", " ") for x in cols]
+
+        return cols
+
+    def get_col_prim(self) -> List[str]:
+        query = QCustomQuery("pragma table_info({})".format(self.__table__))
+        cols = query.get_column(3)
+        return cols
+
