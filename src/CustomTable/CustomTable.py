@@ -125,3 +125,15 @@ class Table(QTableView):
         cols = query.get_column(3)
         return cols
 
+    def get_row_selected(self) -> List[str]:
+        index = self.selectionModel().currentIndex()
+        row = index.row()
+        if row == -1:
+            return []
+        row_data = []
+        for itr in range(self.__model__.record(row).count()):
+            row_data.append(self.__model__.record(row).field(itr).value())
+
+        return row_data
+    
+

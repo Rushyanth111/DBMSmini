@@ -10,8 +10,10 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
-from InsertDialog import InsertDialog
 from CustomTable import Table
+from InsertDialog import InsertDialog
+from ViewScreen import ViewScreen
+
 from .ActionButtons import ActionButtons
 
 
@@ -34,7 +36,7 @@ class Central(QWidget):
                 "Filter By": self.__filter_window__,
                 "Reset Filter": self.__reset_filter__,
                 "Export to": self.__pdf__,
-                "Test": self.tests,
+                "Test": self.__tests__,
             }
         )
         self.table = Table(self.Tablename, self)
@@ -78,23 +80,26 @@ class Central(QWidget):
     def __pdf__(self):
         pass
 
-    def tests(self):
-        print(self.table.get_col_names())
-
     def __csv__(self):
         pass
+
+    def __print__(self):
+        pass
+
+    def __tests__(self):
+        print(self.table.get_col_names())
+
+    def __view_menu__(self):
+        S = ViewScreen(self.table.get_col_names(), self.table.get_row_selected())
+        S.exec()
 
     def __update_menu__(self):
         pass
 
-    def __view_menu__(self):
-        pass
+    # Implemented in it's own initalization.
 
     def __filter_window__(self):
         pass
 
     def __reset_filter__(self):
-        pass
-
-    def __print__(self):
         pass

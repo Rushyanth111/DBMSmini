@@ -1,8 +1,8 @@
 import sys
 import pathlib
 
-from PyQt5.QtCore import QUrl, Qt
-from PyQt5.QtGui import QDesktopServices, QFont
+from PyQt5.QtCore import QUrl, Qt, QFile
+from PyQt5.QtGui import QDesktopServices, QFont 
 from PyQt5.QtWidgets import (
     QAction,
     QApplication,
@@ -63,6 +63,10 @@ class CentralWidget(QWidget):
 
 
 APP = QApplication(sys.argv)
+styles = ""
+with open(str(pathlib.Path(__file__).parent) +"/res.qss") as f:
+     styles = f.read()
+APP.setStyleSheet(styles)
 LOGIN = QLogin()
 #if LOGIN.exec():
 MAIN = App()
