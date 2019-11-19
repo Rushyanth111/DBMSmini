@@ -1,1 +1,1 @@
-from .CentralTable import Central
+from .CentralDisplay import Central
