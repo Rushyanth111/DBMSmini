@@ -15,6 +15,8 @@ from PyQt5.QtWidgets import (
 
 from .Feild import QVarFeild
 
+from itertools import zip_longest
+
 
 class InsertDialog(QDialog):
     def __init__(
@@ -23,13 +25,14 @@ class InsertDialog(QDialog):
         form_types: List[str],
         form_prim_keys: List[int],
         parent,
+        prev_data=[],
     ):
         super().__init__(parent=parent)
 
         self.__names__ = form_names
         self.__types__ = form_types
         self.__primary__ = form_prim_keys
-
+        self.__prev_data__ = prev_data
         self.__resulted_data_raw__: List[QLineEdit] = []
         self.__result_data__: List[str] = []
 
@@ -52,11 +55,12 @@ class InsertDialog(QDialog):
         from_group = QGroupBox("SS")
 
         layout = QFormLayout()
-        for (name, ftype, prim) in zip(
-            self.__names__, self.__types__, self.__primary__
+        for (name, ftype, prim, pdata) in zip_longest(
+            self.__names__, self.__types__, self.__primary__, self.__prev_data__
         ):
             edit_line = QVarFeild(ftype, prim)
-            # edit_line = QLineEdit()
+            if pdata is not None:
+                edit_line.setDataText(pdata)
             self.__resulted_data_raw__.append(edit_line)
             layout.addRow(QLabel(name), edit_line)
 

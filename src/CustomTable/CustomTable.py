@@ -139,25 +139,25 @@ class Table(QTableView):
         return row_data
 
     def __update_generate__(self):
-        ustring = "UPDATE " + self.__table__ + " WHERE "
-        print(self.__primary_keys__)
+        ustring = "UPDATE " + self.__table__ + " Set "
+        for val, typs in zip(self.get_col_names(), self.__data_types__):
+            if typs == "Float" or typs == "Integer":
+                ustring += str(val) + "={}, "
+            else:
+                ustring += str(val) + """='{}',"""
+        ustring = ustring.rstrip(",")
+
+        ustring += " WHERE "
         for prim, val, typs in zip(
             self.__primary_keys__, self.get_col_names(), self.__data_types__
         ):
             if prim == 1:
                 if typs == "Float" or typs == "Integer":
-                    ustring += str(val) + "={} "
+                    ustring += str(val) + "={} AND "
                 else:
-                    ustring += str(val) + """='{}' """
-        ustring += "Set "
+                    ustring += str(val) + """='{}' AND """
 
-        for val, typs in zip(self.get_col_names(), self.__data_types__):
-            if typs == "Float" or typs == "Integer":
-                ustring += str(val) + "={} "
-            else:
-                ustring += str(val) + """='{}',"""
-
-        ustring = ustring.rstrip(",")
+        ustring = ustring.rstrip("AND ")
         ustring += ";"
         self.__update_statement__ = ustring
 
@@ -165,15 +165,15 @@ class Table(QTableView):
 
     def update(self, *args):
         ulist = []
-        for prim, val in zip(self.__primary_keys__, args):
-            if prim == 1:
-                ulist.append(val)
 
         for x in args:
             ulist.append(x)
-        print(ulist, self.__update_statement__)
+        
+        for prim, val in zip(self.__primary_keys__, args):
+            if prim == 1:
+                ulist.append(val)
         ustring = self.__update_statement__.format(*ulist)
-
+        print(ustring)
         query = QSqlQuery()
         if query.exec_(ustring) is False:
             self.__last__error__ = query.lastError().text()
@@ -181,5 +181,4 @@ class Table(QTableView):
         self.refresh()
 
         return True
-
 

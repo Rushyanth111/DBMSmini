@@ -9,9 +9,6 @@ class QVarFeild(QWidget):
 
         self.input_line: Union[QLineEdit, QTextEdit, QDateEdit]
         self.__empty_allowed__ = True
-        self.ftype = ftype
-        self.prim = prim
-
         if ftype == "Integer":
             self.input_line = QLineEdit()
             self.input_line.setValidator(QIntValidator())
@@ -36,9 +33,3 @@ class QVarFeild(QWidget):
 
     def text(self):
         return self.input_line.text()
-
-    def setDataText(self, data):
-        if self.ftype == "Date":
-            self.input_line.setDate(self.input_line.dateTimeFromText(str(data)))
-        else:
-            self.input_line.setText(str(data))

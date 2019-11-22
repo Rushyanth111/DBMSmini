@@ -35,7 +35,7 @@ class Central(QWidget):
                 "Show in Window": self.__view_menu__,
                 "Filter By": self.__filter_window__,
                 "Reset Filter": self.__reset_filter__,
-                "Export to PDF": self.__pdf__
+                "Export to PDF": self.__pdf__,
             }
         )
         self.table = Table(self.Tablename, self)
@@ -85,7 +85,32 @@ class Central(QWidget):
         S.show()
 
     def __update_menu__(self):
-        print(self.table.update(1,'a','b','c'))
+        form = InsertDialog(
+            self.table.get_col_names(),
+            self.table.get_col_types(),
+            self.table.get_col_prim(),
+            self,
+            self.table.get_row_selected(),
+        )
+
+        form_result = form.exec_()
+        if form_result:
+            insert_result = self.table.update(*form.get_input())
+
+        while form_result and not insert_result:
+            # form_result has to be true and insert result has to be false
+            warn = QMessageBox()
+
+            warn.setIcon(QMessageBox.Critical)
+            warn.setStandardButtons(QMessageBox.Ok)
+            warn.setWindowTitle("Error")
+            warn.setText(self.table.get_last_error())
+            warn.setDetailedText(self.table.__last__error__)
+
+            warn.exec_()
+            form_result = form.exec_()
+            insert_result = self.table.update(*form.get_input())
+
     # Implemented in it's own initalization.
 
     def __filter_window__(self):
