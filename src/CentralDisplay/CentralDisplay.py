@@ -53,7 +53,7 @@ class Central(QWidget):
             self.table.get_col_prim(),
             self,
         )
-
+        
         form_result = form.exec_()
         if form_result:
             insert_result = self.table.insert_into_table(*form.get_input())
@@ -93,9 +93,7 @@ class Central(QWidget):
             self.table.get_row_selected(),
         )
 
-        mform = qtmodern.windows.ModernWindow(form)
-        mform.show()
-        form_result = form.show()
+        form_result = form.exec_()
 
         if form_result:
             insert_result = self.table.update(*form.get_input())
@@ -111,8 +109,7 @@ class Central(QWidget):
             warn.setDetailedText(self.table.__last__error__)
 
             warn.exec_()
-            mform.show()
-            form_result = form.is_accepted()
+            form_result = form.exec_()
             insert_result = self.table.update(*form.get_input())
 
     # Implemented in it's own initalization.
