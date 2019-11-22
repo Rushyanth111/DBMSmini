@@ -20,7 +20,7 @@ class ViewScreen(QDialog):
         with doc.create(Tabular("r|p{5cm}")) as table:
             for name, val in zip(col_name, col_value):
                 table.add_hline()
-                table.add_row((name, val))
+                table.add_row([name, val])
 
         doc.generate_pdf(filepath="./ViewScreen")
 

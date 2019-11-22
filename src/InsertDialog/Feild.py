@@ -24,7 +24,7 @@ class QVarFeild(QWidget):
         else:  # Large Text
             self.input_line = QTextEdit()
 
-        if prim == "1":
+        if prim == 1:
             self.__empty_allowed__ = False
 
         layout = QVBoxLayout(self)

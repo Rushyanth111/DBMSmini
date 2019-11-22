@@ -23,6 +23,7 @@ class Table(QTableView):
 
         # Set Some variables.
         self.__insert_statement__ = ""
+        self.__update_statement__ = ""
         self.__data_types__ = []
         self.__primary_keys__ = []
         self.__table__ = table_name
@@ -33,6 +34,7 @@ class Table(QTableView):
 
         # Generate the Insert Statement
         self.__insert_generate__()
+        self.__update_generate__()
 
         # Set the table Outlook.
         self.setGridStyle(Qt.DashLine)
@@ -58,7 +60,7 @@ class Table(QTableView):
         # pk value is present in value(5)
         while query.next():
             self.__data_types__.append(query.value(2))
-            self.__primary_keys__.append(5)
+            self.__primary_keys__.append(query.value(5))
 
         tempquery = "INSERT INTO " + self.__table__ + " VALUES ("
         for value in self.__data_types__:
@@ -122,7 +124,7 @@ class Table(QTableView):
 
     def get_col_prim(self) -> List[str]:
         query = QCustomQuery("pragma table_info({})".format(self.__table__))
-        cols = query.get_column(3)
+        cols = query.get_column(5)
         return cols
 
     def get_row_selected(self) -> List[str]:
@@ -135,5 +137,49 @@ class Table(QTableView):
             row_data.append(self.__model__.record(row).field(itr).value())
 
         return row_data
-    
+
+    def __update_generate__(self):
+        ustring = "UPDATE " + self.__table__ + " WHERE "
+        print(self.__primary_keys__)
+        for prim, val, typs in zip(
+            self.__primary_keys__, self.get_col_names(), self.__data_types__
+        ):
+            if prim == 1:
+                if typs == "Float" or typs == "Integer":
+                    ustring += str(val) + "={} "
+                else:
+                    ustring += str(val) + """='{}' """
+        ustring += "Set "
+
+        for val, typs in zip(self.get_col_names(), self.__data_types__):
+            if typs == "Float" or typs == "Integer":
+                ustring += str(val) + "={} "
+            else:
+                ustring += str(val) + """='{}',"""
+
+        ustring = ustring.rstrip(",")
+        ustring += ";"
+        self.__update_statement__ = ustring
+
+        return ustring
+
+    def update(self, *args):
+        ulist = []
+        for prim, val in zip(self.__primary_keys__, args):
+            if prim == 1:
+                ulist.append(val)
+
+        for x in args:
+            ulist.append(x)
+        print(ulist, self.__update_statement__)
+        ustring = self.__update_statement__.format(*ulist)
+
+        query = QSqlQuery()
+        if query.exec_(ustring) is False:
+            self.__last__error__ = query.lastError().text()
+            return False
+        self.refresh()
+
+        return True
+
 

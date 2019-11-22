@@ -1,7 +1,7 @@
 from PyQt5.QtSql import QSqlDatabase
 
 Query = """CREATE TABLE IF NOT EXISTS Admission(
-                No  Integer PRIMARY KEY,
+                No Text Primary KEY,
                 SurveyNo Integer,
                 Name Text,
                 FatherName Text,

@@ -15,6 +15,7 @@ from InsertDialog import InsertDialog
 from ViewScreen import ViewScreen
 
 from .ActionButtons import ActionButtons
+import qtmodern.windows
 
 
 class Central(QWidget):
@@ -30,13 +31,11 @@ class Central(QWidget):
             {
                 "InputData": self.__insert_show__,
                 "Delete": self.__delete_row__,
-                "Print": self.__print__,
                 "Update": self.__update_menu__,
                 "Show in Window": self.__view_menu__,
                 "Filter By": self.__filter_window__,
                 "Reset Filter": self.__reset_filter__,
-                "Export to": self.__pdf__,
-                "Test": self.__tests__,
+                "Export to PDF": self.__pdf__
             }
         )
         self.table = Table(self.Tablename, self)
@@ -80,22 +79,13 @@ class Central(QWidget):
     def __pdf__(self):
         pass
 
-    def __csv__(self):
-        pass
-
-    def __print__(self):
-        pass
-
-    def __tests__(self):
-        print(self.table.get_col_names())
-
     def __view_menu__(self):
         S = ViewScreen(self.table.get_col_names(), self.table.get_row_selected())
-        S.exec()
+        S = qtmodern.windows.ModernWindow(S)
+        S.show()
 
     def __update_menu__(self):
-        pass
-
+        print(self.table.update(1,'a','b','c'))
     # Implemented in it's own initalization.
 
     def __filter_window__(self):
