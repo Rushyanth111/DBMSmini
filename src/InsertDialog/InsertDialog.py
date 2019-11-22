@@ -31,10 +31,12 @@ class InsertDialog(QDialog):
 
         self.__names__ = form_names
         self.__types__ = form_types
+        self.__accept_status__ = False
         self.__primary__ = form_prim_keys
         self.__prev_data__ = prev_data
         self.__resulted_data_raw__: List[QLineEdit] = []
         self.__result_data__: List[str] = []
+        
 
         form = self.__create_form__()
         ok_cancel_options = QDialogButtonBox(
@@ -48,6 +50,7 @@ class InsertDialog(QDialog):
         layout.addWidget(form)
         layout.addWidget(ok_cancel_options)
 
+        self.setFixedWidth(400)
         self.setWindowTitle("Insert Table.")
         self.setLayout(layout)
 
@@ -73,6 +76,7 @@ class InsertDialog(QDialog):
         for item in self.__resulted_data_raw__:
             res.append(item.text())
         self.__result_data__ = res
+        self.__accept_status__ = True
         self.accept()
 
     def get_input(self) -> List[Any]:
@@ -82,4 +86,7 @@ class InsertDialog(QDialog):
             List[Any] -- Data in List Form
         """
         return self.__result_data__
+
+    def is_accepted(self):
+        return self.__accept_status__
 
