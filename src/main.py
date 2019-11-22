@@ -52,7 +52,6 @@ class CentralWidget(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
         layout = QVBoxLayout(self)
-        tabs = QTabWidget(self)
 
         X = QLabel("<i><u>Anganwadi</u> Database<br>Management System</i><br>", self)
         X.setStyleSheet("font-size:14pt; color: White; font: Verdana;")
@@ -60,9 +59,8 @@ class CentralWidget(QWidget):
         X.setAlignment(Qt.AlignHCenter)
         X.setFont(QFont("Segoe UI", 14))
 
-        tabs.addTab(Anganwadi(self), "Anganwadi")
         layout.addWidget(X)
-        layout.addWidget(tabs)
+        layout.addWidget(Anganwadi(self))
         self.setLayout(layout)
 
 
