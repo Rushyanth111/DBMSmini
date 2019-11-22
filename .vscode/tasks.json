@@ -6,7 +6,7 @@
         {
             "label": "Run",
             "type": "shell",
-            "command": "source \"${workspaceFolder}\"/venv/Scripts/activate; python src/main.py", //Universal Platforming
+            "command": "source /home/xavier/Documents/work/DBMSmini/venv/bin/activate; python src/main.py", //Universal Platforming
             "problemMatcher": []
         }
     ]

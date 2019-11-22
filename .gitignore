@@ -9,3 +9,4 @@ projects.db
 Out.pdf
 *.db
 Forms/*.py
+.vscode/*

@@ -13,6 +13,9 @@ from PyQt5.QtWidgets import (
     QLabel,
 )
 
+import qdarkstyle
+import qtmodern.styles
+import qtmodern.windows
 from Anganwadi import Anganwadi
 from Login import QLogin
 
@@ -51,8 +54,9 @@ class CentralWidget(QWidget):
         layout = QVBoxLayout(self)
         tabs = QTabWidget(self)
 
-        X = QLabel("Anganwadi Database Management System", self)
-        X.setStyleSheet("font-size:14pt; color: black; font: Verdana;")
+        X = QLabel("<i><u>Anganwadi</u> Database<br>Management System</i><br>", self)
+        X.setStyleSheet("font-size:14pt; color: White; font: Verdana;")
+        X.setTextFormat(Qt.RichText)
         X.setAlignment(Qt.AlignHCenter)
         X.setFont(QFont("Segoe UI", 14))
 
@@ -63,11 +67,15 @@ class CentralWidget(QWidget):
 
 
 APP = QApplication(sys.argv)
-styles = ""
-with open(str(pathlib.Path(__file__).parent) +"/res.qss") as f:
-     styles = f.read()
-APP.setStyleSheet(styles)
-LOGIN = QLogin()
+
+#APP.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+#LOGIN = QLogin()
 #if LOGIN.exec():
 MAIN = App()
-APP.exec()
+
+
+qtmodern.styles.dark(APP)
+mw = qtmodern.windows.ModernWindow(MAIN)
+mw.show()
+
+APP.exec_()
