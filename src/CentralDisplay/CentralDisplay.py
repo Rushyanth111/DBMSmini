@@ -1,22 +1,16 @@
 """[summary]
 """
 
+import qtmodern.windows
 from PyQt5.QtSql import QSqlDatabase
-from PyQt5.QtWidgets import (
-    QDialogButtonBox,
-    QMessageBox,
-    QPushButton,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt5.QtWidgets import QMessageBox, QVBoxLayout, QWidget
 
 from CustomTable import Table
 from InsertDialog import InsertDialog
+from Print import PrintToPDF
 from ViewScreen import ViewScreen
 
 from .ActionButtons import ActionButtons
-import qtmodern.windows
-from Print import PrintToPDF
 
 
 class Central(QWidget):
@@ -110,4 +104,3 @@ class Central(QWidget):
             warn.exec_()
             form_result = form.exec_()
             insert_result = self.table.update(*form.get_input())
-
