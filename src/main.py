@@ -2,7 +2,7 @@ import sys
 import pathlib
 
 from PyQt5.QtCore import QUrl, Qt, QFile
-from PyQt5.QtGui import QDesktopServices, QFont 
+from PyQt5.QtGui import QDesktopServices, QFont
 from PyQt5.QtWidgets import (
     QAction,
     QApplication,
@@ -18,6 +18,7 @@ import qtmodern.styles
 import qtmodern.windows
 from Anganwadi import Anganwadi
 from Login import QLogin
+
 
 class App(QMainWindow):
     def __init__(self):
@@ -66,14 +67,15 @@ class CentralWidget(QWidget):
 
 APP = QApplication(sys.argv)
 
-#APP.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
-#LOGIN = QLogin()
-#if LOGIN.exec():
+LOGIN = QLogin()
 MAIN = App()
 
 
 qtmodern.styles.dark(APP)
 mw = qtmodern.windows.ModernWindow(MAIN)
-mw.show()
+
+
+if LOGIN.exec_():
+    mw.show()
 
 APP.exec_()

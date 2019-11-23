@@ -1,7 +1,9 @@
 """[summary]
 """
 
+import qtmodern.styles
 import qtmodern.windows
+
 from PyQt5.QtSql import QSqlDatabase
 from PyQt5.QtWidgets import QMessageBox, QVBoxLayout, QWidget
 
