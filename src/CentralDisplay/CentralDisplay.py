@@ -34,8 +34,6 @@ class Central(QWidget):
                 "Delete": self.__delete_row__,
                 "Update": self.__update_menu__,
                 "Show in Window": self.__view_menu__,
-                "Filter By": self.__filter_window__,
-                "Reset Filter": self.__reset_filter__,
                 "Export to PDF": self.__pdf__,
             }
         )
@@ -113,10 +111,3 @@ class Central(QWidget):
             form_result = form.exec_()
             insert_result = self.table.update(*form.get_input())
 
-    # Implemented in it's own initalization.
-
-    def __filter_window__(self):
-        pass
-
-    def __reset_filter__(self):
-        pass
