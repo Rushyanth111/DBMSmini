@@ -166,9 +166,9 @@ class Table(QTableView):
     def update(self, *args):
         ulist = []
 
-        for x in args:
-            ulist.append(x)
-        
+        for arg in args:
+            ulist.append(arg)
+
         for prim, val in zip(self.__primary_keys__, args):
             if prim == 1:
                 ulist.append(val)
@@ -181,4 +181,10 @@ class Table(QTableView):
         self.refresh()
 
         return True
+
+    def get_all_cols(self) -> List[str]:
+        sel_all = "select * from " + self.__table__
+        res = QCustomQuery(sel_all).get_all_records()
+
+        return res
 

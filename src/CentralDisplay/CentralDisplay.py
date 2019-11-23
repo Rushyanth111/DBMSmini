@@ -16,6 +16,7 @@ from ViewScreen import ViewScreen
 
 from .ActionButtons import ActionButtons
 import qtmodern.windows
+from Print import PrintToPDF
 
 
 class Central(QWidget):
@@ -53,7 +54,7 @@ class Central(QWidget):
             self.table.get_col_prim(),
             self,
         )
-        
+
         form_result = form.exec_()
         if form_result:
             insert_result = self.table.insert_into_table(*form.get_input())
@@ -77,7 +78,7 @@ class Central(QWidget):
         self.table.refresh()
 
     def __pdf__(self):
-        pass
+        PrintToPDF(self.table.get_col_names(), self.table.get_all_cols())
 
     def __view_menu__(self):
         S = ViewScreen(self.table.get_col_names(), self.table.get_row_selected())
