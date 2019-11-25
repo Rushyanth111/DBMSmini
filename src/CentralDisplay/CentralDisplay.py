@@ -20,9 +20,6 @@ class Central(QWidget):
         super().__init__(parent=parent)
         self.Tablename = Tablename
         self.database = QSqlDatabase()
-        self.__set_layout__()
-
-    def __set_layout__(self):
         layout = QVBoxLayout(self)
         boxx = ActionButtons(
             {
@@ -32,8 +29,8 @@ class Central(QWidget):
                 "Show in Window": self.__view_menu__,
                 "Export to PDF": self.__pdf__,
                 "<Proc>": self.__proc_call__,
-                "Filter By": self,
-                "Reset Filter": self,
+                "Filter By": self.__filter_by__,
+                "Reset Filter": self.__reset_filter__,
             }
         )
         self.table = Table(self.Tablename, self)
@@ -117,5 +114,4 @@ class Central(QWidget):
         pass
 
     def __reset_filter__(self):
-        pass
-
+        self.table.__reset_filter__()

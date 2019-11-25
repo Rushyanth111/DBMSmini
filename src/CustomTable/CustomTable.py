@@ -189,4 +189,18 @@ class Table(QTableView):
         return res
 
     def proc(self, procedure):
-        pass # TODO Implement a Procedure to be executed on the click of a button
+        query = QSqlQuery()
+        if query.exec_(procedure) is False:
+            self.__last__error__ = query.lastError().text()
+            return False
+        self.refresh()
+
+        return True
+
+    def __filter__(self, string):
+        self.__model__.setFilter(string)
+        self.refresh()
+
+    def __reset_filter__(self):
+        self.__model__.setFilter("")
+        self.refresh()
