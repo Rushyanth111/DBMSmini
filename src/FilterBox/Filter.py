@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QDialog, QFormLayout, QLineEdit, QLabel
+from PyQt5.QtWidgets import QDialog, QFormLayout, QLineEdit, QLabel, QDateEdit
 from PyQt5.QtGui import QIntValidator, QDoubleValidator
 
 
@@ -8,12 +8,21 @@ class FilterView(QDialog):
 
         layout = QFormLayout()
 
+        self.where_string = ""
+        self.col_name = col_name
         self.edit_box = QLineEdit()
 
         if col_type == "Integer":
             self.edit_box.setValidator(QIntValidator())
+            self.where_string = "{} = {}"
         elif col_type == "Float":
             self.edit_box.setValidator(QDoubleValidator())
+            self.where_string = "{} = {}"
+        elif col_type == "Date":
+            self.edit_box = QDateEdit()
+            self.where_string = "{} >= {}"
+        else:
+            self.where_string = "{} LIKE '{}'"
 
         label = QLabel(col_name)
 
@@ -21,6 +30,6 @@ class FilterView(QDialog):
 
         self.setLayout(layout)
 
-    def text(self):
-        return self.edit_box.text()
+    def where_text(self):
+        return self.where_string.format(self.col_name, self.edit_box.text())
 

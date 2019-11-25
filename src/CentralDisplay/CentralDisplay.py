@@ -12,14 +12,18 @@ from InsertDialog import InsertDialog
 from Print import PrintToPDF
 from ViewScreen import ViewScreen
 
+from FilterBox import FilterView
 from .ActionButtons import ActionButtons
 
 
 class Central(QWidget):
-    def __init__(self, Tablename: str, parent=None):
+    def __init__(self, Tablename: str, filtername, filtertype, parent=None):
         super().__init__(parent=parent)
         self.Tablename = Tablename
         self.database = QSqlDatabase()
+
+        self.__filter_name__ = filtername
+        self.__filter_type__ = filtertype
         layout = QVBoxLayout(self)
         boxx = ActionButtons(
             {
@@ -111,7 +115,9 @@ class Central(QWidget):
         pass
 
     def __filter_by__(self):
-        pass
+        fil = FilterView(self.__filter_name__, self.__filter_type__, self)
+        fil.exec_()
+        self.table.__filter__(fil.where_text())
 
     def __reset_filter__(self):
         self.table.__reset_filter__()
