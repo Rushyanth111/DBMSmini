@@ -31,6 +31,9 @@ class Central(QWidget):
                 "Update": self.__update_menu__,
                 "Show in Window": self.__view_menu__,
                 "Export to PDF": self.__pdf__,
+                "<Proc>": self.__proc_call__,
+                "Filter By": self,
+                "Reset Filter": self,
             }
         )
         self.table = Table(self.Tablename, self)
@@ -106,3 +109,13 @@ class Central(QWidget):
             warn.exec_()
             form_result = form.exec_()
             insert_result = self.table.update(*form.get_input())
+
+    def __proc_call__(self):
+        pass
+
+    def __filter_by__(self):
+        pass
+
+    def __reset_filter__(self):
+        pass
+

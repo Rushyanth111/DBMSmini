@@ -188,3 +188,5 @@ class Table(QTableView):
 
         return res
 
+    def proc(self, procedure):
+        pass # TODO Implement a Procedure to be executed on the click of a button
