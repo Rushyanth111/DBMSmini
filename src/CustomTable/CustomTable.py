@@ -53,7 +53,6 @@ class Table(QTableView):
     def __insert_generate__(self) -> None:
         """Generates the insert Query for the current table.
         """
-        print("called")
         query = QSqlQuery()
         query.exec_("PRAGMA table_info({})".format(self.__table__))
         # Values Required: Datatype is value(2)
@@ -173,7 +172,6 @@ class Table(QTableView):
             if prim == 1:
                 ulist.append(val)
         ustring = self.__update_statement__.format(*ulist)
-        print(ustring)
         query = QSqlQuery()
         if query.exec_(ustring) is False:
             self.__last__error__ = query.lastError().text()

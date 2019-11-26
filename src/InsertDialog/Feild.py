@@ -20,8 +20,6 @@ class QVarFeild(QWidget):
             self.input_line.setValidator(QDoubleValidator())
         elif ftype == "Date":
             self.input_line = QDateEdit()
-        elif ftype == "RangedValue":  # TODO
-            self.input_line = QLineEdit()
         elif ftype == "Text":
             self.input_line = QLineEdit()
         else:  # Large Text

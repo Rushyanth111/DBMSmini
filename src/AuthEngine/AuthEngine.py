@@ -6,7 +6,6 @@ import hashlib
 
 
 def authorize(username, password) -> bool:
-    print(username, password)
     return username == "root" and password == ""
 
 

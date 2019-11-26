@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QDialog, QFormLayout, QLineEdit, QLabel, QDateEdit
+from PyQt5.QtWidgets import QDialog, QFormLayout, QLineEdit, QLabel, QDateEdit, QDialogButtonBox
 from PyQt5.QtGui import QIntValidator, QDoubleValidator
 
 
@@ -27,7 +27,13 @@ class FilterView(QDialog):
         label = QLabel(col_name)
 
         layout.addRow(label, self.edit_box)
+        ok_cancel_options = QDialogButtonBox(
+            QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+        )
 
+        ok_cancel_options.accepted.connect(self.accept)
+        ok_cancel_options.rejected.connect(self.reject)
+        layout.addWidget(ok_cancel_options)
         self.setLayout(layout)
 
     def where_text(self):

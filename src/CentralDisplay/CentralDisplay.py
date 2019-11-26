@@ -32,7 +32,7 @@ class Central(QWidget):
                 "Update": self.__update_menu__,
                 "Show in Window": self.__view_menu__,
                 "Export to PDF": self.__pdf__,
-                "<Proc>": self.__proc_call__,
+                "Remove Invalid Caste": self.__proc_call__,
                 "Filter By": self.__filter_by__,
                 "Reset Filter": self.__reset_filter__,
             }
@@ -112,7 +112,11 @@ class Central(QWidget):
             insert_result = self.table.update(*form.get_input())
 
     def __proc_call__(self):
-        pass
+        proc = """
+        DELETE FROM person WHERE caste not in ('Vokalliga','Aryan','Surpa');
+        """
+        self.table.proc(proc)
+        self.table.refresh()
 
     def __filter_by__(self):
         fil = FilterView(self.__filter_name__, self.__filter_type__, self)
