@@ -31,15 +31,15 @@ CREATE TABLE IF NOT EXISTS student(
 );
 
 CREATE TABLE IF NOT EXISTS hospital(
-    hospital_id integer,
-    name text, 
-    address text,
+    hospital_id Integer,
+    name Text, 
+    address Text,
     Primary key(hospital_id)
 );
 
 CREATE TABLE IF NOT EXISTS doctor(
     doctor_id Integer,
-    name text,
+    name Text,
     hospital_id Integer,
     primary key(doctor_id),
     foreign key(hospital_id) references hospital(hospital_id)
@@ -49,9 +49,9 @@ CREATE TABLE IF NOT EXISTS person_birth(
     person_id Integer,
     doctor_id Integer,
     family_id Integer,
-    place text,
-    method text,
-    weight text,
+    place Text,
+    method Text,
+    weight Text,
     primary key(person_id,doctor_id,family_id),
     foreign key(person_id) references person(person_id),
     foreign key(doctor_id) references doctor(doctor_id),
@@ -60,8 +60,8 @@ CREATE TABLE IF NOT EXISTS person_birth(
 
 CREATE TABLE IF NOT EXISTS vaccination(
     person_id Integer,
-    Date date,
-    Vaccno varchar(12),
+    Date_of_application Date,
+    Vaccno Text,
     doctor_id Integer,
     foreign key(person_id) references person(person_id),
     foreign key(doctor_id) references doctor(doctor_id)
